@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#FAF7FF">
+<title>אולסי מערכות | פיתוח תוכנה בוטיק מאז 1995</title>
+<meta name="description" content="אולסי מערכות - בית תוכנה בוטיק בהובלת אורן לסמן. פיתוח מערכות עסקיות, אינטגרציות בין מערכות ישנות לחדשות, אתרים ופתרונות נתונים. מאז 1995.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="he_IL">
+<meta property="og:title" content="אולסי מערכות · בית תוכנה בוטיק מאז 1995">
+<meta property="og:description" content="פיתוח מערכות עסקיות, אינטגרציות ופתרונות נתונים. גשר חי בין Access, Excel, .NET לבין Python, ענן ואוטומציה.">
+<link rel="icon" type="image/png" href="assets/logo-olsi.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<noscript><style>[data-anim]{opacity:1!important;transform:none!important}</style></noscript>
+<link rel="stylesheet" href="assets/olsi.css">
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="site-header" id="site-header">
+  <div class="site-header__inner">
+    <a href="#hero" class="site-header__brand" aria-label="אולסי מערכות · דף הבית">
+      <img src="assets/logo-olsi.png" alt="אולסי מערכות" height="38" width="auto" loading="eager" decoding="async">
+      <span class="site-header__subtag" dir="ltr">OLSI · est. 1995</span>
+    </a>
+    <nav class="site-header__nav" id="site-nav" aria-label="ניווט ראשי">
+      <a href="#hero">דף הבית</a>
+      <a href="#about">אודות</a>
+      <div class="nav-has-dropdown" id="nav-services">
+        <a href="#services" class="nav-dropdown__trigger" aria-haspopup="true" aria-expanded="false">
+          שירותים
+          <svg class="nav-dropdown__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </a>
+        <div class="nav-dropdown__panel" role="menu" aria-label="שירותים">
+          <div class="nav-dropdown__grid">
+            <a class="nav-dd-item" href="software-development.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 8.5h18"/><path d="m9 13-2 2 2 2"/><path d="m13 13 2 2-2 2"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">פיתוח תוכנה</span><span class="nav-dd-item__sub">מערכות עסקיות מותאמות לעסק שלכם</span></span>
+            </a>
+            <a class="nav-dd-item" href="app-development.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="3" width="11" height="18" rx="2.5"/><path d="M11 18h2"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">פיתוח אפליקציה</span><span class="nav-dd-item__sub">אפליקציות מובייל לאנדרואיד ול-iOS</span></span>
+            </a>
+            <a class="nav-dd-item" href="crm-development.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 19v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1"/><circle cx="9.5" cy="7.5" r="3"/><path d="M21 19v-1a4 4 0 0 0-3-3.87"/><path d="M15.5 4.6a3 3 0 0 1 0 5.8"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">פיתוח מערכת CRM</span><span class="nav-dd-item__sub">ניהול לקוחות, לידים ותהליכי מכירה</span></span>
+            </a>
+            <a class="nav-dd-item" href="excel-upgrade.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M3 14.5h18M9 4v16M15 4v16"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">שדרוג מאקסל למערכת חכמה</span><span class="nav-dd-item__sub">מגיליונות Excel לפלטפורמה יציבה</span></span>
+            </a>
+            <a class="nav-dd-item" href="access-upgrade.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.66 3.13 3 7 3s7-1.34 7-3V6"/><path d="M5 12v6c0 1.66 3.13 3 7 3s7-1.34 7-3v-6"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">שדרוג מאקסס לתוכנה חכמה</span><span class="nav-dd-item__sub">ממסד Access ישן למערכת מודרנית</span></span>
+            </a>
+            <a class="nav-dd-item" href="inventory-system.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5 12 4l8.5 4.5v7L12 20l-8.5-4.5z"/><path d="M3.5 8.5 12 13l8.5-4.5M12 13v7"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">מערכת לניהול מלאים</span><span class="nav-dd-item__sub">מעקב מלאי, ספקים והזמנות</span></span>
+            </a>
+            <a class="nav-dd-item" href="custom-systems.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">מערכות מותאמות אישית</span><span class="nav-dd-item__sub">פתרון שנבנה סביב התהליך שלכם</span></span>
+            </a>
+            <a class="nav-dd-item" href="integrations-api.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 10.8 15.8 7.2M8.2 13.2l7.6 3.6"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">אינטגרציות ו-API</span><span class="nav-dd-item__sub">חיבור בין מערכות כך שמידע זורם אוטומטית</span></span>
+            </a>
+            <a class="nav-dd-item" href="data-processing.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18l-7 8.5V20l-4-2v-4.5z"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">איסוף ועיבוד נתונים</span><span class="nav-dd-item__sub">סקרייפינג, פייפליינים ודוחות אוטומטיים</span></span>
+            </a>
+            <a class="nav-dd-item" href="tech-support.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.1 5.1l2.1 2.1M16.8 16.8l2.1 2.1M18.9 5.1l-2.1 2.1M7.2 16.8l-2.1 2.1"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">ליווי טכני שוטף</span><span class="nav-dd-item__sub">שירות, תחזוקה ושיפורים אחרי ההשקה</span></span>
+            </a>
+            <a class="nav-dd-cta" href="#contact" role="menuitem">
+              <span class="nav-dd-cta__txt"><b>לא בטוחים מה צריך?</b> נשמח לייעץ ולכוון אתכם.</span>
+              <span class="nav-dd-cta__go">דברו איתנו ›</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <a href="#work">פרויקטים</a>
+      <a href="#approach">איך עובדים</a>
+      <a href="professional-info.html">מידע מקצועי</a>
+      <a href="#contact">צרו קשר</a>
+    </nav>
+    <div class="site-header__cta">
+      <a href="tel:098820511" class="site-header__phone" dir="ltr">09-8820511</a>
+      <a href="tel:098820511" class="site-header__call" aria-label="חיוג מהיר - 09-8820511">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.15 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.24.2 2.45.57 3.57.11.35.03.74-.24 1.02l-2.2 2.2z"/></svg>
+        <span class="sr-only">חיוג</span>
+      </a>
+      <a href="https://wa.me/972505534398?text=%d7%94%d7%99%d7%99%2c%20%d7%94%d7%92%d7%a2%d7%aa%d7%99%20%d7%90%d7%9c%d7%99%d7%9b%d7%9d%20%d7%93%d7%a8%d7%9a%20%d7%94%d7%90%d7%aa%d7%a8..." class="site-header__wa" target="_blank" rel="noopener" aria-label="שלחו לנו הודעת ווטסאפ">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+        <span class="sr-only">ווטסאפ</span>
+      </a>
+      <button class="hamburger" id="hamburger" aria-expanded="false" aria-controls="site-nav" aria-label="תפריט">
+        <span class="hamburger__bars"><span></span></span>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="menu-backdrop" id="menu-backdrop"></div>
+
+<!-- ── HERO ── -->
+<section class="hero" id="hero">
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="hero__mesh" aria-hidden="true">
+    <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="mesh-1" cx="180" cy="220" r="320" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#9333EA" stop-opacity=".22"/>
+          <stop offset="60%" stop-color="#9333EA" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="mesh-2" cx="440" cy="380" r="300" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#DB2777" stop-opacity=".18"/>
+          <stop offset="60%" stop-color="#DB2777" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <rect x="0" y="0" width="600" height="600" fill="url(#mesh-1)"/>
+      <rect x="0" y="0" width="600" height="600" fill="url(#mesh-2)"/>
+    </svg>
+  </div>
+
+  <div class="hero__inner">
+    <div class="hero__left">
+      <span class="hero__eyebrow"><span class="code-comment">since 1995</span></span>
+      <h1 class="hero__headline">
+        <span class="hero__line">בונים תוכנה שמדברת</span>
+        <span class="hero__line">את <span class="accent">השפה של העסק שלכם.</span></span>
+      </h1>
+      <p class="hero__sub">בית תוכנה בוטיק מאז 1995. אורן לסמן וצוות קטן בונים מערכות ניהול, אינטגרציות ופתרונות נתונים לעסקים, ארגונים ומלכ"רים. גשר חי בין Access, Excel, .NET לבין Python, ענן ואוטומציה.</p>
+      <div class="hero__actions">
+        <a href="#contact" class="btn btn--primary btn--lg">תיאום שיחת היכרות</a>
+        <a href="#services" class="btn btn--ghost btn--lg">צפו בשירותים</a>
+      </div>
+      <p class="hero__trust">30+ שנים · 100+ פרויקטים · עסקים, מלכ"רים וארגונים</p>
+    </div>
+
+    <aside class="hero__panel" aria-label="olsi.systems.ts">
+      <div class="hero__panel-bar">
+        <span class="hero__panel-light hero__panel-light--r"></span>
+        <span class="hero__panel-light hero__panel-light--y"></span>
+        <span class="hero__panel-light hero__panel-light--g"></span>
+        <span class="hero__panel-name">olsi.systems.ts</span>
+      </div>
+<div class="hero__code" aria-label="olsi systems definition">
+<span class="hero__code-line" style="--i:0"><span class="tok-c">// 30 years of building systems</span></span>
+<span class="hero__code-line" style="--i:1"><span class="tok-k">const</span> <span class="tok-i">olsi</span> <span class="tok-p">=</span> <span class="tok-p">{</span></span>
+<span class="hero__code-line" style="--i:2">  <span class="tok-i">since</span><span class="tok-p">:</span>     <span class="tok-n">1995</span><span class="tok-p">,</span></span>
+<span class="hero__code-line" style="--i:3">  <span class="tok-i">founder</span><span class="tok-p">:</span>   <span class="tok-s">"אורן לסמן"</span><span class="tok-p">,</span></span>
+<span class="hero__code-line" style="--i:4">  <span class="tok-i">stack</span><span class="tok-p">:</span>     <span class="tok-p">[</span><span class="tok-s">"C#"</span><span class="tok-p">,</span> <span class="tok-s">".NET"</span><span class="tok-p">,</span> <span class="tok-s">"Python"</span><span class="tok-p">,</span> <span class="tok-s">"Access"</span><span class="tok-p">,</span> <span class="tok-s">"SQL"</span><span class="tok-p">],</span></span>
+<span class="hero__code-line" style="--i:5">  <span class="tok-i">specialty</span><span class="tok-p">:</span> <span class="tok-s">"מערכות שמדברות זו עם זו"</span><span class="tok-p">,</span></span>
+<span class="hero__code-line" style="--i:6">  <span class="tok-i">clients</span><span class="tok-p">:</span>   <span class="tok-p">[</span><span class="tok-s">"SMB"</span><span class="tok-p">,</span> <span class="tok-s">"NGO"</span><span class="tok-p">,</span> <span class="tok-s">"Enterprise"</span><span class="tok-p">],</span></span>
+<span class="hero__code-line" style="--i:7"><span class="tok-p">};</span><span class="hero__caret" style="--caret-delay:3.95s" aria-hidden="true"></span></span>
+</div>
+    </aside>
+  </div>
+</section>
+
+<!-- ── LOGOS BAND ── -->
+<section class="logos section--alt" id="logos">
+  <div class="container--wide">
+    <div class="logos__head" data-anim>
+      <p class="eyebrow"><span class="code-comment">our clients</span></p>
+      <h2 class="logos__title">לקוחות נבחרים</h2>
+      <p class="logos__sub">חברות, ארגונים ומלכ"רים שאנחנו עובדים איתם כבר שנים.</p>
+    </div>
+    <div class="logos__slider" data-anim>
+      <div class="logos__viewport">
+        <div class="logos__track" id="logos-track">
+          <div class="logos__tile"><img src="assets/client-talbit.png" alt="טלבית - ייעוץ פיננסי" loading="lazy" decoding="async"></div>
+          <div class="logos__tile"><img src="assets/client-michlei-zahav.png" alt="מיכלי זהב" loading="lazy" decoding="async"></div>
+          <div class="logos__tile"><img src="assets/client-usexport.png" alt="US Export - ריהוט חללי עבודה" loading="lazy" decoding="async"></div>
+          <div class="logos__tile"><img src="assets/client-appcard.png" alt="App Card" loading="lazy" decoding="async"></div>
+          <div class="logos__tile"><img src="assets/client-sightandsound.png" alt="סייט אנד סאונד - אקסיומה הישגים בהשכלה" loading="lazy" decoding="async"></div>
+          <div class="logos__tile"><img src="assets/client-kone.png" alt="KONE" loading="lazy" decoding="async"></div>
+          <div class="logos__tile"><img src="assets/client-taavura-yamit.png" alt="תעבורה ימית חיפה" loading="lazy" decoding="async"></div>
+        </div>
+      </div>
+      <button type="button" class="logos__nav logos__nav--prev" id="logos-prev" aria-label="לוגו קודם">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+      </button>
+      <button type="button" class="logos__nav logos__nav--next" id="logos-next" aria-label="לוגו הבא">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 6 9 12 15 18"></polyline></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROCESS (9 steps, light glass timeline) ── -->
+<section class="process section" id="approach">
+  <div class="process__bg" aria-hidden="true"></div>
+  <div class="container--wide process__inner">
+    <div class="section-header section-header--center" data-anim>
+      <p class="eyebrow"><span class="code-comment">how we work</span></p>
+      <h2 class="section-title">תהליך העבודה באולסי מערכות</h2>
+      <p class="section-sub">תהליך מסודר ושקוף, מהשיחה הראשונה ועד עלייה לאוויר. אתם רואים, מאשרים ומעורבים בכל שלב - בלי הפתעות בדרך.</p>
+    </div>
+
+    <div class="process__slider">
+      <div class="process__viewport">
+        <ol class="process__track">
+      <li class="proc-card" data-anim>
+        <span class="proc-card__ghost" aria-hidden="true">1</span>
+        <span class="proc-card__badge" dir="ltr">1</span>
+        <h3>הבנת צורכי הלקוח - אפיון ראשוני</h3>
+        <p>פגישה ראשונה ללא התחייבות. מבינים מה אפשר לשפר בעסק, איפה הדברים נתקעים ומעלים רעיונות ראשוניים - אתם יוצאים עם ערך מוסף כבר מהשיחה הראשונה.</p>
+      </li>
+      <li class="proc-card" data-anim>
+        <span class="proc-card__ghost" aria-hidden="true">2</span>
+        <span class="proc-card__badge" dir="ltr">2</span>
+        <h3>אפיון טכני</h3>
+        <p>מסמך אפיון שמראה כבר עכשיו את המסכים, איך התוכנה תעבוד ומה הפונקציונליות שלה - הכל ברור עוד לפני שורת קוד אחת.</p>
+      </li>
+      <li class="proc-card" data-anim>
+        <span class="proc-card__ghost" aria-hidden="true">3</span>
+        <span class="proc-card__badge" dir="ltr">3</span>
+        <h3>אישור מול הלקוח לפני פיתוח</h3>
+        <p>לפני שמתחילים לפתח, עוברים יחד על כל הנתונים והתוכנית. כך מדייקים את העבודה ומגיעים לתוצאה הטובה ביותר עבורכם.</p>
+      </li>
+      <li class="proc-card" data-anim>
+        <span class="proc-card__ghost" aria-hidden="true">4</span>
+        <span class="proc-card__badge" dir="ltr">4</span>
+        <h3>פיתוח</h3>
+        <p>בונים את התוכנה או האפליקציה: כל המסכים, שלבי העבודה, סינונים, מגבלות והרשאות לפי תפקיד - בדיוק לפי האפיון.</p>
+      </li>
+      <li class="proc-card" data-anim>
+        <span class="proc-card__ghost" aria-hidden="true">5</span>
+        <span class="proc-card__badge" dir="ltr">5</span>
+        <h3>ביצוע QA</h3>
+        <p>לאחר הפיתוח מוודאים שהתוכנה עומדת בדרישות האפיון, מספקת חווית משתמש רצויה ופועלת בדיוק לפי מה שהוגדר מולכם.</p>
+      </li>
+      <li class="proc-card" data-anim>
+        <span class="proc-card__ghost" aria-hidden="true">6</span>
+        <span class="proc-card__badge" dir="ltr">6</span>
+        <h3>גרסת בטא להתנסות</h3>
+        <p>מציגים לכם גרסת בטא עם הסבר מפורט ומלא. אתם מתנסים בעצמכם ובודקים את היכולות החדשות שעוד מעט נכנסות לעסק.</p>
+      </li>
+      <li class="proc-card" data-anim>
+        <span class="proc-card__ghost" aria-hidden="true">7</span>
+        <span class="proc-card__badge" dir="ltr">7</span>
+        <h3>תיקון הערות לקוח</h3>
+        <p>עוברים יחד על כל הפיתוח, רושמים רשימת הערות, תיקונים ותוספות - וממשיכים עד לאישור הסופי ושביעות הרצון שלכם.</p>
+      </li>
+      <li class="proc-card" data-anim>
+        <span class="proc-card__ghost" aria-hidden="true">8</span>
+        <span class="proc-card__badge" dir="ltr">8</span>
+        <h3>עלייה לפרודקשן</h3>
+        <p>מייצרים את הגרסה הסופית על כל מרכיביה: חווית משתמש, נוחות שימוש, פונקציונליות, אבטחה ועוד.</p>
+      </li>
+      <li class="proc-card" data-anim>
+        <span class="proc-card__ghost" aria-hidden="true">9</span>
+        <span class="proc-card__badge" dir="ltr">9</span>
+        <h3>עלייה לאוויר</h3>
+        <p>המערכת עולה לאוויר ומתחילה לעבוד בשבילכם - ואנחנו כאן להמשך הדרך, עם ליווי ותמיכה שוטפת.</p>
+      </li>
+        </ol>
+      </div>
+      <button type="button" class="process__nav process__nav--prev" id="process-prev" aria-label="השלב הקודם">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+      </button>
+      <button type="button" class="process__nav process__nav--next" id="process-next" aria-label="השלב הבא">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 6 9 12 15 18"></polyline></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ── SERVICES ── -->
+<section class="services section section--white" id="services">
+  <div class="container--wide">
+    <div class="section-header section-header--center" data-anim>
+      <p class="eyebrow"><span class="code-comment">services</span></p>
+      <h2 class="section-title">שירותים שמחברים בין מערכות ישנות לחדשות.</h2>
+      <p class="section-sub">אנחנו לא בוחרים בין סטאק לסטאק. אנחנו עוזרים לעסק שלכם להמשיך לעבוד עם מה שיש, ולגדל מעליו את מה שצריך.</p>
+    </div>
+
+    <div class="services__grid">
+
+      <a class="service-card" href="software-development.html" data-anim>
+        <svg class="service-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 8.5h18"/><path d="m9 13-2 2 2 2"/><path d="m13 13 2 2-2 2"/></svg>
+        <h3>פיתוח תוכנה</h3>
+        <p>מערכות עסקיות שנבנות מאפס סביב התהליך שלכם, כשכל מסך ולחצן מותאם בדיוק לאופן שבו אתם עובדים בפועל.</p>
+        <div class="service-card__tags"><span class="tag">C#</span><span class="tag">.NET</span><span class="tag">SQL Server</span></div>
+      </a>
+
+      <a class="service-card" href="app-development.html" data-anim>
+        <svg class="service-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="3" width="11" height="18" rx="2.5"/><path d="M11 18h2"/></svg>
+        <h3>פיתוח אפליקציה</h3>
+        <p>אפליקציות מובייל לאנדרואיד ול-iOS שמחברות את העובדים והלקוחות שלכם ישירות למערכת, מכל מקום.</p>
+        <div class="service-card__tags"><span class="tag">iOS</span><span class="tag">Android</span><span class="tag">Mobile</span></div>
+      </a>
+
+      <a class="service-card" href="crm-development.html" data-anim>
+        <svg class="service-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 19v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1"/><circle cx="9.5" cy="7.5" r="3"/><path d="M21 19v-1a4 4 0 0 0-3-3.87"/><path d="M15.5 4.6a3 3 0 0 1 0 5.8"/></svg>
+        <h3>פיתוח מערכת CRM</h3>
+        <p>ניהול לקוחות, לידים ותהליכי מכירה במקום אחד, עם תזכורות, מעקב ודוחות שמזיזים את העסק קדימה.</p>
+        <div class="service-card__tags"><span class="tag">CRM</span><span class="tag">Leads</span><span class="tag">Sales</span></div>
+      </a>
+
+      <a class="service-card" href="excel-upgrade.html" data-anim>
+        <svg class="service-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M3 14.5h18M9 4v16M15 4v16"/></svg>
+        <h3>שדרוג מאקסל למערכת חכמה</h3>
+        <p>לוקחים גיליונות Excel כבדים שכבר לא מחזיקים מעמד, והופכים אותם לפלטפורמה יציבה ורב-משתמשית.</p>
+        <div class="service-card__tags"><span class="tag">Excel/VBA</span><span class="tag">Migration</span><span class="tag">SQL</span></div>
+      </a>
+
+      <a class="service-card" href="access-upgrade.html" data-anim>
+        <svg class="service-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.66 3.13 3 7 3s7-1.34 7-3V6"/><path d="M5 12v6c0 1.66 3.13 3 7 3s7-1.34 7-3v-6"/></svg>
+        <h3>שדרוג מאקסס לתוכנה חכמה</h3>
+        <p>ממסד Access ישן שמתקרס תחת העומס, למערכת מודרנית ויציבה בענן, בלי לאבד שום נתון או לוגיקה.</p>
+        <div class="service-card__tags"><span class="tag">Access</span><span class="tag">.NET</span><span class="tag">Migration</span></div>
+      </a>
+
+      <a class="service-card" href="inventory-system.html" data-anim>
+        <svg class="service-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5 12 4l8.5 4.5v7L12 20l-8.5-4.5z"/><path d="M3.5 8.5 12 13l8.5-4.5M12 13v7"/></svg>
+        <h3>מערכת לניהול מלאים</h3>
+        <p>מעקב מלאי, ספקים והזמנות בזמן אמת, עם התראות חוסר וחיבור ישיר לתהליכי המכירה והרכש.</p>
+        <div class="service-card__tags"><span class="tag">Inventory</span><span class="tag">ERP</span><span class="tag">SQL</span></div>
+      </a>
+
+      <a class="service-card" href="custom-systems.html" data-anim>
+        <svg class="service-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg>
+        <h3>מערכות מותאמות אישית</h3>
+        <p>כשאף תוכנה מהמדף לא מתאימה, אנחנו בונים פתרון שנתפר במדויק סביב התהליך הייחודי שלכם.</p>
+        <div class="service-card__tags"><span class="tag">Custom</span><span class="tag">.NET</span><span class="tag">SQL</span></div>
+      </a>
+
+      <a class="service-card" href="integrations-api.html" data-anim>
+        <svg class="service-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 10.8 15.8 7.2M8.2 13.2l7.6 3.6"/></svg>
+        <h3>אינטגרציות ו-API</h3>
+        <p>חיבור בין מערכות נפרדות כך שמידע זורם אוטומטית, בלי הקלדה כפולה ובלי טעויות אנוש שעולות זמן וכסף.</p>
+        <div class="service-card__tags"><span class="tag">REST</span><span class="tag">Webhooks</span><span class="tag">ETL</span></div>
+      </a>
+
+      <a class="service-card" href="data-processing.html" data-anim>
+        <svg class="service-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18l-7 8.5V20l-4-2v-4.5z"/></svg>
+        <h3>איסוף ועיבוד נתונים</h3>
+        <p>סקרייפינג, פייפליינים, ניקוי וניתוח נתונים מכל מקור, שהופכים מידע מבוזר לדוחות שמוכנים לבד.</p>
+        <div class="service-card__tags"><span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">Automation</span></div>
+      </a>
+
+      <a class="service-card" href="tech-support.html" data-anim>
+        <svg class="service-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.1 5.1l2.1 2.1M16.8 16.8l2.1 2.1M18.9 5.1l-2.1 2.1M7.2 16.8l-2.1 2.1"/></svg>
+        <h3>ליווי טכני שוטף</h3>
+        <p>שירות, תחזוקה ושיפורים מתמשכים אחרי ההשקה. אנחנו לא נעלמים, הקוד שלנו ממשיך לחיות איתכם.</p>
+        <div class="service-card__tags"><span class="tag">Support</span><span class="tag">DevOps</span><span class="tag">SLA</span></div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── WHY (30 years) ── -->
+<section class="why section section--white" id="why">
+  <div class="container">
+    <div data-anim>
+      <span class="why__badge" dir="ltr">EST. 1995</span>
+      <h2 class="why__title">שלושים שנה של בניית מערכות. בלי לעקוף את השאלות הקשות.</h2>
+      <p class="why__sub">התחלנו ב-1995, כשפיתוח תוכנה בארץ נראה אחרת לגמרי. מאז ראינו טכנולוגיות באות והולכות, ולמדנו דבר אחד: לקוחות לא רוצים מערכת מרשימה, הם רוצים מערכת שעובדת ביום שלישי בבוקר.</p>
+    </div>
+    <div class="stats" data-anim>
+      <div class="stat"><div class="stat__num">30+</div><div class="stat__label">שנות פעילות</div></div>
+      <div class="stat"><div class="stat__num">100+</div><div class="stat__label">פרויקטים שהושקו</div></div>
+      <div class="stat"><div class="stat__num">6</div><div class="stat__label">שפות פיתוח</div></div>
+      <div class="stat"><div class="stat__num">1</div><div class="stat__label">בית תוכנה בוטיק</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOUNDER / ABOUT ── -->
+<section class="founder section section--alt" id="about">
+  <div class="container--wide">
+    <div class="founder__grid">
+      <div data-anim>
+        <div class="founder__tile">
+          <img src="assets/oren-lassman.jpg" alt="אורן לסמן, מייסד אולסי מערכות" loading="lazy" decoding="async">
+        </div>
+        <p class="founder__caption">אורן לסמן · מייסד</p>
+      </div>
+      <div class="founder__col" data-anim>
+        <p class="eyebrow">מי עומד מאחורי אולסי</p>
+        <h2>בית תוכנה בוטיק. בהובלה אישית.</h2>
+        <p>אולסי מערכות הוקמה ב-1995 על ידי אורן לסמן, מהנדס תוכנה ויזם שגדל יחד עם תעשיית הפיתוח בארץ. מאז ועד היום עברנו שלושה גלי טכנולוגיה ולמדנו לבנות מערכות שעובדות גם אחרי שהטרנדים נעלמים.</p>
+        <p>אנחנו מעדיפים להישאר קטנים. לא בית תוכנה של מאות עובדים, אלא צוות מצומצם של אנשים מנוסים, שכל אחד מהם מכיר את הפרויקטים שלנו לעומק. אין שכבת מנהלי פרויקטים שמתווכת בינכם לבין הקוד.</p>
+        <p>בפועל זה אומר שאתם מדברים עם האדם שכותב את הקוד, לא עם איש מכירות. שזמן התגובה שלנו קצר. ושאנחנו לוקחים אחריות אישית על מה שאנחנו מוסרים, גם שנה אחרי ההשקה.</p>
+        <p class="founder__sig">- אורן לסמן, מייסד אולסי מערכות</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WORK (sample projects) ── -->
+<section class="work section section--white" id="work">
+  <div class="container">
+    <div class="section-header section-header--center" data-anim>
+      <p class="eyebrow"><span class="code-comment">selected work</span></p>
+      <h2 class="section-title">דוגמאות לפרויקטים אופייניים</h2>
+      <p class="section-sub">כל פרויקט מסופר מהזווית של הבעיה שפתרנו, לא מהזווית של הטכנולוגיה. הטכנולוגיה היא רק הכלי.</p>
+    </div>
+
+    <div class="work__list">
+
+      <article class="work-card" data-anim>
+        <div class="work-card__art">
+          <svg viewBox="0 0 400 200" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <!-- curtains on a rod -->
+            <line x1="34" y1="40" x2="150" y2="40"/>
+            <circle cx="34" cy="40" r="3.5"/>
+            <circle cx="150" cy="40" r="3.5"/>
+            <path d="M46 44 Q 40 100 46 150 Q 54 158 62 150 Q 56 100 62 44"/>
+            <path d="M62 44 Q 56 100 62 150 Q 70 158 78 150 Q 72 100 78 44"/>
+            <path d="M138 44 Q 144 100 138 150 Q 130 158 122 150 Q 128 100 122 44"/>
+            <path d="M122 44 Q 128 100 122 150 Q 114 158 106 150 Q 112 100 106 44"/>
+            <!-- arrow -->
+            <path d="M160 100 L196 100 M196 100 L186 93 M196 100 L186 107"/>
+            <!-- dashboard -->
+            <rect x="210" y="36" width="180" height="128" rx="4"/>
+            <line x1="210" y1="56" x2="390" y2="56"/>
+            <circle cx="220" cy="46" r="2.5"/>
+            <circle cx="229" cy="46" r="2.5"/>
+            <line x1="226" y1="140" x2="300" y2="140"/>
+            <rect x="232" y="110" width="12" height="30"/>
+            <rect x="250" y="92" width="12" height="48"/>
+            <rect x="268" y="120" width="12" height="20"/>
+            <rect x="286" y="100" width="12" height="40"/>
+            <line x1="316" y1="74" x2="378" y2="74"/>
+            <circle cx="312" cy="74" r="3" fill="currentColor"/>
+            <line x1="316" y1="92" x2="378" y2="92"/>
+            <circle cx="312" cy="92" r="3" fill="currentColor"/>
+            <line x1="316" y1="110" x2="378" y2="110"/>
+            <circle cx="312" cy="110" r="3" fill="currentColor"/>
+            <line x1="316" y1="128" x2="378" y2="128"/>
+            <circle cx="312" cy="128" r="3" fill="currentColor"/>
+          </svg>
+        </div>
+        <div>
+          <div class="work-card__meta">
+            <span class="tag tag--year">2025</span>
+            <span class="tag">חברת וילונות</span>
+            <span class="tag">.NET</span>
+            <span class="tag">SQL Server</span>
+          </div>
+          <h3>דשבורד ניהול אחד לחברת וילונות, במקום בלגן של קבצים ופתקים</h3>
+          <p>בנינו לחברה דשבורד ייעודי שמרכז הכול במקום אחד: ניהול מלאים, מכירות, ספקים והרשאות לעובדים בכל הרמות, כולל מעקב סטטוס הזמנה (סופק, שולם ועוד). הסוף לחוסר הסדר - החברה חוסכת עשרות שעות עבודה מיותרות ועשרות אלפי שקלים מדי חודש.</p>
+          <div class="work-card__foot">
+            <a class="work-card__cta" href="case-study-curtains.html">
+              צפו בפרטים על הפרויקט
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="work-card" data-anim>
+        <div class="work-card__art">
+          <svg viewBox="0 0 400 200" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <!-- contacts list -->
+            <rect x="24" y="36" width="170" height="128" rx="4"/>
+            <line x1="24" y1="58" x2="194" y2="58"/>
+            <circle cx="35" cy="47" r="2.5"/><circle cx="44" cy="47" r="2.5"/>
+            <circle cx="48" cy="82" r="9"/>
+            <line x1="66" y1="78" x2="178" y2="78"/><line x1="66" y1="88" x2="150" y2="88"/>
+            <circle cx="48" cy="112" r="9"/>
+            <line x1="66" y1="108" x2="178" y2="108"/><line x1="66" y1="118" x2="150" y2="118"/>
+            <circle cx="48" cy="142" r="9"/>
+            <line x1="66" y1="138" x2="178" y2="138"/><line x1="66" y1="148" x2="150" y2="148"/>
+            <!-- arrow -->
+            <path d="M204 100 L240 100 M240 100 L230 93 M240 100 L230 107"/>
+            <!-- customer profile -->
+            <rect x="252" y="40" width="124" height="120" rx="6"/>
+            <circle cx="314" cy="74" r="16"/>
+            <path d="M298 104 a16 16 0 0 1 32 0"/>
+            <line x1="276" y1="126" x2="352" y2="126"/>
+            <line x1="276" y1="140" x2="336" y2="140"/>
+            <line x1="276" y1="152" x2="346" y2="152"/>
+          </svg>
+        </div>
+        <div>
+          <div class="work-card__meta">
+            <span class="tag tag--year">2026</span>
+            <span class="tag">עסקי שירות</span>
+            <span class="tag">CRM</span>
+            <span class="tag">Web App</span>
+          </div>
+          <h3>מערכת CRM בעברית שמרכזת את כל הלקוחות במקום אחד, במקום גיליונות Excel מפוזרים</h3>
+          <p>בנינו מערכת CRM מלאה בעברית לעסקי שירות: ניהול לקוחות, לידים, הצעות מחיר ומעקב תקשורת - הכול במסך אחד ונגיש מכל מקום. במקום לחפש מידע בעשרות קבצים ופתקים, לכל בעל עסק יש תמונה מלאה של כל לקוח בלחיצה אחת, והצוות עובד מאותו מקור מידע.</p>
+          <div class="work-card__foot">
+            <a class="work-card__cta" href="case-study-olcrm.html">
+              צפו בפרטים על הפרויקט
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="work-card" data-anim>
+        <div class="work-card__art">
+          <svg viewBox="0 0 400 200" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <!-- field app on phone -->
+            <rect x="34" y="30" width="98" height="140" rx="11"/>
+            <line x1="72" y1="42" x2="94" y2="42"/>
+            <rect x="48" y="56" width="33" height="26" rx="3"/>
+            <rect x="86" y="56" width="33" height="26" rx="3"/>
+            <rect x="48" y="90" width="33" height="26" rx="3"/>
+            <rect x="86" y="90" width="33" height="26" rx="3"/>
+            <line x1="48" y1="132" x2="120" y2="132"/>
+            <line x1="48" y1="146" x2="104" y2="146"/>
+            <line x1="48" y1="158" x2="112" y2="158"/>
+            <!-- sync arrows -->
+            <path d="M150 84 H214 M214 84 l-9 -6 M214 84 l-9 6"/>
+            <path d="M214 116 H150 M150 116 l9 -6 M150 116 l9 6"/>
+            <!-- desktop management with location pin -->
+            <rect x="232" y="38" width="146" height="104" rx="4"/>
+            <line x1="232" y1="58" x2="378" y2="58"/>
+            <circle cx="243" cy="48" r="2.5"/><circle cx="252" cy="48" r="2.5"/>
+            <path d="M305 72 c-11 0 -20 9 -20 20 c0 14 20 30 20 30 c0 0 20 -16 20 -30 c0 -11 -9 -20 -20 -20 Z"/>
+            <circle cx="305" cy="92" r="6"/>
+            <line x1="305" y1="142" x2="305" y2="154"/>
+            <line x1="287" y1="154" x2="323" y2="154"/>
+          </svg>
+        </div>
+        <div>
+          <div class="work-card__meta">
+            <span class="tag tag--year">2026</span>
+            <span class="tag">סוכני מכירות בשטח</span>
+            <span class="tag">iOS / Android</span>
+            <span class="tag">דסקטופ</span>
+          </div>
+          <h3>מערכת ניהול מכירות לסוכני שטח, שמורידה את הניירת ומקצרת הצעת מחיר לדקות</h3>
+          <p>סוכני מכירות בשטח מבזבזים עד 40% מהיום על הצעות מחיר וניירת ידנית. בנינו מערכת ניהול מכירות עם אפליקציית iOS ו-Android לשטח וממשק ניהול בדסקטופ: הצעת מחיר תוך דקות, איתור לקוחות לפי מיקום, ומסך אחד עם כל מדדי המכירה בזמן אמת. הסוכן מוכר יותר ומתעסק פחות בתפעול.</p>
+          <div class="work-card__foot">
+            <a class="work-card__cta" href="case-study-toolpro.html">
+              צפו בפרטים על הפרויקט
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="work-card" data-anim>
+        <div class="work-card__art">
+          <svg viewBox="0 0 400 200" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <!-- production dashboard -->
+            <rect x="22" y="46" width="168" height="114" rx="4"/>
+            <line x1="22" y1="68" x2="190" y2="68"/>
+            <circle cx="33" cy="57" r="2.5"/><circle cx="42" cy="57" r="2.5"/>
+            <rect x="36" y="82" width="42" height="30" rx="3"/>
+            <rect x="86" y="82" width="42" height="30" rx="3"/>
+            <rect x="136" y="82" width="40" height="30" rx="3"/>
+            <rect x="36" y="122" width="140" height="9" rx="3"/>
+            <rect x="36" y="138" width="96" height="9" rx="3"/>
+            <!-- tablet checklist -->
+            <rect x="250" y="34" width="92" height="132" rx="9"/>
+            <line x1="286" y1="46" x2="306" y2="46"/>
+            <path d="M262 72 l6 6 11 -13"/>
+            <line x1="286" y1="74" x2="330" y2="74"/>
+            <path d="M262 98 l6 6 11 -13"/>
+            <line x1="286" y1="100" x2="330" y2="100"/>
+            <path d="M262 124 l6 6 11 -13"/>
+            <line x1="286" y1="126" x2="330" y2="126"/>
+            <circle cx="296" cy="152" r="3"/>
+          </svg>
+        </div>
+        <div>
+          <div class="work-card__meta">
+            <span class="tag tag--year">2024</span>
+            <span class="tag">מפעל אלקטרוניקה</span>
+            <span class="tag">.NET</span>
+            <span class="tag">MES</span>
+          </div>
+          <h3>ניהול ייצור בזמן אמת למפעל אלקטרוניקה</h3>
+          <p>מערכת MES שמרכזת את כל פקודות העבודה בדשבורד אחד, מקצה משימות לעובדים, ומציגה לכל אחד בקו את המשימות שלו על טאבלט - עם מעקב זמני ביצוע וזיהוי זמני מתה. יותר תפוקה, פחות בזבוז.</p>
+          <div class="work-card__foot">
+            <a class="work-card__cta" href="case-study-production.html">
+              צפו בפרטים על הפרויקט
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="work-card" data-anim>
+        <div class="work-card__art">
+          <svg viewBox="0 0 400 200" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <!-- browser with configurator -->
+            <rect x="26" y="44" width="190" height="120" rx="4"/>
+            <line x1="26" y1="66" x2="216" y2="66"/>
+            <circle cx="37" cy="55" r="2.5"/><circle cx="46" cy="55" r="2.5"/>
+            <line x1="48" y1="90" x2="196" y2="90"/><circle cx="92" cy="90" r="6.5"/>
+            <line x1="48" y1="116" x2="196" y2="116"/><circle cx="150" cy="116" r="6.5"/>
+            <line x1="48" y1="142" x2="196" y2="142"/><circle cx="118" cy="142" r="6.5"/>
+            <!-- cart -->
+            <path d="M262 74 h12 l11 52 h52 l13 -40 h-70"/>
+            <circle cx="298" cy="142" r="7.5"/>
+            <circle cx="334" cy="142" r="7.5"/>
+          </svg>
+        </div>
+        <div>
+          <div class="work-card__meta">
+            <span class="tag tag--year">2024</span>
+            <span class="tag">מפעל יצרני</span>
+            <span class="tag">.NET</span>
+            <span class="tag">SQL Server</span>
+          </div>
+          <h3>אתר מכירתי שמזמין, מתמחר ומשלם לבד</h3>
+          <p>בנינו ל-Wiresnet מערכת אונליין ליצרן: הלקוח מגדיר בדיוק מה הוא צריך, מקבל הצעת מחיר אוטומטית, משלם ועוקב אחרי ההזמנה - בלי טלפונים ובלי המתנה. פחות נטישה, יותר הזמנות שנסגרות.</p>
+          <div class="work-card__foot">
+            <a class="work-card__cta" href="case-study-sales-site.html">
+              צפו בפרטים על הפרויקט
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="work-card" data-anim>
+        <div class="work-card__art">
+          <svg viewBox="0 0 400 200" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <!-- phone -->
+            <rect x="40" y="34" width="96" height="134" rx="11"/>
+            <line x1="78" y1="47" x2="98" y2="47"/>
+            <circle cx="88" cy="78" r="15"/>
+            <path d="M68 112 a20 20 0 0 1 40 0"/>
+            <line x1="58" y1="132" x2="118" y2="132"/>
+            <line x1="58" y1="146" x2="104" y2="146"/>
+            <!-- sync -->
+            <path d="M152 88 H250 M250 88 l-9 -6 M250 88 l-9 6"/>
+            <path d="M250 112 H152 M152 112 l9 -6 M152 112 l9 6"/>
+            <!-- ERP server -->
+            <rect x="268" y="58" width="92" height="38" rx="4"/>
+            <rect x="268" y="104" width="92" height="38" rx="4"/>
+            <circle cx="284" cy="77" r="3"/><line x1="298" y1="77" x2="346" y2="77"/>
+            <circle cx="284" cy="123" r="3"/><line x1="298" y1="123" x2="346" y2="123"/>
+          </svg>
+        </div>
+        <div>
+          <div class="work-card__meta">
+            <span class="tag tag--year">2024</span>
+            <span class="tag">מכירות שטח</span>
+            <span class="tag">Mobile</span>
+            <span class="tag">ERP</span>
+          </div>
+          <h3>אפליקציית CRM שיוצאת עם צוות המכירות לשטח</h3>
+          <p>אפליקציה שמחוברת ל-ERP הארגוני ומביאה לאיש המכירות את כל פרטי הלקוח, המוצרים והעלויות ישר לנייד - בלי לחזור למשרד. כשהמידע זמין ברגע האמת, פחות עסקאות מתקררות.</p>
+          <div class="work-card__foot">
+            <a class="work-card__cta" href="case-study-crm.html">
+              צפו בפרטים על הפרויקט
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="work-card" data-anim>
+        <div class="work-card__art">
+          <svg viewBox="0 0 400 200" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <!-- gantt -->
+            <line x1="42" y1="42" x2="42" y2="164"/>
+            <line x1="42" y1="164" x2="372" y2="164"/>
+            <rect x="62" y="54" width="118" height="15" rx="3"/>
+            <rect x="120" y="82" width="150" height="15" rx="3"/>
+            <rect x="198" y="110" width="120" height="15" rx="3"/>
+            <rect x="92" y="138" width="92" height="15" rx="3"/>
+            <line x1="110" y1="42" x2="110" y2="164" stroke-dasharray="3 5"/>
+            <line x1="190" y1="42" x2="190" y2="164" stroke-dasharray="3 5"/>
+            <line x1="270" y1="42" x2="270" y2="164" stroke-dasharray="3 5"/>
+            <line x1="350" y1="42" x2="350" y2="164" stroke-dasharray="3 5"/>
+          </svg>
+        </div>
+        <div>
+          <div class="work-card__meta">
+            <span class="tag tag--year">2023</span>
+            <span class="tag">חברות בנייה</span>
+            <span class="tag">Web</span>
+            <span class="tag">SaaS</span>
+          </div>
+          <h3>מ-Microsoft Project לדשבורד גאנט חי בשניות</h3>
+          <p>פלטפורמת SaaS לחברות בנייה שמייבאת קובצי Microsoft Project כבדים והופכת אותם לתרשימי גאנט דינמיים - מסננים, ממיינים, משתפים ומייצאים ל-PDF ואקסל. תמונה אחת ברורה של כל הפרויקט.</p>
+          <div class="work-card__foot">
+            <a class="work-card__cta" href="case-study-gantt.html">
+              צפו בפרטים על הפרויקט
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="work-card" data-anim>
+        <div class="work-card__art">
+          <svg viewBox="0 0 400 200" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <!-- spreadsheet -->
+            <rect x="20" y="40" width="130" height="120" rx="2"/>
+            <line x1="20" y1="64" x2="150" y2="64"/>
+            <line x1="20" y1="92" x2="150" y2="92"/>
+            <line x1="20" y1="120" x2="150" y2="120"/>
+            <line x1="55" y1="40" x2="55" y2="160"/>
+            <line x1="90" y1="40" x2="90" y2="160"/>
+            <line x1="120" y1="40" x2="120" y2="160"/>
+            <!-- arrow -->
+            <path d="M162 100 H198 M198 100 L189 93 M198 100 L189 107"/>
+            <!-- browser autofill -->
+            <rect x="210" y="40" width="180" height="120" rx="4"/>
+            <line x1="210" y1="62" x2="390" y2="62"/>
+            <circle cx="221" cy="51" r="2.5"/><circle cx="230" cy="51" r="2.5"/>
+            <rect x="226" y="78" width="148" height="14" rx="3"/>
+            <rect x="226" y="104" width="148" height="14" rx="3"/>
+            <rect x="226" y="130" width="90" height="14" rx="3"/>
+            <path d="M348 120 l16 6 -7 3 -3 7 z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="work-card__meta">
+            <span class="tag tag--year">2023</span>
+            <span class="tag">הזנת הזמנות</span>
+            <span class="tag">Selenium</span>
+            <span class="tag">Desktop</span>
+          </div>
+          <h3>אוטומציה שמזינה הזמנות מאקסל לאתר ללא API</h3>
+          <p>תוכנת דסקטופ שמדמה משתמש אמיתי: בוחרת קובץ אקסל, נכנסת לאתר הספק ומזרימה את ההזמנה שדה אחרי שדה - בלי טעויות ובלי השגחה. חיסכון של משכורת עובד מלאה, והחזר השקעה תוך חודשים.</p>
+          <div class="work-card__foot">
+            <a class="work-card__cta" href="case-study-selenium.html">
+              צפו בפרטים על הפרויקט
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section class="contact section section--white" id="contact">
+  <div class="container">
+    <div class="contact__inner" data-anim>
+      <h2 class="section-title" style="margin-inline:auto">מוזמנים לשיחת היכרות</h2>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="site-footer">
+  <!-- full-width contact band -->
+  <section class="footer-cta" id="lets-talk">
+    <div class="grid-bg--dark" aria-hidden="true"></div>
+    <div class="footer-cta__glow" aria-hidden="true"></div>
+    <div class="footer-cta__inner">
+      <div class="footer-cta__head" data-anim>
+        <p class="eyebrow"><span class="code-comment">let's talk</span></p>
+        <h2>מוכנים לבנות את המערכת שתעבוד בשבילכם?</h2>
+        <p>שיחת ייעוץ של 30 דקות, בלי התחייבות. נשמע על העסק שלכם, ונראה לכם איך המערכת יכולה להיראות בפועל.</p>
+        <div class="cta-band__actions">
+          <a href="tel:098820511" class="btn btn--primary btn--lg">חייגו עכשיו &#183; 09-8820511</a>
+          <a href="https://wa.me/972505534398?text=%d7%94%d7%99%d7%99%2c%20%d7%94%d7%92%d7%a2%d7%aa%d7%99%20%d7%90%d7%9c%d7%99%d7%9b%d7%9d%20%d7%93%d7%a8%d7%9a%20%d7%94%d7%90%d7%aa%d7%a8..." target="_blank" rel="noopener" class="btn btn--whatsapp btn--lg">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+            וואטסאפ
+          </a>
+        </div>
+      </div>
+      <div class="cta-band__or"><span>או השאירו פרטים ונחזור אליכם</span></div>
+      <form class="cta-form" action="https://formsubmit.co/info@olsi.co.il" method="POST" aria-label="טופס יצירת קשר">
+        <input type="hidden" name="_subject" value="ליד חדש מאתר אולסי מערכות">
+        <input type="hidden" name="_cc" value="bzik23@gmail.com,oren@olsi.co.il">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="text" name="_honey" class="cta-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <input type="hidden" name="עמוד מקור" id="cf-page" value="">
+        <div class="cta-form__grid">
+          <div class="cta-field">
+            <label for="cf-name">שם מלא <span class="req" aria-hidden="true">*</span></label>
+            <input id="cf-name" name="שם מלא" type="text" required autocomplete="name" placeholder="ישראל ישראלי">
+          </div>
+          <div class="cta-field">
+            <label for="cf-phone">טלפון <span class="req" aria-hidden="true">*</span></label>
+            <input id="cf-phone" name="טלפון" type="tel" required autocomplete="tel" inputmode="tel" placeholder="050-0000000">
+          </div>
+          <div class="cta-field">
+            <label for="cf-email">אימייל <span class="cta-field__opt">(לא חובה)</span></label>
+            <input id="cf-email" name="אימייל" type="email" autocomplete="email" placeholder="name@email.com">
+          </div>
+        </div>
+        <div class="cta-field">
+          <label for="cf-msg">מהות הפנייה <span class="cta-field__opt">(לא חובה)</span></label>
+          <textarea id="cf-msg" name="מהות הפנייה" rows="3" placeholder="ספרו לנו בקצרה על העסק ועל מה שאתם מחפשים..."></textarea>
+        </div>
+        <div class="cta-form__foot">
+          <div class="cta-field cta-consent">
+            <label class="cta-check">
+              <input type="checkbox" name="אישור פרטיות" value="כן" required>
+              <span class="cta-check__box" aria-hidden="true"></span>
+              <span class="cta-check__txt">אני מאשר/ת את <a href="privacy-policy.html" target="_blank" rel="noopener">מדיניות הפרטיות</a> ומסכים/ה לשימוש כמפורט בה <span class="req" aria-hidden="true">*</span></span>
+            </label>
+          </div>
+          <button type="submit" class="btn btn--primary btn--lg cta-form__submit">שליחה</button>
+        </div>
+        <p class="cta-form__ok" role="status">תודה! פנייתכם התקבלה ונחזור אליכם בהקדם.</p>
+      </form>
+    </div>
+  </section>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="assets/logo-olsi.png" alt="אולסי מערכות" height="32" width="auto">
+      <p>בית תוכנה בוטיק מאז 1995. מערכות שמדברות זו עם זו.</p>
+      <span class="footer-sub" dir="ltr">OLSI · est. 1995</span>
+    </div>
+    <div class="footer-col">
+      <h4>ניווט</h4>
+      <ul>
+        <li><a href="#hero">דף הבית</a></li>
+        <li><a href="#about">אודות</a></li>
+        <li><a href="#services">שירותים</a></li>
+        <li><a href="#work">פרויקטים</a></li>
+        <li><a href="professional-info.html">מידע מקצועי</a></li>
+        <li><a href="#contact">צרו קשר</a></li>
+      </ul>
+    </div>
+    <div class="footer-col footer-col--wide">
+      <h4>שירותים</h4>
+      <ul>
+        <li><a class="footer-svc" href="software-development.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 8.5h18"/><path d="m9 13-2 2 2 2"/><path d="m13 13 2 2-2 2"/></svg><span>פיתוח תוכנה</span></a></li>
+        <li><a class="footer-svc" href="app-development.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="3" width="11" height="18" rx="2.5"/><path d="M11 18h2"/></svg><span>פיתוח אפליקציה</span></a></li>
+        <li><a class="footer-svc" href="crm-development.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 19v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1"/><circle cx="9.5" cy="7.5" r="3"/><path d="M21 19v-1a4 4 0 0 0-3-3.87"/><path d="M15.5 4.6a3 3 0 0 1 0 5.8"/></svg><span>פיתוח מערכת CRM</span></a></li>
+        <li><a class="footer-svc" href="excel-upgrade.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M3 14.5h18M9 4v16M15 4v16"/></svg><span>שדרוג מאקסל למערכת חכמה</span></a></li>
+        <li><a class="footer-svc" href="access-upgrade.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.66 3.13 3 7 3s7-1.34 7-3V6"/><path d="M5 12v6c0 1.66 3.13 3 7 3s7-1.34 7-3v-6"/></svg><span>שדרוג מאקסס לתוכנה חכמה</span></a></li>
+        <li><a class="footer-svc" href="inventory-system.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5 12 4l8.5 4.5v7L12 20l-8.5-4.5z"/><path d="M3.5 8.5 12 13l8.5-4.5M12 13v7"/></svg><span>מערכת לניהול מלאים</span></a></li>
+        <li><a class="footer-svc" href="custom-systems.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg><span>מערכות מותאמות אישית</span></a></li>
+        <li><a class="footer-svc" href="integrations-api.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 10.8 15.8 7.2M8.2 13.2l7.6 3.6"/></svg><span>אינטגרציות ו-API</span></a></li>
+        <li><a class="footer-svc" href="data-processing.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18l-7 8.5V20l-4-2v-4.5z"/></svg><span>איסוף ועיבוד נתונים</span></a></li>
+        <li><a class="footer-svc" href="tech-support.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.1 5.1l2.1 2.1M16.8 16.8l2.1 2.1M18.9 5.1l-2.1 2.1M7.2 16.8l-2.1 2.1"/></svg><span>ליווי טכני שוטף</span></a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>צרו קשר</h4>
+      <ul>
+        <li><a href="tel:098820511" dir="ltr">09-8820511</a></li>
+        <li><a href="mailto:info@olsi.co.il" dir="ltr">info@olsi.co.il</a></li>
+      </ul>
+      <p class="footer-addr">משרדי חברת אולסי מערכות בחדרה ממוקמים במתחם המסחרי והעסקים "מול החוף וילג'" (במגדלי Unitowers), בסמוך למחלף אולגה על כביש 2 (כביש החוף).</p>
+      <div class="footer-map">
+        <iframe title="מפת המשרדים - מול החוף וילג', חדרה" src="https://maps.google.com/maps?q=%D7%9E%D7%95%D7%9C%20%D7%94%D7%97%D7%95%D7%A3%20%D7%95%D7%99%D7%9C%D7%92%27%20%D7%97%D7%93%D7%A8%D7%94&hl=he&z=16&output=embed" width="100%" height="170" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+      </div>
+      <a class="footer-waze" href="https://waze.com/ul?ll=32.4414786%2C34.8958675&navigate=yes" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg><span>ניווט עם Waze</span></a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-bottom__start">
+      <span class="footer-bottom__copy">© 2026 אולסי מערכות · כל הזכויות שמורות</span>
+      <nav class="footer-legal" aria-label="קישורים משפטיים">
+        <a href="privacy-policy.html">מדיניות פרטיות</a>
+        <span class="footer-legal__sep" aria-hidden="true">|</span>
+        <a href="accessibility-statement.html">הצהרת נגישות</a>
+      </nav>
+    </div>
+    <span class="footer-bottom__mono">האתר נבנה ע"י בזיק שיווק דיגיטלי</span>
+  </div>
+</footer>
+
+
+<script src="assets/olsi.js" defer></script>
+</body>
+</html>

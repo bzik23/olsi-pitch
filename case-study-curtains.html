@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#FAF7FF">
+<title>מערכת אוטומציה לחברת וילונות | פרויקט · אולסי מערכות</title>
+<meta name="description" content="פרויקט אוטומציה לחברת וילונות: דשבורד ניהול מרכזי למלאי, מכירות, ספקים, עובדים וסטטוס הזמנות. תהליך מורכב שהפך למדויק - וחוסך לחברה עשרות אלפי שקלים בחודש. אולסי מערכות, בית תוכנה בוטיק מאז 1995.">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="he_IL">
+<meta property="og:title" content="מערכת אוטומציה לחברת וילונות · אולסי מערכות">
+<meta property="og:description" content="תהליך מורכב שהפך למדויק: דשבורד ניהול מרכזי למלאי, מכירות, ספקים ועובדים - שחוסך לחברה עשרות אלפי שקלים בחודש.">
+<link rel="icon" type="image/png" href="assets/logo-olsi.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<noscript><style>[data-anim]{opacity:1!important;transform:none!important}</style></noscript>
+<link rel="stylesheet" href="assets/olsi.css">
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="site-header" id="site-header">
+  <div class="site-header__inner">
+    <a href="preview.html" class="site-header__brand" aria-label="אולסי מערכות · דף הבית">
+      <img src="assets/logo-olsi.png" alt="אולסי מערכות" height="38" width="auto" loading="eager" decoding="async">
+      <span class="site-header__subtag" dir="ltr">OLSI · est. 1995</span>
+    </a>
+    <nav class="site-header__nav" id="site-nav" aria-label="ניווט ראשי">
+      <a href="preview.html">דף הבית</a>
+      <a href="preview.html#about">אודות</a>
+      <div class="nav-has-dropdown" id="nav-services">
+        <a href="preview.html#services" class="nav-dropdown__trigger" aria-haspopup="true" aria-expanded="false">
+          שירותים
+          <svg class="nav-dropdown__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </a>
+        <div class="nav-dropdown__panel" role="menu" aria-label="שירותים">
+          <div class="nav-dropdown__grid">
+            <a class="nav-dd-item" href="software-development.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 8.5h18"/><path d="m9 13-2 2 2 2"/><path d="m13 13 2 2-2 2"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">פיתוח תוכנה</span><span class="nav-dd-item__sub">מערכות עסקיות מותאמות לעסק שלכם</span></span>
+            </a>
+            <a class="nav-dd-item" href="app-development.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="3" width="11" height="18" rx="2.5"/><path d="M11 18h2"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">פיתוח אפליקציה</span><span class="nav-dd-item__sub">אפליקציות מובייל לאנדרואיד ול-iOS</span></span>
+            </a>
+            <a class="nav-dd-item" href="crm-development.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 19v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1"/><circle cx="9.5" cy="7.5" r="3"/><path d="M21 19v-1a4 4 0 0 0-3-3.87"/><path d="M15.5 4.6a3 3 0 0 1 0 5.8"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">פיתוח מערכת CRM</span><span class="nav-dd-item__sub">ניהול לקוחות, לידים ותהליכי מכירה</span></span>
+            </a>
+            <a class="nav-dd-item" href="excel-upgrade.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M3 14.5h18M9 4v16M15 4v16"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">שדרוג מאקסל למערכת חכמה</span><span class="nav-dd-item__sub">מגיליונות Excel לפלטפורמה יציבה</span></span>
+            </a>
+            <a class="nav-dd-item" href="access-upgrade.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.66 3.13 3 7 3s7-1.34 7-3V6"/><path d="M5 12v6c0 1.66 3.13 3 7 3s7-1.34 7-3v-6"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">שדרוג מאקסס לתוכנה חכמה</span><span class="nav-dd-item__sub">ממסד Access ישן למערכת מודרנית</span></span>
+            </a>
+            <a class="nav-dd-item" href="inventory-system.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5 12 4l8.5 4.5v7L12 20l-8.5-4.5z"/><path d="M3.5 8.5 12 13l8.5-4.5M12 13v7"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">מערכת לניהול מלאים</span><span class="nav-dd-item__sub">מעקב מלאי, ספקים והזמנות</span></span>
+            </a>
+            <a class="nav-dd-item" href="custom-systems.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">מערכות מותאמות אישית</span><span class="nav-dd-item__sub">פתרון שנבנה סביב התהליך שלכם</span></span>
+            </a>
+            <a class="nav-dd-item" href="integrations-api.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 10.8 15.8 7.2M8.2 13.2l7.6 3.6"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">אינטגרציות ו-API</span><span class="nav-dd-item__sub">חיבור בין מערכות כך שמידע זורם אוטומטית</span></span>
+            </a>
+            <a class="nav-dd-item" href="data-processing.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18l-7 8.5V20l-4-2v-4.5z"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">איסוף ועיבוד נתונים</span><span class="nav-dd-item__sub">סקרייפינג, פייפליינים ודוחות אוטומטיים</span></span>
+            </a>
+            <a class="nav-dd-item" href="tech-support.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.1 5.1l2.1 2.1M16.8 16.8l2.1 2.1M18.9 5.1l-2.1 2.1M7.2 16.8l-2.1 2.1"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">ליווי טכני שוטף</span><span class="nav-dd-item__sub">שירות, תחזוקה ושיפורים אחרי ההשקה</span></span>
+            </a>
+            <a class="nav-dd-cta" href="#lets-talk" role="menuitem">
+              <span class="nav-dd-cta__txt"><b>לא בטוחים מה צריך?</b> נשמח לייעץ ולכוון אתכם.</span>
+              <span class="nav-dd-cta__go">דברו איתנו ›</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <a href="preview.html#work">פרויקטים</a>
+      <a href="preview.html#approach">איך עובדים</a>
+      <a href="#lets-talk">צרו קשר</a>
+    </nav>
+    <div class="site-header__cta">
+      <a href="tel:098820511" class="site-header__phone" dir="ltr">09-8820511</a>
+      <a href="https://wa.me/972505534398?text=%d7%94%d7%99%d7%99%2c%20%d7%94%d7%92%d7%a2%d7%aa%d7%99%20%d7%90%d7%9c%d7%99%d7%9b%d7%9d%20%d7%93%d7%a8%d7%9a%20%d7%94%d7%90%d7%aa%d7%a8..." class="site-header__wa" target="_blank" rel="noopener" aria-label="שלחו לנו הודעת ווטסאפ">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+        <span class="sr-only">ווטסאפ</span>
+      </a>
+      <button class="hamburger" id="hamburger" aria-expanded="false" aria-controls="site-nav" aria-label="תפריט">
+        <span class="hamburger__bars"><span></span></span>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="menu-backdrop" id="menu-backdrop"></div>
+
+<!-- ── CASE STUDY HERO ── -->
+<section class="svc-hero" id="top">
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="hero__mesh" aria-hidden="true">
+    <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="mesh-1" cx="180" cy="220" r="320" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#9333EA" stop-opacity=".22"/>
+          <stop offset="60%" stop-color="#9333EA" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="mesh-2" cx="440" cy="380" r="300" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#DB2777" stop-opacity=".18"/>
+          <stop offset="60%" stop-color="#DB2777" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <rect x="0" y="0" width="600" height="600" fill="url(#mesh-1)"/>
+      <rect x="0" y="0" width="600" height="600" fill="url(#mesh-2)"/>
+    </svg>
+  </div>
+
+  <div class="svc-hero__inner">
+    <div class="svc-hero__left">
+      <nav class="breadcrumb" aria-label="ניווט מסלול">
+        <a href="preview.html">בית</a>
+        <span class="breadcrumb__sep" aria-hidden="true">›</span>
+        <a href="preview.html#work">פרויקטים</a>
+        <span class="breadcrumb__sep" aria-hidden="true">›</span>
+        <span class="breadcrumb__current">מערכת אוטומציה לחברת וילונות</span>
+      </nav>
+
+      <span class="svc-hero__eyebrow"><span class="code-comment">case study · automation</span></span>
+      <h1 class="svc-hero__title">מערכת אוטומציה לחברת וילונות <span class="accent">תהליך מורכב שהפך למדויק.</span></h1>
+      <p class="svc-hero__sub">ענף הוילונות מלא משתנים - אדריכלים, תוכניות מדויקות, סוגי וילונות, מדידות והתקנות. בנינו לחברה מערכת אחת שמרכזת את כל התהליך תחת פלטפורמה אחת, מסירה את הבלגן, ומונעת את הטעויות היקרות שאורבות בכל שלב.</p>
+      <div class="svc-hero__actions">
+        <a href="#lets-talk" class="btn btn--primary btn--lg">תיאום שיחת ייעוץ</a>
+        <a href="preview.html#work" class="btn btn--ghost btn--lg">חזרה לכל הפרויקטים</a>
+      </div>
+      <div class="svc-hero__meta">
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>ענף · חברת וילונות</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 13-2 2 2 2"/><path d="m13 13 2 2-2 2"/><rect x="3" y="4" width="18" height="16" rx="2"/></svg>טכנולוגיה · .NET ו-SQL Server</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>פרויקט · 2025</span>
+      </div>
+    </div>
+
+    <div class="svc-hero__visual" aria-hidden="true">
+      <div class="ui-mock">
+        <div class="ui-mock__bar">
+          <span class="ui-mock__dot ui-mock__dot--r"></span>
+          <span class="ui-mock__dot ui-mock__dot--y"></span>
+          <span class="ui-mock__dot ui-mock__dot--g"></span>
+          <span class="ui-mock__tab">curtains.app</span>
+        </div>
+        <div class="ui-mock__body">
+          <div class="ui-mock__side"><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="ui-mock__main">
+            <div class="ui-mock__kpis"><div class="ui-mock__kpi"><b>1,248</b><span>ORDERS</span></div><div class="ui-mock__kpi"><b>0</b><span>DUPLICATES</span></div><div class="ui-mock__kpi"><b>24/7</b><span>LIVE</span></div></div>
+            <div class="ui-mock__chart"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="ui-mock__rows"><span class="ui-mock__row"></span><span class="ui-mock__row"></span><span class="ui-mock__row"></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── OVERVIEW / THE CHALLENGE ── -->
+<section class="section section--white">
+  <div class="container--wide">
+    <div class="overview__grid">
+      <div class="overview__body" data-anim>
+        <p class="eyebrow"><span class="code-comment">overview</span></p>
+        <h2>הסיפור מאחורי הפרויקט.</h2>
+        <p>כשעסק גדל, התפעול נוטה להפוך לכאוטי. ההזמנות מפוזרות בקבצי אקסל, המדידות עוברות בוואטסאפ, והמידע יושב אצל גורמים שונים בלי מקור אמת אחד. כל פער קטן הופך לטעות יקרה, וכל יום עבודה מתחיל בחיפוש במקום בעשייה.</p>
+        <p>בענף הוילונות זה מתעצם: עבודה מול אדריכלים, תוכניות מדויקות, מגוון סוגי וילונות, מדידות והתקנות בשטח. כל סטייה קטנה בין מה שנמדד למה שיוצר ולמה שהותקן הופכת לשגיאה שעולה כסף. החברה הגיעה אלינו כדי להפוך את הבלגן הזה למערכת אחת, מסודרת ומדויקת.</p>
+      </div>
+      <aside class="fit-card" data-anim>
+        <h3>מה זיהינו באפיון:</h3>
+        <ul class="checklist">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>הזמנות מנוהלות בקבצי אקסל מבוזרים, בלי מקור אמת אחד.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>מדידות ופרטי לקוח עוברים בוואטסאפ ומתפזרים בין אנשים.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>מידע כפול וטעויות הקלדה שגוררים עלויות מיותרות.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>לצוות ההתקנה אין מידע מדויק בזמן אמת לשטח.</li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ── THE SOLUTION (what the system includes) ── -->
+<section class="services section section--alt">
+  <div class="container--wide">
+    <div class="section-header section-header--center" data-anim>
+      <p class="eyebrow"><span class="code-comment">the solution</span></p>
+      <h2 class="section-title">מה כולל הפתרון שבנינו.</h2>
+      <p class="section-sub">מערכת אחת שמרכזת את כל החברה - מהזמנה ועד התקנה, מהמלאי ועד הכסף - תחת פלטפורמה אחת, בהתאמה אישית לתהליך של החברה.</p>
+    </div>
+    <div class="services__grid">
+      <article class="service-card" data-anim>
+        <svg class="service-card__icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 6v28h28"/><rect x="12" y="22" width="5" height="8"/><rect x="20" y="15" width="5" height="15"/><rect x="28" y="9" width="5" height="21"/></svg>
+        <h3>דשבורד ניהול מרכזי</h3>
+        <p>כל הפעילות של החברה במסך אחד ובזמן אמת - בלי לקפוץ בין כלים, קבצים וצ'אטים.</p>
+      </article>
+      <article class="service-card" data-anim>
+        <svg class="service-card__icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 13 20 6l14 7v14L20 34 6 27z"/><path d="M6 13l14 7 14-7M20 20v14"/></svg>
+        <h3>ניהול מלאים וספקים</h3>
+        <p>מעקב מלאי, הזמנות מספקים וסטטוס אספקה (הוזמן, סופק) במקום אחד מסודר.</p>
+      </article>
+      <article class="service-card" data-anim>
+        <svg class="service-card__icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="9" width="30" height="22" rx="3"/><line x1="5" y1="16" x2="35" y2="16"/><line x1="10" y1="25" x2="18" y2="25"/></svg>
+        <h3>ניהול מכירות ותשלומים</h3>
+        <p>תהליך מכירה מסודר ושקיפות פיננסית מלאה - מי שילם, כמה, מתי ומה עוד פתוח.</p>
+      </article>
+      <article class="service-card" data-anim>
+        <svg class="service-card__icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 4h13l7 7v25H10z"/><path d="M23 4v7h7"/><line x1="15" y1="20" x2="29" y2="20"/><line x1="15" y1="26" x2="25" y2="26"/></svg>
+        <h3>ניהול פרויקטים, הערות וסקיצות</h3>
+        <p>לכל הזמנה מצורפים פרטים, מדידות, הערות וסקיצות - הכול נשמר במקום אחד ומחובר.</p>
+      </article>
+      <article class="service-card" data-anim>
+        <svg class="service-card__icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="18" width="22" height="16" rx="2"/><path d="M14 18v-4a6 6 0 0 1 12 0v4"/><circle cx="20" cy="26" r="2"/></svg>
+        <h3>הרשאות לעובדים בכל הרמות</h3>
+        <p>כל עובד, מהמכירות ועד ההתקנה, רואה ועושה בדיוק מה שמתאים לתפקיד שלו.</p>
+      </article>
+      <article class="service-card" data-anim>
+        <svg class="service-card__icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="20" cy="20" r="14"/><path d="M20 12v8l6 3"/></svg>
+        <h3>מידע בזמן אמת לצוות ההתקנה</h3>
+        <p>המתקינים מגיעים לשטח עם כל הנתונים המדויקים - בלי ניחושים ובלי טלפונים מיותרים.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ── RESULTS ── -->
+<section class="section section--white">
+  <div class="container--wide">
+    <div class="section-header section-header--center" data-anim>
+      <p class="eyebrow"><span class="code-comment">results</span></p>
+      <h2 class="section-title">התוצאות, בשטח ובכסף.</h2>
+      <p class="section-sub">בשורה התחתונה: סדר במקום בלגן, דיוק במקום ניחושים, וחיסכון של <span class="accent">עשרות אלפי שקלים בכל חודש</span>.</p>
+    </div>
+    <div class="benefits__grid">
+      <div class="benefit" data-anim>
+        <div class="benefit__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg></div>
+        <h3>פחות טעויות, יותר דיוק</h3>
+        <p>מדידות, תוכניות והתקנות מדויקות - פחות תיקונים חוזרים ופחות בזבוז חומרים וזמן.</p>
+      </div>
+      <div class="benefit" data-anim>
+        <div class="benefit__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 7-7"/><path d="M17 8h4v4"/></svg></div>
+        <h3>עלייה בהספק</h3>
+        <p>יותר התקנות ביום עבודה, כי הצוות לא מבזבז זמן על חיפוש מידע ותיאומים ידניים.</p>
+      </div>
+      <div class="benefit" data-anim>
+        <div class="benefit__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9.5 12l2 2 3.5-4"/></svg></div>
+        <h3>שליטה פיננסית מלאה</h3>
+        <p>תמונת הכנסות, תשלומים וחובות ברורה בכל רגע - והחלטות שמתקבלות לפי נתונים.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── APPROACH / HOW WE WORKED ── -->
+<section class="section section--alt">
+  <div class="container--wide">
+    <div class="section-header section-header--center" data-anim>
+      <p class="eyebrow"><span class="code-comment">our approach</span></p>
+      <h2 class="section-title">איך בנינו את המערכת</h2>
+      <p class="section-sub">אנחנו מתאימים את התוכנה אליכם, לא הפוך. קודם מבינים לעומק איך החברה עובדת באמת, ורק אז כותבים שורת קוד.</p>
+    </div>
+    <ol class="steps">
+      <li class="step" data-anim>
+        <span class="step__n" dir="ltr">1</span>
+        <h3>אפיון עמוק</h3>
+        <p>יושבים עם הצוות וממפים את זרימת המידע האמיתית - מי עושה מה, מתי, ואיפה הדברים נתקעים.</p>
+      </li>
+      <li class="step" data-anim>
+        <span class="step__n" dir="ltr">2</span>
+        <h3>זיהוי צווארי בקבוק</h3>
+        <p>מאתרים בדיוק את הנקודות שבהן נוצרות טעויות, כפילויות ועיכובים - שם נמצא הערך הגדול.</p>
+      </li>
+      <li class="step" data-anim>
+        <span class="step__n" dir="ltr">3</span>
+        <h3>פיתוח מותאם</h3>
+        <p>בונים את המערכת סביב התהליך שלכם, מודול אחרי מודול, עם בדיקות לאורך כל הדרך.</p>
+      </li>
+      <li class="step" data-anim>
+        <span class="step__n" dir="ltr">4</span>
+        <h3>הטמעה וליווי</h3>
+        <p>מעלים לאוויר, מדריכים את הצוות, ונשארים זמינים גם אחרי ההשקה להמשך שיפור והרחבה.</p>
+      </li>
+    </ol>
+    <div class="steps__foot" data-anim>
+      <a href="software-development.html" class="btn btn--secondary">עוד על שירות פיתוח התוכנה שלנו</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="site-footer">
+  <!-- full-width contact band -->
+  <section class="footer-cta" id="lets-talk">
+    <div class="grid-bg--dark" aria-hidden="true"></div>
+    <div class="footer-cta__glow" aria-hidden="true"></div>
+    <div class="footer-cta__inner">
+      <div class="footer-cta__head" data-anim>
+        <p class="eyebrow"><span class="code-comment">let's talk</span></p>
+        <h2>מוכנים לבנות את המערכת שתעבוד בשבילכם?</h2>
+        <p>שיחת ייעוץ של 30 דקות, בלי התחייבות. נשמע על העסק שלכם, ונראה לכם איך המערכת יכולה להיראות בפועל.</p>
+        <div class="cta-band__actions">
+          <a href="tel:098820511" class="btn btn--primary btn--lg">חייגו עכשיו &#183; 09-8820511</a>
+          <a href="https://wa.me/972505534398?text=%d7%94%d7%99%d7%99%2c%20%d7%94%d7%92%d7%a2%d7%aa%d7%99%20%d7%90%d7%9c%d7%99%d7%9b%d7%9d%20%d7%93%d7%a8%d7%9a%20%d7%94%d7%90%d7%aa%d7%a8..." target="_blank" rel="noopener" class="btn btn--whatsapp btn--lg">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+            וואטסאפ
+          </a>
+        </div>
+      </div>
+      <div class="cta-band__or"><span>או השאירו פרטים ונחזור אליכם</span></div>
+      <form class="cta-form" action="https://formsubmit.co/info@olsi.co.il" method="POST" aria-label="טופס יצירת קשר">
+        <input type="hidden" name="_subject" value="ליד חדש מאתר אולסי מערכות">
+        <input type="hidden" name="_cc" value="bzik23@gmail.com,oren@olsi.co.il">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="text" name="_honey" class="cta-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <input type="hidden" name="עמוד מקור" id="cf-page" value="">
+        <div class="cta-form__grid">
+          <div class="cta-field">
+            <label for="cf-name">שם מלא <span class="req" aria-hidden="true">*</span></label>
+            <input id="cf-name" name="שם מלא" type="text" required autocomplete="name" placeholder="ישראל ישראלי">
+          </div>
+          <div class="cta-field">
+            <label for="cf-phone">טלפון <span class="req" aria-hidden="true">*</span></label>
+            <input id="cf-phone" name="טלפון" type="tel" required autocomplete="tel" inputmode="tel" placeholder="050-0000000">
+          </div>
+          <div class="cta-field">
+            <label for="cf-email">אימייל <span class="cta-field__opt">(לא חובה)</span></label>
+            <input id="cf-email" name="אימייל" type="email" autocomplete="email" placeholder="name@email.com">
+          </div>
+        </div>
+        <div class="cta-field">
+          <label for="cf-msg">מהות הפנייה <span class="cta-field__opt">(לא חובה)</span></label>
+          <textarea id="cf-msg" name="מהות הפנייה" rows="3" placeholder="ספרו לנו בקצרה על העסק ועל מה שאתם מחפשים..."></textarea>
+        </div>
+        <div class="cta-form__foot">
+          <div class="cta-field cta-consent">
+            <label class="cta-check">
+              <input type="checkbox" name="אישור פרטיות" value="כן" required>
+              <span class="cta-check__box" aria-hidden="true"></span>
+              <span class="cta-check__txt">אני מאשר/ת את <a href="privacy-policy.html" target="_blank" rel="noopener">מדיניות הפרטיות</a> ומסכים/ה לשימוש כמפורט בה <span class="req" aria-hidden="true">*</span></span>
+            </label>
+          </div>
+          <button type="submit" class="btn btn--primary btn--lg cta-form__submit">שליחה</button>
+        </div>
+        <p class="cta-form__ok" role="status">תודה! פנייתכם התקבלה ונחזור אליכם בהקדם.</p>
+      </form>
+    </div>
+  </section>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="assets/logo-olsi.png" alt="אולסי מערכות" height="32" width="auto">
+      <p>בית תוכנה בוטיק מאז 1995. מערכות שמדברות זו עם זו.</p>
+      <span class="footer-sub" dir="ltr">OLSI · est. 1995</span>
+    </div>
+    <div class="footer-col">
+      <h4>ניווט</h4>
+      <ul>
+        <li><a href="preview.html">דף הבית</a></li>
+        <li><a href="preview.html#about">אודות</a></li>
+        <li><a href="preview.html#services">שירותים</a></li>
+        <li><a href="preview.html#work">פרויקטים</a></li>
+        <li><a href="#lets-talk">צרו קשר</a></li>
+      </ul>
+    </div>
+    <div class="footer-col footer-col--wide">
+      <h4>שירותים</h4>
+      <ul>
+        <li><a class="footer-svc" href="software-development.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 8.5h18"/><path d="m9 13-2 2 2 2"/><path d="m13 13 2 2-2 2"/></svg><span>פיתוח תוכנה</span></a></li>
+        <li><a class="footer-svc" href="app-development.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="3" width="11" height="18" rx="2.5"/><path d="M11 18h2"/></svg><span>פיתוח אפליקציה</span></a></li>
+        <li><a class="footer-svc" href="crm-development.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 19v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1"/><circle cx="9.5" cy="7.5" r="3"/><path d="M21 19v-1a4 4 0 0 0-3-3.87"/><path d="M15.5 4.6a3 3 0 0 1 0 5.8"/></svg><span>פיתוח מערכת CRM</span></a></li>
+        <li><a class="footer-svc" href="excel-upgrade.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M3 14.5h18M9 4v16M15 4v16"/></svg><span>שדרוג מאקסל למערכת חכמה</span></a></li>
+        <li><a class="footer-svc" href="access-upgrade.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.66 3.13 3 7 3s7-1.34 7-3V6"/><path d="M5 12v6c0 1.66 3.13 3 7 3s7-1.34 7-3v-6"/></svg><span>שדרוג מאקסס לתוכנה חכמה</span></a></li>
+        <li><a class="footer-svc" href="inventory-system.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5 12 4l8.5 4.5v7L12 20l-8.5-4.5z"/><path d="M3.5 8.5 12 13l8.5-4.5M12 13v7"/></svg><span>מערכת לניהול מלאים</span></a></li>
+        <li><a class="footer-svc" href="custom-systems.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg><span>מערכות מותאמות אישית</span></a></li>
+        <li><a class="footer-svc" href="integrations-api.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 10.8 15.8 7.2M8.2 13.2l7.6 3.6"/></svg><span>אינטגרציות ו-API</span></a></li>
+        <li><a class="footer-svc" href="data-processing.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18l-7 8.5V20l-4-2v-4.5z"/></svg><span>איסוף ועיבוד נתונים</span></a></li>
+        <li><a class="footer-svc" href="tech-support.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.1 5.1l2.1 2.1M16.8 16.8l2.1 2.1M18.9 5.1l-2.1 2.1M7.2 16.8l-2.1 2.1"/></svg><span>ליווי טכני שוטף</span></a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>צרו קשר</h4>
+      <ul>
+        <li><a href="tel:098820511" dir="ltr">09-8820511</a></li>
+        <li><a href="mailto:info@olsi.co.il" dir="ltr">info@olsi.co.il</a></li>
+      </ul>
+      <p class="footer-addr">משרדי חברת אולסי מערכות בחדרה ממוקמים במתחם המסחרי והעסקים "מול החוף וילג'" (במגדלי Unitowers), בסמוך למחלף אולגה על כביש 2 (כביש החוף).</p>
+      <div class="footer-map">
+        <iframe title="מפת המשרדים - מול החוף וילג', חדרה" src="https://maps.google.com/maps?q=%D7%9E%D7%95%D7%9C%20%D7%94%D7%97%D7%95%D7%A3%20%D7%95%D7%99%D7%9C%D7%92%27%20%D7%97%D7%93%D7%A8%D7%94&hl=he&z=16&output=embed" width="100%" height="170" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+      </div>
+      <a class="footer-waze" href="https://waze.com/ul?ll=32.4414786%2C34.8958675&navigate=yes" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg><span>ניווט עם Waze</span></a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-bottom__start">
+      <span class="footer-bottom__copy">© 2026 אולסי מערכות · כל הזכויות שמורות</span>
+      <nav class="footer-legal" aria-label="קישורים משפטיים">
+        <a href="privacy-policy.html">מדיניות פרטיות</a>
+        <span class="footer-legal__sep" aria-hidden="true">|</span>
+        <a href="accessibility-statement.html">הצהרת נגישות</a>
+      </nav>
+    </div>
+    <span class="footer-bottom__mono">האתר נבנה ע"י בזיק שיווק דיגיטלי</span>
+  </div>
+</footer>
+
+
+<script src="assets/olsi.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#FAF7FF">
+<title>פיתוח אוטומציה לעסקים | אולסי מערכות</title>
+<meta name="description" content="יש שלב בהתפתחות של כל עסק שבו הבעיה כבר לא שיווק או מכירות, אלא תפעול. הזמנות מתנהלות באקסל, מדידות נשלחות בוואטסאפ, הערות עוברות בין גורמים שונים, והמידע פשוט לא…">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="he_IL">
+<meta property="og:title" content="פיתוח אוטומציה לעסקים | אולסי מערכות">
+<meta property="og:description" content="יש שלב בהתפתחות של כל עסק שבו הבעיה כבר לא שיווק או מכירות, אלא תפעול. הזמנות מתנהלות באקסל, מדידות נשלחות בוואטסאפ, הערות עוברות בין גורמים שונים, והמידע פשוט לא…">
+<link rel="icon" type="image/png" href="assets/logo-olsi.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<noscript><style>[data-anim]{opacity:1!important;transform:none!important}</style></noscript>
+<link rel="stylesheet" href="assets/olsi.css">
+</head>
+<body>
+<!-- ── HEADER ── -->
+<header class="site-header" id="site-header">
+  <div class="site-header__inner">
+    <a href="preview.html" class="site-header__brand" aria-label="אולסי מערכות · דף הבית">
+      <img src="assets/logo-olsi.png" alt="אולסי מערכות" height="38" width="auto" loading="eager" decoding="async">
+      <span class="site-header__subtag" dir="ltr">OLSI · est. 1995</span>
+    </a>
+    <nav class="site-header__nav" id="site-nav" aria-label="ניווט ראשי">
+      <a href="preview.html">דף הבית</a>
+      <a href="preview.html#about">אודות</a>
+      <div class="nav-has-dropdown" id="nav-services">
+        <a href="preview.html#services" class="nav-dropdown__trigger" aria-haspopup="true" aria-expanded="false">
+          שירותים
+          <svg class="nav-dropdown__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </a>
+        <div class="nav-dropdown__panel" role="menu" aria-label="שירותים">
+          <div class="nav-dropdown__grid">
+            <a class="nav-dd-item" href="software-development.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 8.5h18"/><path d="m9 13-2 2 2 2"/><path d="m13 13 2 2-2 2"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">פיתוח תוכנה</span><span class="nav-dd-item__sub">מערכות עסקיות מותאמות לעסק שלכם</span></span>
+            </a>
+            <a class="nav-dd-item" href="app-development.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="3" width="11" height="18" rx="2.5"/><path d="M11 18h2"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">פיתוח אפליקציה</span><span class="nav-dd-item__sub">אפליקציות מובייל לאנדרואיד ול-iOS</span></span>
+            </a>
+            <a class="nav-dd-item" href="crm-development.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 19v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1"/><circle cx="9.5" cy="7.5" r="3"/><path d="M21 19v-1a4 4 0 0 0-3-3.87"/><path d="M15.5 4.6a3 3 0 0 1 0 5.8"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">פיתוח מערכת CRM</span><span class="nav-dd-item__sub">ניהול לקוחות, לידים ותהליכי מכירה</span></span>
+            </a>
+            <a class="nav-dd-item" href="excel-upgrade.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M3 14.5h18M9 4v16M15 4v16"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">שדרוג מאקסל למערכת חכמה</span><span class="nav-dd-item__sub">מגיליונות Excel לפלטפורמה יציבה</span></span>
+            </a>
+            <a class="nav-dd-item" href="access-upgrade.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.66 3.13 3 7 3s7-1.34 7-3V6"/><path d="M5 12v6c0 1.66 3.13 3 7 3s7-1.34 7-3v-6"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">שדרוג מאקסס לתוכנה חכמה</span><span class="nav-dd-item__sub">ממסד Access ישן למערכת מודרנית</span></span>
+            </a>
+            <a class="nav-dd-item" href="inventory-system.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5 12 4l8.5 4.5v7L12 20l-8.5-4.5z"/><path d="M3.5 8.5 12 13l8.5-4.5M12 13v7"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">מערכת לניהול מלאים</span><span class="nav-dd-item__sub">מעקב מלאי, ספקים והזמנות</span></span>
+            </a>
+            <a class="nav-dd-item" href="custom-systems.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">מערכות מותאמות אישית</span><span class="nav-dd-item__sub">פתרון שנבנה סביב התהליך שלכם</span></span>
+            </a>
+            <a class="nav-dd-item" href="integrations-api.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 10.8 15.8 7.2M8.2 13.2l7.6 3.6"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">אינטגרציות ו-API</span><span class="nav-dd-item__sub">חיבור בין מערכות כך שמידע זורם אוטומטית</span></span>
+            </a>
+            <a class="nav-dd-item" href="data-processing.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18l-7 8.5V20l-4-2v-4.5z"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">איסוף ועיבוד נתונים</span><span class="nav-dd-item__sub">סקרייפינג, פייפליינים ודוחות אוטומטיים</span></span>
+            </a>
+            <a class="nav-dd-item" href="tech-support.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.1 5.1l2.1 2.1M16.8 16.8l2.1 2.1M18.9 5.1l-2.1 2.1M7.2 16.8l-2.1 2.1"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">ליווי טכני שוטף</span><span class="nav-dd-item__sub">שירות, תחזוקה ושיפורים אחרי ההשקה</span></span>
+            </a>
+            <a class="nav-dd-cta" href="#lets-talk" role="menuitem">
+              <span class="nav-dd-cta__txt"><b>לא בטוחים מה צריך?</b> נשמח לייעץ ולכוון אתכם.</span>
+              <span class="nav-dd-cta__go">דברו איתנו ›</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <a href="preview.html#work">פרויקטים</a>
+      <a href="preview.html#approach">איך עובדים</a>
+      <a href="professional-info.html">מידע מקצועי</a>
+      <a href="#lets-talk">צרו קשר</a>
+    </nav>
+    <div class="site-header__cta">
+      <a href="tel:098820511" class="site-header__phone" dir="ltr">09-8820511</a>
+      <a href="https://wa.me/972505534398?text=%d7%94%d7%99%d7%99%2c%20%d7%94%d7%92%d7%a2%d7%aa%d7%99%20%d7%90%d7%9c%d7%99%d7%9b%d7%9d%20%d7%93%d7%a8%d7%9a%20%d7%94%d7%90%d7%aa%d7%a8..." class="site-header__wa" target="_blank" rel="noopener" aria-label="שלחו לנו הודעת ווטסאפ">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+        <span class="sr-only">ווטסאפ</span>
+      </a>
+      <button class="hamburger" id="hamburger" aria-expanded="false" aria-controls="site-nav" aria-label="תפריט">
+        <span class="hamburger__bars"><span></span></span>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="menu-backdrop" id="menu-backdrop"></div>
+<!-- ── POST HERO ── -->
+<section class="post-hero">
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="post-hero__inner" data-anim>
+    <nav class="breadcrumb" aria-label="ניווט מסלול">
+      <a href="preview.html">בית</a>
+      <span class="breadcrumb__sep" aria-hidden="true">›</span>
+      <a href="professional-info.html">מידע מקצועי</a>
+      <span class="breadcrumb__sep" aria-hidden="true">›</span>
+      <span class="breadcrumb__current">פיתוח אוטומציה לעסקים</span>
+    </nav>
+    <h1 class="post-hero__title">פיתוח אוטומציה לעסקים</h1>
+    <div class="post-hero__meta">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>25 בפברואר 2026</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 12 0v1"/></svg>אולסי מערכות</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── POST BODY ── -->
+<section class="section section--white">
+  <div class="post-wrap">
+    <figure class="post-cover"><img src="assets/blog/automation-development-case-study-cover.png" alt="פיתוח אוטומציה לעסקים" width="1200" loading="eager" decoding="async"></figure>
+    <div class="post-body" data-anim>
+		<div data-elementor-type="wp-post" data-elementor-id="3704" class="elementor elementor-3704" data-elementor-post-type="post">
+						<section class="elementor-section elementor-top-section elementor-element elementor-element-21705ff0 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="21705ff0" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-298b32c0" data-id="298b32c0" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap">
+							</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-2e2e962 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="2e2e962" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-fe9500c" data-id="fe9500c" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap">
+							</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-00e2cb8 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="00e2cb8" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-2912bd7" data-id="2912bd7" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-77cf265 elementor-widget elementor-widget-spacer" data-id="77cf265" data-element_type="widget" data-e-type="widget" data-widget_type="spacer.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-spacer">
+			<div class="elementor-spacer-inner"></div>
+		</div>
+						</div>
+				</div>
+				<div class="elementor-element elementor-element-45dd9f9 elementor-widget elementor-widget-heading" data-id="45dd9f9" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h1 class="elementor-heading-title elementor-size-default">פיתוח אוטומציה לעסקים: כשהמערכת מתחילה לחשוב במקומכם</h1>				</div>
+				</div>
+				<div class="elementor-element elementor-element-559e371 elementor-widget elementor-widget-text-editor" data-id="559e371" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>יש שלב בהתפתחות של כל עסק שבו הבעיה כבר לא שיווק או מכירות, אלא תפעול. הזמנות מתנהלות באקסל, מדידות נשלחות בוואטסאפ, הערות עוברות בין גורמים שונים, והמידע פשוט לא יושב במקום אחד. בשלב הזה מתחילות טעויות, כפילויות, עיכובים, ובעיקר בזבוז כסף.</p><p><strong><a href="software-development.html" target="_blank" rel="noopener noreferrer"><span style="text-decoration: underline;">פיתוח תוכנה</span></a> נכון נועד גם להיות חדשני וגם לסדר את הכאוס. </strong>באולסי מערכות אנחנו מפתחים תוכנה בהתאמה אישית שמארגנת מחדש את סביבת העבודה של הארגון, כך שכל שלב בתהליך מתועד, מנוהל ונגיש בלחיצת כפתור.</p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-22ac0e1 elementor-widget elementor-widget-image" data-id="22ac0e1" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<img loading="lazy" decoding="async" class="post-img" fetchpriority="high" decoding="async" width="1250" height="606" src="assets/blog/automation-development-case-study-1.png" class="attachment-full size-full wp-image-3736" alt="פיתוח אוטומציה לעסקים - כשהמערכת מתחילה לחשוב במקומכם - אולסי מערכות" />															</div>
+				</div>
+				<div class="elementor-element elementor-element-ae2be09 elementor-widget elementor-widget-heading" data-id="ae2be09" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">מערכת אוטומציה לענף הוילונות: תהליך מורכב שהפך למדויק</h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-b2d684f elementor-widget elementor-widget-text-editor" data-id="b2d684f" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>ענף הוילונות הוא דוגמה מצוינת לעסק עם ריבוי משתנים. עבודה מול אדריכלים, תוכניות מדויקות, סוגי וילונות שונים, מדידות משתנות, התקנות בשטח, ניהול תשלומים ומעקב לקוחות, כל סטייה קטנה בפרטים יכולה לייצר טעות יקרה.</p><p>במקום עבודה מבוזרת בין תוכניות מודפסות, קבצים נפרדים והודעות, פיתחנו באולסי מערכות, מערכת שמרכזת את הכל תחת פלטפורמה אחת.</p><p>האדריכל מעלה למערכת את הקבצים האדריכליים הרלוונטיים, מוסיף הערות והנחיות, וספק הוילונות מקבל תמונה מלאה ומדויקת. בתוך המערכת ניתן לסמן על גבי התוכנית היכן ימוקם כל וילון, להגדיר סוג, מידות, התאמה לנישה או לדלת, לצרף סקיצה, להוסיף רישומים מדויקים ולתעד כל פרט טכני נדרש.</p><p>התוצאה היא מעבר מעבודה אינטואיטיבית לעבודה מתועדת ומבוקרת.</p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-51b60dc elementor-widget elementor-widget-image" data-id="51b60dc" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<img loading="lazy" decoding="async" class="post-img" decoding="async" width="1290" height="639" src="assets/blog/automation-development-case-study-2.png" class="attachment-full size-full wp-image-3710" alt="דוגמה לתוכנה שפותחה עי אולסי מערכות" />															</div>
+				</div>
+				<div class="elementor-element elementor-element-12e5b27 elementor-widget elementor-widget-heading" data-id="12e5b27" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h3 class="elementor-heading-title elementor-size-default">שליטה מלאה בבק אופיס, בלי לאבד מידע בדרך</h3>				</div>
+				</div>
+				<div class="elementor-element elementor-element-f809a98 elementor-widget elementor-widget-text-editor" data-id="f809a98" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>מעבר לניהול הפרויקטים עצמם, המערכת כוללת סביבת עבודה ניהולית מלאה. כל פרטי הלקוח נשמרים במקום אחד: שם מלא, כתובת, פרטי קשר, תאריכים, הע רות והיסטוריית הזמנות. בלחיצה אחת ניתן להיכנס לכרטיס הלקוח המלא ולראות את כל התמונה.</p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-472f570 elementor-widget elementor-widget-text-editor" data-id="472f570" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>גם ניהול התשלומים הופך מדויק ושקוף. ניתן להגדיר אופן תשלום, לפרוס לתשלומים, לעקוב אחר סטטוס גבייה ולראות בכל רגע נתון מי שילם ומה נותר פתוח. במקום רישומים מפוזרים, יש שליטה פיננסית מסודרת.</p><p><strong>וזה כבר לא עניין טכנולוגי. זה עניין של רווחיות.</strong></p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-67e7f86 elementor-widget elementor-widget-image" data-id="67e7f86" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<img loading="lazy" decoding="async" class="post-img" decoding="async" width="1280" height="475" src="assets/blog/automation-development-case-study-3.png" class="attachment-full size-full wp-image-3741" alt="פיתוח תוכנה בהתאמה אישית - שליטה מלאה בבק אופיס - אולסי מערכות" />															</div>
+				</div>
+				<div class="elementor-element elementor-element-fcab922 elementor-widget elementor-widget-heading" data-id="fcab922" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h3 class="elementor-heading-title elementor-size-default">מתקינים שעובדים חכם יותר, וחוסכים כסף לעסק</h3>				</div>
+				</div>
+				<div class="elementor-element elementor-element-b276271 elementor-widget elementor-widget-text-editor" data-id="b276271" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>אחד המקומות שבהם עסקים מאבדים כסף הוא בשטח עצמו. מתקין שמגיע לנכס ללא מידע ברור, מתעכב, חוזר שוב למדידה או להתקנה חוזרת, כל עיכוב כזה כולל עלות ישירה, עקיפה וחוסר שביעות רצון של הלקוח ושל המתקין.</p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-de1838b elementor-widget elementor-widget-text-editor" data-id="de1838b" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>כאשר המידע מרוכז במערכת אחת, המתקין יודע בדיוק היכן להתקין כל וילון, מהן המידות המדויקות, איזה סוג נבחר ואילו הערות מיוחדות קיימות. אין ניחושים ואין פרשנויות.</p><p>המשמעות היא פחות טעויות, יותר התקנות ביום עבודה, ועלייה בהספק הכולל של הצוות.</p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-f62218a elementor-widget elementor-widget-image" data-id="f62218a" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<img loading="lazy" decoding="async" class="post-img" loading="lazy" decoding="async" width="1280" height="635" src="assets/blog/automation-development-case-study-4.png" class="attachment-full size-full wp-image-3742" alt="באמצעות פיתוח תוכנה מקצועי של אולסי מערכות - פחות טעויות, יותר התקנות ביום עבודה, ועלייה בהספק הכולל של הצוות" />															</div>
+				</div>
+				<div class="elementor-element elementor-element-5039cad elementor-widget elementor-widget-heading" data-id="5039cad" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h3 class="elementor-heading-title elementor-size-default">גם המכירות משתדרגות</h3>				</div>
+				</div>
+				<div class="elementor-element elementor-element-63c7490 elementor-widget elementor-widget-text-editor" data-id="63c7490" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p><strong>המערכת אינה כלי תפעולי בלבד. היא גם כלי מכירה לכל דבר ועניין.</strong></p><p>אנשי המכירות יכולים לגשת מהמכשיר הנייד שלהם לכל המידע הנדרש, פלטות צבעים, סוגי מסילות, כפלים, עיצובים וטבלאות רלוונטיות. במקום להסתמך על קטלוגים חיצוניים או מידע חלקי שלעיתים גם לא מעודכן עם הקולקציות החדשות, כל הנתונים נגישים בזמן אמת.</p><p><strong>כאשר המכירה נשענת על מערכת מסודרת, רמת המקצועיות עולה, וכך גם אחוזי הסגירה.</strong></p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-c787c46 elementor-widget elementor-widget-heading" data-id="c787c46" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h3 class="elementor-heading-title elementor-size-default">פיתוח תוכנה בהתאמה אישית: הרבה מעבר לענף הוילונות</h3>				</div>
+				</div>
+				<div class="elementor-element elementor-element-a7968d8 elementor-widget elementor-widget-text-editor" data-id="a7968d8" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>המערכת שפיתחנו באולסי מערכות, לענף הוילונות היא דוגמה אחת לאופן שבו אוטומציה משנה תהליכי עבודה. אותו עיקרון רלוונטי גם למפעלים, לעסקים עם מלאי מורכב, לחנויות טכניות, למפעלי טקסטיל ולחברות ייצור עם תהליכים מרובי שלבים.</p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-6d2ff51 elementor-widget elementor-widget-text-editor" data-id="6d2ff51" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p><strong>הגישה שלנו אינה “להתאים אתכם לתוכנה”.</strong></p><p><strong>אנחנו מתאימים את התוכנה אליכם.</strong></p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-69df5fe elementor-widget elementor-widget-image" data-id="69df5fe" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+																														</div>
+				</div>
+				<div class="elementor-element elementor-element-90ce5b7 elementor-widget elementor-widget-text-editor" data-id="90ce5b7" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>תהליך העבודה מתחיל באפיון מעמיק של הארגון: הבנת זרימת המידע, זיהוי צווארי בקבוק, איתור נקודות חיכוך בין מחלקות והגדרת מטרות ברורות. רק לאחר מכן מתחיל שלב הפיתוח, בניית מערכת מאפס, בהתאמה מדויקת לצרכים האמיתיים של העסק.</p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-2eb2d5a elementor-widget elementor-widget-heading" data-id="2eb2d5a" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h3 class="elementor-heading-title elementor-size-default">אוטומציה היא לא פרויקט, היא קפיצת מדרגה עסקית</h3>				</div>
+				</div>
+				<div class="elementor-element elementor-element-26a92ef elementor-widget elementor-widget-text-editor" data-id="26a92ef" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>עסקים שאינם ממוחשבים נכון עובדים קשה יותר ממה שהם צריכים. הם מתמודדים עם טעויות חוזרות, כפילויות, אובדן מידע וחוסר שליטה תפעולית.</p><p>כאשר מפתחים מערכת מותאמת אישית שמרכזת את כל התהליכים במקום אחד, משהו עמוק משתנה. ההנהלה מקבלת שליטה, העובדים עובדים מהר יותר, המידע נגיש וברור, והארגון כולו מתייעל.</p><p>בסופו של דבר, פיתוח אוטומציה אינו מותרות טכנולוגיים, אלא בעיקר מנוע צמיחה שמייצר סדר, חוסך עלויות ומשפר את השורה התחתונה.</p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-7af0dae elementor-widget elementor-widget-text-editor" data-id="7af0dae" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p><strong>רוצים גם אתם לשדרג ולייעל את העסק שלכם?</strong></p><p><span style="text-decoration: underline;"><a href="#lets-talk"><strong>מלאו פרטים לחזרה</strong></a></span><strong> או חייגו אלינו </strong><span style="text-decoration: underline;"><a href="tel:09-8820511"><strong>09-8820511</strong></a></span></p>								</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				</div>
+		
+    </div>
+    <div class="post-back">
+      <a href="professional-info.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5-7 7 7 7"/></svg>
+        חזרה לכל המאמרים
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="site-footer">
+  <!-- full-width contact band -->
+  <section class="footer-cta" id="lets-talk">
+    <div class="grid-bg--dark" aria-hidden="true"></div>
+    <div class="footer-cta__glow" aria-hidden="true"></div>
+    <div class="footer-cta__inner">
+      <div class="footer-cta__head" data-anim>
+        <p class="eyebrow"><span class="code-comment">let's talk</span></p>
+        <h2>מוכנים לבנות את המערכת שתעבוד בשבילכם?</h2>
+        <p>שיחת ייעוץ של 30 דקות, בלי התחייבות. נשמע על העסק שלכם, ונראה לכם איך המערכת יכולה להיראות בפועל.</p>
+        <div class="cta-band__actions">
+          <a href="tel:098820511" class="btn btn--primary btn--lg">חייגו עכשיו &#183; 09-8820511</a>
+          <a href="https://wa.me/972505534398?text=%d7%94%d7%99%d7%99%2c%20%d7%94%d7%92%d7%a2%d7%aa%d7%99%20%d7%90%d7%9c%d7%99%d7%9b%d7%9d%20%d7%93%d7%a8%d7%9a%20%d7%94%d7%90%d7%aa%d7%a8..." target="_blank" rel="noopener" class="btn btn--whatsapp btn--lg">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+            וואטסאפ
+          </a>
+        </div>
+      </div>
+      <div class="cta-band__or"><span>או השאירו פרטים ונחזור אליכם</span></div>
+      <form class="cta-form" action="https://formsubmit.co/info@olsi.co.il" method="POST" aria-label="טופס יצירת קשר">
+        <input type="hidden" name="_subject" value="ליד חדש מאתר אולסי מערכות">
+        <input type="hidden" name="_cc" value="bzik23@gmail.com,oren@olsi.co.il">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="text" name="_honey" class="cta-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <input type="hidden" name="עמוד מקור" id="cf-page" value="">
+        <div class="cta-form__grid">
+          <div class="cta-field">
+            <label for="cf-name">שם מלא <span class="req" aria-hidden="true">*</span></label>
+            <input id="cf-name" name="שם מלא" type="text" required autocomplete="name" placeholder="ישראל ישראלי">
+          </div>
+          <div class="cta-field">
+            <label for="cf-phone">טלפון <span class="req" aria-hidden="true">*</span></label>
+            <input id="cf-phone" name="טלפון" type="tel" required autocomplete="tel" inputmode="tel" placeholder="050-0000000">
+          </div>
+          <div class="cta-field">
+            <label for="cf-email">אימייל <span class="cta-field__opt">(לא חובה)</span></label>
+            <input id="cf-email" name="אימייל" type="email" autocomplete="email" placeholder="name@email.com">
+          </div>
+        </div>
+        <div class="cta-field">
+          <label for="cf-msg">מהות הפנייה <span class="cta-field__opt">(לא חובה)</span></label>
+          <textarea id="cf-msg" name="מהות הפנייה" rows="3" placeholder="ספרו לנו בקצרה על העסק ועל מה שאתם מחפשים..."></textarea>
+        </div>
+        <div class="cta-form__foot">
+          <div class="cta-field cta-consent">
+            <label class="cta-check">
+              <input type="checkbox" name="אישור פרטיות" value="כן" required>
+              <span class="cta-check__box" aria-hidden="true"></span>
+              <span class="cta-check__txt">אני מאשר/ת את <a href="privacy-policy.html" target="_blank" rel="noopener">מדיניות הפרטיות</a> ומסכים/ה לשימוש כמפורט בה <span class="req" aria-hidden="true">*</span></span>
+            </label>
+          </div>
+          <button type="submit" class="btn btn--primary btn--lg cta-form__submit">שליחה</button>
+        </div>
+        <p class="cta-form__ok" role="status">תודה! פנייתכם התקבלה ונחזור אליכם בהקדם.</p>
+      </form>
+    </div>
+  </section>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="assets/logo-olsi.png" alt="אולסי מערכות" height="32" width="auto">
+      <p>בית תוכנה בוטיק מאז 1995. מערכות שמדברות זו עם זו.</p>
+      <span class="footer-sub" dir="ltr">OLSI · est. 1995</span>
+    </div>
+    <div class="footer-col">
+      <h4>ניווט</h4>
+      <ul>
+        <li><a href="preview.html">דף הבית</a></li>
+        <li><a href="preview.html#about">אודות</a></li>
+        <li><a href="preview.html#services">שירותים</a></li>
+        <li><a href="preview.html#work">פרויקטים</a></li>
+        <li><a href="professional-info.html">מידע מקצועי</a></li>
+        <li><a href="#lets-talk">צרו קשר</a></li>
+      </ul>
+    </div>
+    <div class="footer-col footer-col--wide">
+      <h4>שירותים</h4>
+      <ul>
+        <li><a class="footer-svc" href="software-development.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 8.5h18"/><path d="m9 13-2 2 2 2"/><path d="m13 13 2 2-2 2"/></svg><span>פיתוח תוכנה</span></a></li>
+        <li><a class="footer-svc" href="app-development.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="3" width="11" height="18" rx="2.5"/><path d="M11 18h2"/></svg><span>פיתוח אפליקציה</span></a></li>
+        <li><a class="footer-svc" href="crm-development.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 19v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1"/><circle cx="9.5" cy="7.5" r="3"/><path d="M21 19v-1a4 4 0 0 0-3-3.87"/><path d="M15.5 4.6a3 3 0 0 1 0 5.8"/></svg><span>פיתוח מערכת CRM</span></a></li>
+        <li><a class="footer-svc" href="excel-upgrade.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M3 14.5h18M9 4v16M15 4v16"/></svg><span>שדרוג מאקסל למערכת חכמה</span></a></li>
+        <li><a class="footer-svc" href="access-upgrade.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.66 3.13 3 7 3s7-1.34 7-3V6"/><path d="M5 12v6c0 1.66 3.13 3 7 3s7-1.34 7-3v-6"/></svg><span>שדרוג מאקסס לתוכנה חכמה</span></a></li>
+        <li><a class="footer-svc" href="inventory-system.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5 12 4l8.5 4.5v7L12 20l-8.5-4.5z"/><path d="M3.5 8.5 12 13l8.5-4.5M12 13v7"/></svg><span>מערכת לניהול מלאים</span></a></li>
+        <li><a class="footer-svc" href="custom-systems.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg><span>מערכות מותאמות אישית</span></a></li>
+        <li><a class="footer-svc" href="integrations-api.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 10.8 15.8 7.2M8.2 13.2l7.6 3.6"/></svg><span>אינטגרציות ו-API</span></a></li>
+        <li><a class="footer-svc" href="data-processing.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18l-7 8.5V20l-4-2v-4.5z"/></svg><span>איסוף ועיבוד נתונים</span></a></li>
+        <li><a class="footer-svc" href="tech-support.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.1 5.1l2.1 2.1M16.8 16.8l2.1 2.1M18.9 5.1l-2.1 2.1M7.2 16.8l-2.1 2.1"/></svg><span>ליווי טכני שוטף</span></a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>צרו קשר</h4>
+      <ul>
+        <li><a href="tel:098820511" dir="ltr">09-8820511</a></li>
+        <li><a href="mailto:info@olsi.co.il" dir="ltr">info@olsi.co.il</a></li>
+      </ul>
+      <p class="footer-addr">משרדי חברת אולסי מערכות בחדרה ממוקמים במתחם המסחרי והעסקים "מול החוף וילג'" (במגדלי Unitowers), בסמוך למחלף אולגה על כביש 2 (כביש החוף).</p>
+      <div class="footer-map">
+        <iframe title="מפת המשרדים - מול החוף וילג', חדרה" src="https://maps.google.com/maps?q=%D7%9E%D7%95%D7%9C%20%D7%94%D7%97%D7%95%D7%A3%20%D7%95%D7%99%D7%9C%D7%92%27%20%D7%97%D7%93%D7%A8%D7%94&hl=he&z=16&output=embed" width="100%" height="170" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+      </div>
+      <a class="footer-waze" href="https://waze.com/ul?ll=32.4414786%2C34.8958675&navigate=yes" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg><span>ניווט עם Waze</span></a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-bottom__start">
+      <span class="footer-bottom__copy">© 2026 אולסי מערכות · כל הזכויות שמורות</span>
+      <nav class="footer-legal" aria-label="קישורים משפטיים">
+        <a href="privacy-policy.html">מדיניות פרטיות</a>
+        <span class="footer-legal__sep" aria-hidden="true">|</span>
+        <a href="accessibility-statement.html">הצהרת נגישות</a>
+      </nav>
+    </div>
+    <span class="footer-bottom__mono">האתר נבנה ע"י בזיק שיווק דיגיטלי</span>
+  </div>
+</footer>
+
+
+<script src="assets/olsi.js" defer></script>
+</body>
+</html>

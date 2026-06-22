@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#FAF7FF">
+<title>איך מחברים מערכות Legacy לעולם הוובי? פתרונות, מתודולוגיות ודוגמאות | אולסי מערכות</title>
+<meta name="description" content="המעבר ממערכות ישנות (Legacy Systems) למערכות ווביות מודרניות הוא אחד האתגרים המשמעותיים ביותר שעומדים בפני ארגונים כיום. מצד אחד, המערכות הוותיקות מכילות ידע עסקי,…">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="he_IL">
+<meta property="og:title" content="איך מחברים מערכות Legacy לעולם הוובי? פתרונות, מתודולוגיות ודוגמאות | אולסי מערכות">
+<meta property="og:description" content="המעבר ממערכות ישנות (Legacy Systems) למערכות ווביות מודרניות הוא אחד האתגרים המשמעותיים ביותר שעומדים בפני ארגונים כיום. מצד אחד, המערכות הוותיקות מכילות ידע עסקי,…">
+<link rel="icon" type="image/png" href="assets/logo-olsi.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<noscript><style>[data-anim]{opacity:1!important;transform:none!important}</style></noscript>
+<link rel="stylesheet" href="assets/olsi.css">
+</head>
+<body>
+<!-- ── HEADER ── -->
+<header class="site-header" id="site-header">
+  <div class="site-header__inner">
+    <a href="preview.html" class="site-header__brand" aria-label="אולסי מערכות · דף הבית">
+      <img src="assets/logo-olsi.png" alt="אולסי מערכות" height="38" width="auto" loading="eager" decoding="async">
+      <span class="site-header__subtag" dir="ltr">OLSI · est. 1995</span>
+    </a>
+    <nav class="site-header__nav" id="site-nav" aria-label="ניווט ראשי">
+      <a href="preview.html">דף הבית</a>
+      <a href="preview.html#about">אודות</a>
+      <div class="nav-has-dropdown" id="nav-services">
+        <a href="preview.html#services" class="nav-dropdown__trigger" aria-haspopup="true" aria-expanded="false">
+          שירותים
+          <svg class="nav-dropdown__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </a>
+        <div class="nav-dropdown__panel" role="menu" aria-label="שירותים">
+          <div class="nav-dropdown__grid">
+            <a class="nav-dd-item" href="software-development.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 8.5h18"/><path d="m9 13-2 2 2 2"/><path d="m13 13 2 2-2 2"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">פיתוח תוכנה</span><span class="nav-dd-item__sub">מערכות עסקיות מותאמות לעסק שלכם</span></span>
+            </a>
+            <a class="nav-dd-item" href="app-development.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="3" width="11" height="18" rx="2.5"/><path d="M11 18h2"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">פיתוח אפליקציה</span><span class="nav-dd-item__sub">אפליקציות מובייל לאנדרואיד ול-iOS</span></span>
+            </a>
+            <a class="nav-dd-item" href="crm-development.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 19v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1"/><circle cx="9.5" cy="7.5" r="3"/><path d="M21 19v-1a4 4 0 0 0-3-3.87"/><path d="M15.5 4.6a3 3 0 0 1 0 5.8"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">פיתוח מערכת CRM</span><span class="nav-dd-item__sub">ניהול לקוחות, לידים ותהליכי מכירה</span></span>
+            </a>
+            <a class="nav-dd-item" href="excel-upgrade.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M3 14.5h18M9 4v16M15 4v16"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">שדרוג מאקסל למערכת חכמה</span><span class="nav-dd-item__sub">מגיליונות Excel לפלטפורמה יציבה</span></span>
+            </a>
+            <a class="nav-dd-item" href="access-upgrade.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.66 3.13 3 7 3s7-1.34 7-3V6"/><path d="M5 12v6c0 1.66 3.13 3 7 3s7-1.34 7-3v-6"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">שדרוג מאקסס לתוכנה חכמה</span><span class="nav-dd-item__sub">ממסד Access ישן למערכת מודרנית</span></span>
+            </a>
+            <a class="nav-dd-item" href="inventory-system.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5 12 4l8.5 4.5v7L12 20l-8.5-4.5z"/><path d="M3.5 8.5 12 13l8.5-4.5M12 13v7"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">מערכת לניהול מלאים</span><span class="nav-dd-item__sub">מעקב מלאי, ספקים והזמנות</span></span>
+            </a>
+            <a class="nav-dd-item" href="custom-systems.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">מערכות מותאמות אישית</span><span class="nav-dd-item__sub">פתרון שנבנה סביב התהליך שלכם</span></span>
+            </a>
+            <a class="nav-dd-item" href="integrations-api.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 10.8 15.8 7.2M8.2 13.2l7.6 3.6"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">אינטגרציות ו-API</span><span class="nav-dd-item__sub">חיבור בין מערכות כך שמידע זורם אוטומטית</span></span>
+            </a>
+            <a class="nav-dd-item" href="data-processing.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18l-7 8.5V20l-4-2v-4.5z"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">איסוף ועיבוד נתונים</span><span class="nav-dd-item__sub">סקרייפינג, פייפליינים ודוחות אוטומטיים</span></span>
+            </a>
+            <a class="nav-dd-item" href="tech-support.html" role="menuitem">
+              <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.1 5.1l2.1 2.1M16.8 16.8l2.1 2.1M18.9 5.1l-2.1 2.1M7.2 16.8l-2.1 2.1"/></svg></span>
+              <span class="nav-dd-item__text"><span class="nav-dd-item__title">ליווי טכני שוטף</span><span class="nav-dd-item__sub">שירות, תחזוקה ושיפורים אחרי ההשקה</span></span>
+            </a>
+            <a class="nav-dd-cta" href="#lets-talk" role="menuitem">
+              <span class="nav-dd-cta__txt"><b>לא בטוחים מה צריך?</b> נשמח לייעץ ולכוון אתכם.</span>
+              <span class="nav-dd-cta__go">דברו איתנו ›</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <a href="preview.html#work">פרויקטים</a>
+      <a href="preview.html#approach">איך עובדים</a>
+      <a href="professional-info.html">מידע מקצועי</a>
+      <a href="#lets-talk">צרו קשר</a>
+    </nav>
+    <div class="site-header__cta">
+      <a href="tel:098820511" class="site-header__phone" dir="ltr">09-8820511</a>
+      <a href="https://wa.me/972505534398?text=%d7%94%d7%99%d7%99%2c%20%d7%94%d7%92%d7%a2%d7%aa%d7%99%20%d7%90%d7%9c%d7%99%d7%9b%d7%9d%20%d7%93%d7%a8%d7%9a%20%d7%94%d7%90%d7%aa%d7%a8..." class="site-header__wa" target="_blank" rel="noopener" aria-label="שלחו לנו הודעת ווטסאפ">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+        <span class="sr-only">ווטסאפ</span>
+      </a>
+      <button class="hamburger" id="hamburger" aria-expanded="false" aria-controls="site-nav" aria-label="תפריט">
+        <span class="hamburger__bars"><span></span></span>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="menu-backdrop" id="menu-backdrop"></div>
+<!-- ── POST HERO ── -->
+<section class="post-hero">
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="post-hero__inner" data-anim>
+    <nav class="breadcrumb" aria-label="ניווט מסלול">
+      <a href="preview.html">בית</a>
+      <span class="breadcrumb__sep" aria-hidden="true">›</span>
+      <a href="professional-info.html">מידע מקצועי</a>
+      <span class="breadcrumb__sep" aria-hidden="true">›</span>
+      <span class="breadcrumb__current">איך מחברים מערכות Legacy לעולם הוובי? פתרונות, מתודולוגיות ודוגמאות</span>
+    </nav>
+    <h1 class="post-hero__title">איך מחברים מערכות Legacy לעולם הוובי? פתרונות, מתודולוגיות ודוגמאות</h1>
+    <div class="post-hero__meta">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>10 בדצמבר 2024</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 12 0v1"/></svg>אולסי מערכות</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── POST BODY ── -->
+<section class="section section--white">
+  <div class="post-wrap">
+    <figure class="post-cover"><img src="assets/blog/legacy-system-modernization-cover.jpg" alt="איך מחברים מערכות Legacy לעולם הוובי? פתרונות, מתודולוגיות ודוגמאות" width="1200" loading="eager" decoding="async"></figure>
+    <div class="post-body" data-anim>
+		<div data-elementor-type="wp-post" data-elementor-id="3095" class="elementor elementor-3095" data-elementor-post-type="post">
+						<section class="elementor-section elementor-top-section elementor-element elementor-element-e3ce6c1 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="e3ce6c1" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-584d4db2" data-id="584d4db2" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-9117f0d elementor-widget elementor-widget-heading" data-id="9117f0d" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">פיתוח תוכנה בשילוב מערכות ישנות למערכות ווביות: מאתגר להזדמנות</h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-2228e389 elementor-widget elementor-widget-text-editor" data-id="2228e389" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p><strong>המעבר ממערכות ישנות (Legacy Systems) למערכות ווביות מודרניות הוא אחד האתגרים המשמעותיים ביותר שעומדים בפני ארגונים כיום. מצד אחד, המערכות הוותיקות מכילות ידע עסקי, תהליכים ונתונים קריטיים שנבנו במשך שנים. והמצד השני, הן מוגבלות טכנולוגית, קשות לתחזוקה ולעיתים תלויות במספר קטן של אנשי מפתח. מערכות ווביות, לעומת זאת, מאפשרות:</strong></p><ul><li>גישה מאובטחת מכל מקום ומכל מכשיר.</li><li>אינטגרציה נוחה עם מערכות חיצוניות ויישומי ענן.</li><li>ממשקי משתמש מודרניים ונוחים.</li><li>יכולת צמיחה והרחבה לאורך זמן.</li></ul>								</div>
+				</div>
+				<div class="elementor-element elementor-element-f09085a elementor-widget elementor-widget-text-editor" data-id="f09085a" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p><strong>במאמר לפניכם, נציג את האתגרים, הגישות והמסתודולוגיות לשילוב מערכות ישנות עם מערכות ווביות, ואת הדרך להפוך את האתגר להזדמנות עסקית וטכנולוגית.</strong></p>								</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-def4030 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="def4030" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-14e41bc" data-id="14e41bc" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-5b08639 elementor-widget elementor-widget-heading" data-id="5b08639" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h3 class="elementor-heading-title elementor-size-default">האתגרים בשילוב מערכות ישנות</h3>				</div>
+				</div>
+				<div class="elementor-element elementor-element-c24bbc5 elementor-widget elementor-widget-text-editor" data-id="c24bbc5" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<ul><li><strong>חוסר תאימות טכנולוגית: </strong>מערכות ישנות נבנו לא פעם בטכנולוגיות שכבר אינן נתמכות (סביבות פיתוח ישנות, בסיסי נתונים מיושנים, פרוטוקולים לא סטנדרטיים). שילובן בעולם הוובי המודרני דורש שכבת תרגום והתאמה.</li><li><strong>מורכבות מבני נתונים וקוד</strong>: במהלך השנים נוספו “טלאים”, שינויים מקומיים ופיתוחים נקודתיים. התוצאה: קוד לא מתועד, טבלאות מסובכות וקשרים שאיש לא רוצה לגעת בהם.</li><li><strong>איזון בין יציבות לחדשנות</strong>: המערכת הישנה לרוב קריטית לפעילות, מערכת הנה&quot;ח, ניהול לקוחות, ייצור, מלאי וכדומה. כל שינוי לא נכון עלול לגרום לשיבושים, עצירות עבודה ואף לאובדן נתונים.</li><li><strong>מחסור בכוח אדם מיומן</strong>: מספר המפתחים שמכירים לעומק טכנולוגיות ישנות הולך ופוחת. ארגונים תלויים בידע של בודדים, מה שיוצר סיכון תפעולי גבוה.</li></ul>								</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+		<div class="elementor-element elementor-element-1c82aa2 e-flex e-con-boxed e-con e-parent" data-id="1c82aa2" data-element_type="container" data-e-type="container">
+					<div class="e-con-inner">
+				<div class="elementor-element elementor-element-cd52ad7 elementor-widget elementor-widget-heading" data-id="cd52ad7" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h3 class="elementor-heading-title elementor-size-default">מתודולוגיות מרכזיות לשילוב מערכות ישנות עם מערכות ווביות</h3>				</div>
+				</div>
+				<div class="elementor-element elementor-element-927f47b elementor-widget elementor-widget-text-editor" data-id="927f47b" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p><strong>1. גישה הדרגתית (Incremental Modernization), </strong><strong>במקום “לכבות” ביום אחד את המערכת הישנה: עובדים במקביל:</strong></p><ul><li>מערכות ישנות וחדשות רצות ביחד בתקופת ביניים.</li><li>מודולים מועברים בהדרגה למערכת הוובית.</li><li>ניתן לבצע בדיקות, פיילוטים ותיקונים תוך כדי תנועה.</li></ul><p><strong>גישה זו מפחיתה סיכונים ומאפשרת למשתמשים להסתגל בהדרגה לשינוי.</strong></p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-ee4e0eb elementor-widget elementor-widget-text-editor" data-id="ee4e0eb" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p><strong>2. שימוש ב-API וממשקי אינטגרציה, כדי לחבר בין הישן לחדש מבלי לשכתב הכול:</strong></p><ul><li><strong>API Wrapper</strong>: מעל המערכת הישנה נבנית שכבת שירותים (Services) שמחשיפה פונקציות נבחרות דרך API סטנדרטי (למשל REST). המערכת הוובית צורכת את המידע דרך שכבה זו, בלי לגשת ישירות ל&quot;לב&quot; המערכת.</li><li><strong>Middleware</strong>: שכבת תיווך שמתרגמת נתונים, פורמטים ופרוטוקולים בין המערכת הישנה למערכת הוובית. לדוגמה: המרת קידודים, שינוי מבני נתונים, ניהול תורים וסנכרון.</li></ul><p><strong>גישה זו מתאימה מאוד כאשר יש צורך:</strong></p><ul><li>לשמר מערכת ישנה.</li><li>לפתוח חלק מהפונקציונליות שלה לעולמות חדשים (פורטל, אפליקציה, BI ועוד).</li></ul>								</div>
+				</div>
+				<div class="elementor-element elementor-element-cdd38a1 elementor-widget elementor-widget-text-editor" data-id="cdd38a1" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p><strong>3. שדרוג והחלפה הדרגתיים, במקרים שבהם המערכת הישנה אינה עומדת בדרישות העסקיות או הטכנולוגיות:</strong></p><ul><li>מגדירים מראש אילו חלקים מוחלפים במערכת חדשה.</li><li>שומרים על נתוני עבר ומבצעים מיגרציה מסודרת.</li><li>ממשיכים להפעיל חלקים מסוימים של המערכת הישנה עד להשלמת הפרויקט.</li></ul><p><strong>כך ניתן לעבור מתשתית ישנה למערכת וובית מודרנית, בלי &quot;ניתוח לב פתוח&quot; חד פעמי.</strong></p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-551ae46 elementor-widget elementor-widget-text-editor" data-id="551ae46" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p><strong>4. וירטואליזציה והרצה בסביבות מודרניות, כאשר לא ניתן לגעת בקוד, אך כן רוצים לשפר יציבות וניהול:</strong></p><ul><li>הרצת מערכת ישנה על גבי מכונה וירטואלית (VM).</li><li>העברה לענן (למשל סביבות ענן פרטיות/ ציבוריות).</li><li>שיפור יכולות גיבוי, שחזור וניטור.</li></ul><p><strong>זהו פתרון ביניים מצוין בדרך לריענון מלא של המערכת.</strong></p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-7906875 elementor-widget elementor-widget-heading" data-id="7906875" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">שלבים מומלצים בפרויקט שילוב מערכות</h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-767893d elementor-widget elementor-widget-text-editor" data-id="767893d" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p><strong>1. ניתוח צרכים ותהליכים, זיהוי הפונקציות העסקיות הקריטיות במערכת הישנה</strong></p><ul><li>מיפוי תהליכים קיימים, נקודות כאב ובקשות לשיפור.</li><li>הגדרת יעדים: מה חשוב יותר, ביצועים? חוויית משתמש? דו&quot;חות? אינטגרציה?</li></ul>								</div>
+				</div>
+				<div class="elementor-element elementor-element-7912ae1 elementor-widget elementor-widget-text-editor" data-id="7912ae1" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p><strong>2. מיפוי ואפיון נתונים</strong></p><ul><li>תיעוד מבני הנתונים הקיימים (טבלאות, שדות, קשרים).</li><li>זיהוי כפילויות, נתונים לא תקינים ונתונים לא בשימוש.</li><li>תכנון אסטרטגיית מיגרציה: מה עובר כמו שהוא, מה מנוקים, מה מאחדים.</li></ul>								</div>
+				</div>
+				<div class="elementor-element elementor-element-cbaa8b1 elementor-widget elementor-widget-text-editor" data-id="cbaa8b1" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p style="direction: rtl;"><strong>3. תכנון ארכיטקטורה</strong></p><ul><li style="direction: rtl;">הגדרת הקשרים בין המערכת הישנה לחדשה.</li><li style="direction: rtl;">בחירת פרוטוקולי אינטגרציה (REST, GraphQL, Webhooks, תורים וכו’).</li><li style="direction: rtl;">הגדרת אבטחת מידע, הרשאות וגישה מבוקרת לנתונים.</li></ul>								</div>
+				</div>
+				<div class="elementor-element elementor-element-b7ee548 elementor-widget elementor-widget-text-editor" data-id="b7ee548" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p style="direction: rtl;"><strong>4. פיתוח, אינטגרציה ובדיקות</strong></p><ul><li style="direction: rtl;">פיתוח שכבות האינטגרציה, ה-API והתשתיות החדשות.</li><li style="direction: rtl;">ביצוע בדיקות אינטגרציה, עומס, ביצועים ואבטחה.</li><li style="direction: rtl;">סימולציות של תרחישי קצה (נפילות, עומסים, נתונים שגויים).</li></ul>								</div>
+				</div>
+				<div class="elementor-element elementor-element-1f15809 elementor-widget elementor-widget-text-editor" data-id="1f15809" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p style="direction: rtl;"><strong>5. הטמעה, הדרכה ותמיכה</strong></p><ul><li style="direction: rtl;">פריסת המערכת החדשה ו/או השכבות הנוספות בסביבת אמת.</li><li style="direction: rtl;">הדרכת משתמשים ואנשי תמיכה פנימיים.</li><li style="direction: rtl;">ניטור שוטף לאחר העלייה לאוויר וזיהוי תקלות בזמן אמת.</li></ul>								</div>
+				</div>
+				<div class="elementor-element elementor-element-cab8bfb elementor-widget elementor-widget-heading" data-id="cab8bfb" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">יתרונות השילוב, מעבר לטכנולוגיה</h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-5d1dc6c elementor-widget elementor-widget-text-editor" data-id="5d1dc6c" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<ol><li><strong>ניצול נכסים קיימים: </strong>לא זורקים לפח שנים של פיתוח וידע עסקי, אלא “מלבישים” עליהם תשתית מודרנית.</li><li><strong>שיפור חוויית משתמש: </strong>ממשקי ווב מודרניים, נגישים, מותאמים מובייל – חוויית משתמש שמרגישה כמו מערכת חדשה, גם אם ה”מנוע” עדיין בחלקו ותיק</li><li><strong>חיסכון בעלויות ופיזור סיכונים</strong>: במקום מערכת חדשה מאפס בעלות גבוהה – שילוב חכם של ישן וחדש, תוך ניצול מה שכבר קיים.</li><li><strong>גמישות לשינויים עתידיים</strong>: לאחר יצירת שכבת אינטגרציה מודרנית, קל הרבה יותר להוסיף פונקציות חדשות, לחבר מערכות נוספות ולבצע התאמות עסקיות.</li></ol>								</div>
+				</div>
+				<div class="elementor-element elementor-element-c3f47aa elementor-widget elementor-widget-heading" data-id="c3f47aa" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">אולסי מערכות נכנסת לתמונה?</h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-b76d85a elementor-widget elementor-widget-text-editor" data-id="b76d85a" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>אנו באולסי מערכות מתמחים בפיתוח פתרונות תוכנה מותאמים אישית ובחיבור מערכות ותיקות לעולם הוובי:</p><ul><li>עבודה עם בסיסי נתונים קיימים ומערכות לוגיסטיות/תפעוליות שהארגון לא יכול לוותר עליהן.</li><li>בניית שכבות אינטגרציה ו-API חכמות, תוך שמירה על יציבות הנתונים.</li><li>תכנון והקמה של ממשקי ווב מודרניים שמבוססים על תהליכים עסקיים קיימים.</li></ul><p><strong>שילוב נכון בין מערכות ישנות למערכות ווביות לא חייב להיות מפחיד, עם תכנון מדויק ושותף טכנולוגי מנוסה, זה יכול להפוך לאחת ההשקעות הכי משתלמות שהארגון עושה.</strong></p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-56f6cf2 elementor-widget elementor-widget-text-editor" data-id="56f6cf2" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p><strong>לפרטים נוספים, ויצירת קשר, <a href="#lets-talk"><span style="text-decoration: underline;">מלאו פרטים לחזרה</span></a>,</strong></p><p><strong>או חייגו אלינו <a href="tel:09-8820511"><span style="text-decoration: underline;">09-8820511</span></a></strong></p>								</div>
+				</div>
+					</div>
+				</div>
+				</div>
+		
+    </div>
+    <div class="post-back">
+      <a href="professional-info.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5-7 7 7 7"/></svg>
+        חזרה לכל המאמרים
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="site-footer">
+  <!-- full-width contact band -->
+  <section class="footer-cta" id="lets-talk">
+    <div class="grid-bg--dark" aria-hidden="true"></div>
+    <div class="footer-cta__glow" aria-hidden="true"></div>
+    <div class="footer-cta__inner">
+      <div class="footer-cta__head" data-anim>
+        <p class="eyebrow"><span class="code-comment">let's talk</span></p>
+        <h2>מוכנים לבנות את המערכת שתעבוד בשבילכם?</h2>
+        <p>שיחת ייעוץ של 30 דקות, בלי התחייבות. נשמע על העסק שלכם, ונראה לכם איך המערכת יכולה להיראות בפועל.</p>
+        <div class="cta-band__actions">
+          <a href="tel:098820511" class="btn btn--primary btn--lg">חייגו עכשיו &#183; 09-8820511</a>
+          <a href="https://wa.me/972505534398?text=%d7%94%d7%99%d7%99%2c%20%d7%94%d7%92%d7%a2%d7%aa%d7%99%20%d7%90%d7%9c%d7%99%d7%9b%d7%9d%20%d7%93%d7%a8%d7%9a%20%d7%94%d7%90%d7%aa%d7%a8..." target="_blank" rel="noopener" class="btn btn--whatsapp btn--lg">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+            וואטסאפ
+          </a>
+        </div>
+      </div>
+      <div class="cta-band__or"><span>או השאירו פרטים ונחזור אליכם</span></div>
+      <form class="cta-form" action="https://formsubmit.co/info@olsi.co.il" method="POST" aria-label="טופס יצירת קשר">
+        <input type="hidden" name="_subject" value="ליד חדש מאתר אולסי מערכות">
+        <input type="hidden" name="_cc" value="bzik23@gmail.com,oren@olsi.co.il">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="text" name="_honey" class="cta-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <input type="hidden" name="עמוד מקור" id="cf-page" value="">
+        <div class="cta-form__grid">
+          <div class="cta-field">
+            <label for="cf-name">שם מלא <span class="req" aria-hidden="true">*</span></label>
+            <input id="cf-name" name="שם מלא" type="text" required autocomplete="name" placeholder="ישראל ישראלי">
+          </div>
+          <div class="cta-field">
+            <label for="cf-phone">טלפון <span class="req" aria-hidden="true">*</span></label>
+            <input id="cf-phone" name="טלפון" type="tel" required autocomplete="tel" inputmode="tel" placeholder="050-0000000">
+          </div>
+          <div class="cta-field">
+            <label for="cf-email">אימייל <span class="cta-field__opt">(לא חובה)</span></label>
+            <input id="cf-email" name="אימייל" type="email" autocomplete="email" placeholder="name@email.com">
+          </div>
+        </div>
+        <div class="cta-field">
+          <label for="cf-msg">מהות הפנייה <span class="cta-field__opt">(לא חובה)</span></label>
+          <textarea id="cf-msg" name="מהות הפנייה" rows="3" placeholder="ספרו לנו בקצרה על העסק ועל מה שאתם מחפשים..."></textarea>
+        </div>
+        <div class="cta-form__foot">
+          <div class="cta-field cta-consent">
+            <label class="cta-check">
+              <input type="checkbox" name="אישור פרטיות" value="כן" required>
+              <span class="cta-check__box" aria-hidden="true"></span>
+              <span class="cta-check__txt">אני מאשר/ת את <a href="privacy-policy.html" target="_blank" rel="noopener">מדיניות הפרטיות</a> ומסכים/ה לשימוש כמפורט בה <span class="req" aria-hidden="true">*</span></span>
+            </label>
+          </div>
+          <button type="submit" class="btn btn--primary btn--lg cta-form__submit">שליחה</button>
+        </div>
+        <p class="cta-form__ok" role="status">תודה! פנייתכם התקבלה ונחזור אליכם בהקדם.</p>
+      </form>
+    </div>
+  </section>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="assets/logo-olsi.png" alt="אולסי מערכות" height="32" width="auto">
+      <p>בית תוכנה בוטיק מאז 1995. מערכות שמדברות זו עם זו.</p>
+      <span class="footer-sub" dir="ltr">OLSI · est. 1995</span>
+    </div>
+    <div class="footer-col">
+      <h4>ניווט</h4>
+      <ul>
+        <li><a href="preview.html">דף הבית</a></li>
+        <li><a href="preview.html#about">אודות</a></li>
+        <li><a href="preview.html#services">שירותים</a></li>
+        <li><a href="preview.html#work">פרויקטים</a></li>
+        <li><a href="professional-info.html">מידע מקצועי</a></li>
+        <li><a href="#lets-talk">צרו קשר</a></li>
+      </ul>
+    </div>
+    <div class="footer-col footer-col--wide">
+      <h4>שירותים</h4>
+      <ul>
+        <li><a class="footer-svc" href="software-development.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 8.5h18"/><path d="m9 13-2 2 2 2"/><path d="m13 13 2 2-2 2"/></svg><span>פיתוח תוכנה</span></a></li>
+        <li><a class="footer-svc" href="app-development.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="3" width="11" height="18" rx="2.5"/><path d="M11 18h2"/></svg><span>פיתוח אפליקציה</span></a></li>
+        <li><a class="footer-svc" href="crm-development.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 19v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1"/><circle cx="9.5" cy="7.5" r="3"/><path d="M21 19v-1a4 4 0 0 0-3-3.87"/><path d="M15.5 4.6a3 3 0 0 1 0 5.8"/></svg><span>פיתוח מערכת CRM</span></a></li>
+        <li><a class="footer-svc" href="excel-upgrade.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M3 14.5h18M9 4v16M15 4v16"/></svg><span>שדרוג מאקסל למערכת חכמה</span></a></li>
+        <li><a class="footer-svc" href="access-upgrade.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.66 3.13 3 7 3s7-1.34 7-3V6"/><path d="M5 12v6c0 1.66 3.13 3 7 3s7-1.34 7-3v-6"/></svg><span>שדרוג מאקסס לתוכנה חכמה</span></a></li>
+        <li><a class="footer-svc" href="inventory-system.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5 12 4l8.5 4.5v7L12 20l-8.5-4.5z"/><path d="M3.5 8.5 12 13l8.5-4.5M12 13v7"/></svg><span>מערכת לניהול מלאים</span></a></li>
+        <li><a class="footer-svc" href="custom-systems.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg><span>מערכות מותאמות אישית</span></a></li>
+        <li><a class="footer-svc" href="integrations-api.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 10.8 15.8 7.2M8.2 13.2l7.6 3.6"/></svg><span>אינטגרציות ו-API</span></a></li>
+        <li><a class="footer-svc" href="data-processing.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18l-7 8.5V20l-4-2v-4.5z"/></svg><span>איסוף ועיבוד נתונים</span></a></li>
+        <li><a class="footer-svc" href="tech-support.html"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.1 5.1l2.1 2.1M16.8 16.8l2.1 2.1M18.9 5.1l-2.1 2.1M7.2 16.8l-2.1 2.1"/></svg><span>ליווי טכני שוטף</span></a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>צרו קשר</h4>
+      <ul>
+        <li><a href="tel:098820511" dir="ltr">09-8820511</a></li>
+        <li><a href="mailto:info@olsi.co.il" dir="ltr">info@olsi.co.il</a></li>
+      </ul>
+      <p class="footer-addr">משרדי חברת אולסי מערכות בחדרה ממוקמים במתחם המסחרי והעסקים "מול החוף וילג'" (במגדלי Unitowers), בסמוך למחלף אולגה על כביש 2 (כביש החוף).</p>
+      <div class="footer-map">
+        <iframe title="מפת המשרדים - מול החוף וילג', חדרה" src="https://maps.google.com/maps?q=%D7%9E%D7%95%D7%9C%20%D7%94%D7%97%D7%95%D7%A3%20%D7%95%D7%99%D7%9C%D7%92%27%20%D7%97%D7%93%D7%A8%D7%94&hl=he&z=16&output=embed" width="100%" height="170" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+      </div>
+      <a class="footer-waze" href="https://waze.com/ul?ll=32.4414786%2C34.8958675&navigate=yes" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg><span>ניווט עם Waze</span></a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-bottom__start">
+      <span class="footer-bottom__copy">© 2026 אולסי מערכות · כל הזכויות שמורות</span>
+      <nav class="footer-legal" aria-label="קישורים משפטיים">
+        <a href="privacy-policy.html">מדיניות פרטיות</a>
+        <span class="footer-legal__sep" aria-hidden="true">|</span>
+        <a href="accessibility-statement.html">הצהרת נגישות</a>
+      </nav>
+    </div>
+    <span class="footer-bottom__mono">האתר נבנה ע"י בזיק שיווק דיגיטלי</span>
+  </div>
+</footer>
+
+
+<script src="assets/olsi.js" defer></script>
+</body>
+</html>

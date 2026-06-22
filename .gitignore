@@ -1,0 +1,9 @@
+# build tooling & sources - not part of the served static site
+*.py
+__pycache__/
+_src/
+_shots/
+*.bak
+preview-dark-v1.html
+build_report.txt
+build_err.txt

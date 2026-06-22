@@ -124,19 +124,21 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
   start();
 })();
 
-// 4b. Process steps - mobile-only one-card slider. Below 767px the step cards turn
-//     into a carousel: side arrows for manual nav plus an autoplay that advances one
-//     card every 1.5s and loops forever. The full set is cloned once (like the logos
-//     band) so the wrap-around is seamless; the clones are torn down again if the
-//     viewport grows back to the desktop grid. Pauses while touched, off-screen, or
-//     on a hidden tab, and respects prefers-reduced-motion.
-(function() {
-  const track  = document.querySelector('.process__track');
-  const slider = document.querySelector('.process__slider');
+// 4b. Mobile-only one-card slider, shared by the "process steps" and "sample projects"
+//     sections. Below 767px the cards become a carousel: side arrows for manual nav
+//     plus an autoplay that advances one card every 1.5s and loops forever. The full
+//     set is cloned once (like the logos band) so the wrap-around is seamless; the
+//     clones are torn down again if the viewport grows back to the desktop layout.
+//     Pauses while touched, off-screen, or on a hidden tab, and respects reduced-motion.
+function initMobileCardSlider(opts) {
+  const track  = document.querySelector(opts.track);
+  const slider = document.querySelector(opts.slider);
   if (!track || !slider) return;
-  const prev = document.getElementById('process-prev');
-  const next = document.getElementById('process-next');
-  const band = document.querySelector('.process') || slider;
+  const prev = slider.querySelector(opts.prev);
+  const next = slider.querySelector(opts.next);
+  const band = (opts.band && document.querySelector(opts.band)) || slider;
+  const cloneClass = opts.cloneClass;
+  const interval = opts.interval || 1500;
 
   const reducedMq = window.matchMedia('(prefers-reduced-motion: reduce)');
   const mobileMq  = window.matchMedia('(max-width: 767px)');
@@ -171,7 +173,7 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
   function start() {
     stop();
     if (!active || paused || !inView || reducedMq.matches) return;
-    timer = setInterval(nextSlide, 1500);
+    timer = setInterval(nextSlide, interval);
   }
   function stop() { if (timer) { clearInterval(timer); timer = null; } }
 
@@ -181,7 +183,7 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     realCards.forEach(card => {
       const c = card.cloneNode(true);
       c.setAttribute('aria-hidden', 'true');
-      c.classList.add('proc-card--clone');
+      c.classList.add(cloneClass);
       track.appendChild(c);
     });
     index = 0;
@@ -193,7 +195,7 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     if (!active) return;
     active = false;
     stop();
-    track.querySelectorAll('.proc-card--clone').forEach(c => c.remove());
+    track.querySelectorAll('.' + cloneClass).forEach(c => c.remove());
     track.classList.remove('is-instant');
     track.style.transform = '';
     index = 0;
@@ -221,7 +223,14 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
   }
 
   sync();
-})();
+}
+
+initMobileCardSlider({ track: '.process__track', slider: '.process__slider',
+  prev: '#process-prev', next: '#process-next', band: '.process',
+  cloneClass: 'proc-card--clone', interval: 1500 });
+initMobileCardSlider({ track: '.work__list', slider: '.work__slider',
+  prev: '#work-prev', next: '#work-next', band: '.work',
+  cloneClass: 'work-card--clone', interval: 1500 });
 
 // 5. Services dropdown.
 //    Desktop: opens on hover / keyboard focus (pure CSS).
@@ -312,8 +321,20 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       headers: { 'Accept': 'application/json' },
       body: new FormData(form)
     })
-      .then(r => { if (!r.ok) throw new Error('bad status ' + r.status); return r.json(); })
-      .then(() => { window.location.href = THANKS; })
+      .then(r => r.json().catch(() => null))
+      .then(data => {
+        // FormSubmit returns {"success":"true"} ONLY when the mail was actually sent.
+        // Any other response (most commonly the one-time "activate your form" state, or
+        // a spam/validation rejection) means nothing reached the inbox - so we must NOT
+        // send the visitor to the thank-you page as if the lead went through. Surface it
+        // via the mailto fallback instead of silently swallowing the failure.
+        if (data && String(data.success) === 'true') {
+          window.location.href = THANKS;
+        } else {
+          if (btn) { btn.disabled = false; btn.innerHTML = label; }
+          mailtoFallback();
+        }
+      })
       .catch(() => {
         if (btn) { btn.disabled = false; btn.innerHTML = label; }
         mailtoFallback();

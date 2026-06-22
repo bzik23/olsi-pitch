@@ -401,6 +401,11 @@ p{max-width:68ch}
 .work-card__cta svg{width:18px;height:18px;transition:transform var(--t-base)}
 .work-card__cta:hover{color:#A30E4A}
 .work-card__cta:hover svg{transform:translateX(-4px)}
+/* Sample-projects slider: desktop keeps the stacked list (wrappers collapse,
+   arrows hidden); mobile turns it into a one-card carousel - see RESPONSIVE. */
+.work__slider{display:contents}
+.work__viewport{display:contents}
+.work__nav{display:none}
 
 /* ── PROCESS (7 steps, light glass timeline) ── */
 .process{position:relative;overflow:hidden}
@@ -780,8 +785,29 @@ html.a11y-no-motion *,html.a11y-no-motion *::before,html.a11y-no-motion *::after
   .process__nav--prev{inset-inline-start:0}
   .process__nav--next{inset-inline-end:0}
 
-  .work-card{grid-template-columns:1fr}
+  /* Sample projects -> one-card slider with side arrows + autoplay (same mechanics as
+     the process slider). LTR track for the single-translateX carousel; each card resets
+     to RTL for its Hebrew content, and align-items:stretch keeps the frame height steady. */
+  .work__slider{display:block;position:relative;padding-inline:42px;
+    max-width:460px;margin-inline:auto}
+  .work__viewport{display:block;overflow:hidden;border-radius:var(--r-lg)}
+  .work__list{display:flex;direction:ltr;gap:0;grid-template-columns:none;
+    max-width:none;margin-inline:0;align-items:stretch;
+    will-change:transform;transition:transform .5s var(--ease-cinematic)}
+  .work__list.is-instant{transition:none}
+  .work-card{flex:0 0 100%;direction:rtl;grid-template-columns:1fr;
+    opacity:1;transform:none}
   .work-card__art{min-height:140px}
+  .work__nav{display:flex;position:absolute;top:50%;transform:translateY(-50%);
+    width:40px;height:40px;border-radius:50%;align-items:center;justify-content:center;
+    background:rgba(255,255,255,.96);border:1px solid var(--clr-line);color:var(--clr-text);
+    cursor:pointer;z-index:5;box-shadow:var(--sh-md);-webkit-tap-highlight-color:transparent;
+    transition:background .2s ease,color .2s ease,transform .2s ease,box-shadow .2s ease}
+  .work__nav:hover{color:var(--clr-accent)}
+  .work__nav:active{transform:translateY(-50%) scale(.9)}
+  .work__nav svg{width:20px;height:20px}
+  .work__nav--prev{inset-inline-start:0}
+  .work__nav--next{inset-inline-end:0}
 
   .contact-card{grid-template-columns:1fr;padding:var(--s8)}
 

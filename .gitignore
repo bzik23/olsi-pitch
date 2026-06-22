@@ -1,11 +1,14 @@
-# build tooling & sources - not part of the served static site
-*.py
-__pycache__/
-_src/
+# Generated / heavy output (reproducible from the scripts - not version-controlled)
+_wp/dist/
 _shots/
+__pycache__/
+
+# Backups & old variants
 *.bak
 preview-dark-v1.html
+
+# Scratch / transient build artifacts
+_wp/_*
+report.txt
 build_report.txt
 build_err.txt
-_wp/
-index.html.bak

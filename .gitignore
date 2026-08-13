@@ -7,6 +7,9 @@ __pycache__/
 *.bak
 preview-dark-v1.html
 
+# Local-only credentials (never commit)
+_wp/wp_auth.py
+
 # Scratch / transient build artifacts
 _wp/_*
 report.txt

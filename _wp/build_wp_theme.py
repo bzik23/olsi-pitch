@@ -21,6 +21,8 @@ import os, re, io, glob, shutil, zipfile, sys
 sys.path.insert(0, os.path.dirname(__file__))
 from seo_map import SEO            # canonical per-page <title> + meta description (with CTA)
 from redirects_map import REDIRECTS  # 301s from the old olsi.co.il URLs
+from chrome_i18n import HELPERS_PHP, HEADER_PHP, FOOTER_PHP  # bilingual he/en chrome
+from wp_auth import TURNSTILE_SECRET, LEAD_TO, LEAD_CC  # local-only, gitignored (see _wp/wp_auth.py)
 
 SRC   = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 DIST  = os.path.join(os.path.dirname(__file__), "dist")
@@ -67,30 +69,12 @@ def assets_php(html):   # for header.php / footer.php (PHP context)
 def assets_static(html):  # for content/*.html (no PHP) -> root-relative theme path
     return html.replace('"assets/', '"/wp-content/themes/%s/assets/' % SLUG)
 
-# ---------- extract chrome from preview.html ---------------------------------
-home = read(os.path.join(SRC, "preview.html"))
-head_header = home[: home.index(HEADER_END) + len(HEADER_END)]
-footer_html = home[home.index(FOOTER_TAG):]
-footer_html = footer_html[: footer_html.rindex("</html>") + len("</html>")]
-
-# --- header.php ---
-h = head_header
-h = re.sub(r'\s*<title>.*?</title>', '', h, flags=re.S)
-h = re.sub(r'\s*<meta name="description".*?>', '', h, flags=re.S)
-h = re.sub(r'\s*<meta property="og:[^>]*>', '', h)
-h = re.sub(r'\s*<link rel="stylesheet" href="assets/olsi\.css">', '', h)
-h = h.replace("</head>", "<?php wp_head(); ?>\n</head>")
-h = h.replace("<body>", "<body <?php body_class(); ?>>")
-h = rewrite_links(h)
-h = assets_php(h)
-header_php = "<?php /* Olsi Systems - header (auto-generated from preview.html) */ ?>\n" + h + "\n"
-
-# --- footer.php ---  (drop the static olsi.js tag BEFORE rewriting; it is enqueued instead)
-f = footer_html.replace('<script src="assets/olsi.js" defer></script>', '')
-f = rewrite_links(f)
-f = assets_php(f)
-f = f.replace("</body>", "<?php wp_footer(); ?>\n</body>")
-footer_php = f + "\n"
+# ---------- bilingual chrome (header.php / footer.php) ------------------------
+# Header/footer are language-aware PHP (he/en) authored in chrome_i18n.py; they no
+# longer derive from preview.html (the bilingual logic + switcher can't be extracted
+# from a static file). preview.html stays the HE visual reference for page BODIES only.
+header_php = HEADER_PHP
+footer_php = FOOTER_PHP
 
 # ---------- per-page content extraction --------------------------------------
 def extract_body(html):
@@ -208,8 +192,136 @@ function olsi_assets() {
   // Google fonts are linked in header.php (with preconnect); only enqueue our css/js here.
   wp_enqueue_style('olsi-main', $u . '/assets/olsi.css', array(), @filemtime($d . '/assets/olsi.css'));
   wp_enqueue_script('olsi-main', $u . '/assets/olsi.js', array(), @filemtime($d . '/assets/olsi.js'), true);
+  // Cloudflare Turnstile (contact-form anti-spam) - the form lives in the footer of every page.
+  wp_enqueue_script('cf-turnstile', 'https://challenges.cloudflare.com/turnstile/v0/api.js', array(), null, true);
 }
 add_action('wp_enqueue_scripts', 'olsi_assets');
+
+/* ---------------------------------------------------------------------------
+   Contact form endpoint: server-side Cloudflare Turnstile validation, then relay
+   to FormSubmit (with a wp_mail backup). The public form posts HERE - not to
+   FormSubmit directly - so the recipient emails and the FormSubmit endpoint never
+   appear in page source, and a lead is delivered only when it carries a Turnstile
+   token that Cloudflare confirms. No token / bad token / honeypot => no email.
+--------------------------------------------------------------------------- */
+if (!defined('OLSI_TURNSTILE_SECRET')) define('OLSI_TURNSTILE_SECRET', '__OLSI_TURNSTILE_SECRET__');
+if (!defined('OLSI_LEAD_TO'))          define('OLSI_LEAD_TO', '__OLSI_LEAD_TO__');
+if (!defined('OLSI_LEAD_CC'))          define('OLSI_LEAD_CC', '__OLSI_LEAD_CC__');
+
+add_action('rest_api_init', function () {
+  register_rest_route('olsi/v1', '/contact', array(
+    'methods'             => 'POST',
+    'callback'            => 'olsi_handle_contact',
+    'permission_callback' => '__return_true',
+  ));
+});
+
+function olsi_handle_contact(WP_REST_Request $req) {
+  // The form always posts multipart/form-data, so PHP populates $_POST reliably
+  // (incl. the Hebrew field names and Turnstile's cf-turnstile-response).
+  $src = wp_unslash($_POST);
+  $get = function ($k) use ($src) {
+    if (isset($src[$k])) return trim((string) $src[$k]);
+    // PHP rewrites spaces and dots in POST field names to underscores, so a field
+    // named "שם מלא" arrives as "שם_מלא". Look it up under the mangled key too.
+    $mk = str_replace(array(' ', '.'), '_', $k);
+    if ($mk !== $k && isset($src[$mk])) return trim((string) $src[$mk]);
+    return '';
+  };
+  $olsi_log = function ($stage, $detail = '') {
+    $log = get_option('olsi_contact_log', array());
+    if (!is_array($log)) $log = array();
+    $log[] = array('t' => current_time('mysql'), 'stage' => $stage, 'detail' => (string) $detail);
+    update_option('olsi_contact_log', array_slice($log, -25), false);
+  };
+
+  // 1) Honeypot: bots fill the hidden _honey field. Pretend success, deliver nothing.
+  if ($get('_honey') !== '') {
+    $olsi_log('honeypot');
+    return new WP_REST_Response(array('success' => 'true'), 200);
+  }
+
+  // 2) Cloudflare Turnstile - the submission must carry a token Cloudflare confirms.
+  $token = $get('cf-turnstile-response');
+  if ($token === '') {
+    $olsi_log('no-token', 'postkeys=' . count($src));
+    return new WP_REST_Response(array('success' => 'false', 'error' => 'no-token'), 200);
+  }
+  $vr = wp_remote_post('https://challenges.cloudflare.com/turnstile/v0/siteverify', array(
+    'timeout' => 10,
+    'body'    => array(
+      'secret'   => OLSI_TURNSTILE_SECRET,
+      'response' => $token,
+    ),
+  ));
+  if (is_wp_error($vr)) {
+    $olsi_log('verify-unreachable', $vr->get_error_message());
+    return new WP_REST_Response(array('success' => 'false', 'error' => 'verify-unreachable'), 200);
+  }
+  $vd = json_decode(wp_remote_retrieve_body($vr), true);
+  if (empty($vd['success'])) {
+    $codes = isset($vd['error-codes']) ? implode(',', (array) $vd['error-codes']) : 'unknown';
+    $host  = isset($vd['hostname']) ? $vd['hostname'] : '';
+    $olsi_log('turnstile-rejected', $codes . ' host=' . $host);
+    return new WP_REST_Response(array('success' => 'false', 'error' => 'turnstile-rejected', 'codes' => $codes), 200);
+  }
+
+  // 3) Collect visitor fields (Hebrew keys match the form markup).
+  $name    = sanitize_text_field($get('שם מלא'));
+  $phone   = sanitize_text_field($get('טלפון'));
+  $email   = sanitize_email($get('אימייל'));
+  $msg     = sanitize_textarea_field($get('מהות הפנייה'));
+  $page    = sanitize_text_field($get('עמוד מקור'));
+  $subject = $get('_subject');
+  $subject = $subject !== '' ? sanitize_text_field($subject) : 'ליד חדש מאתר אולסי מערכות';
+  if ($name === '' || $phone === '') {
+    $olsi_log('missing-fields');
+    return new WP_REST_Response(array('success' => 'false', 'error' => 'missing-fields'), 200);
+  }
+
+  // 4) Relay to FormSubmit (keeps their deliverability). Recipients live server-side.
+  $relay = wp_remote_post('https://formsubmit.co/ajax/' . OLSI_LEAD_TO, array(
+    'timeout' => 15,
+    'headers' => array('Accept' => 'application/json', 'Referer' => home_url('/'), 'Origin' => untrailingslashit(home_url('/'))),
+    'body'    => array(
+      '_subject'    => $subject,
+      '_cc'         => OLSI_LEAD_CC,
+      '_template'   => 'table',
+      '_captcha'    => 'false',
+      'שם מלא'      => $name,
+      'טלפון'       => $phone,
+      'אימייל'      => $email,
+      'מהות הפנייה' => $msg,
+      'עמוד מקור'   => $page,
+    ),
+  ));
+  $ok = false; $relay_detail = 'wp_error';
+  if (!is_wp_error($relay)) {
+    $rd = json_decode(wp_remote_retrieve_body($relay), true);
+    $ok = (isset($rd['success']) && (string) $rd['success'] === 'true');
+    $relay_detail = 'code=' . wp_remote_retrieve_response_code($relay);
+  } else {
+    $relay_detail = $relay->get_error_message();
+  }
+
+  // 5) Backup: if FormSubmit failed, deliver via wp_mail so no confirmed lead is lost.
+  if (!$ok) {
+    $lines = "פנייה חדשה מהאתר\n--------------------\n";
+    $lines .= "שם מלא: $name\nטלפון: $phone\n";
+    if ($email) $lines .= "אימייל: $email\n";
+    if ($msg)   $lines .= "מהות הפנייה: $msg\n";
+    $lines .= "\nנשלח מהעמוד: $page";
+    $headers = array('Content-Type: text/plain; charset=UTF-8');
+    if ($email) $headers[] = 'Reply-To: ' . $email;
+    $recipients = array_merge(array(OLSI_LEAD_TO), array_filter(array_map('trim', explode(',', OLSI_LEAD_CC))));
+    $ok = wp_mail($recipients, $subject, $lines, $headers);
+    $olsi_log($ok ? 'delivered-wpmail' : 'delivery-failed', 'relay:' . $relay_detail);
+  } else {
+    $olsi_log('delivered-formsubmit', $relay_detail);
+  }
+
+  return new WP_REST_Response(array('success' => $ok ? 'true' : 'false'), 200);
+}
 
 /* the page bodies are full custom HTML - render them verbatim (Elementor can still hook the_content) */
 remove_filter('the_content', 'wpautop');
@@ -222,22 +334,39 @@ function olsi_manifest() {
   return %MANIFEST%;
 }
 
-/* provision all pages/posts from /content on theme activation (idempotent) */
+/* provision all pages/posts from /content on theme activation
+   (idempotent; OVERWRITES an existing slug with our new content and strips
+   Elementor from it, so a re-skin over an existing Elementor site is clean) */
 function olsi_provision() {
   $dir = get_template_directory() . '/content/';
   $front_id = 0;
   foreach (olsi_manifest() as $m) {
+    $html = @file_get_contents($dir . $m['file']);
+    if ($html === false) $html = '';
     $existing = get_page_by_path($m['slug'], OBJECT, $m['type']);
     if ($existing) {
+      // overwrite the old (likely Elementor) page/post with our new design
       $id = $existing->ID;
+      wp_update_post(array(
+        'ID'           => $id,
+        'post_title'   => $m['title'],
+        'post_content' => $html,
+        'post_status'  => 'publish',
+      ));
+      // neutralize Elementor so the_content renders our raw HTML, not the old build
+      foreach (array('_elementor_edit_mode','_elementor_data','_elementor_version',
+                     '_elementor_template_type','_elementor_page_settings',
+                     '_elementor_controls_usage','_elementor_css') as $mk) {
+        delete_post_meta($id, $mk);
+      }
+      update_post_meta($id, '_wp_page_template', 'default');
     } else {
-      $html = @file_get_contents($dir . $m['file']);
       $id = wp_insert_post(array(
         'post_title'   => $m['title'],
         'post_name'    => $m['slug'],
         'post_status'  => 'publish',
         'post_type'    => $m['type'],
-        'post_content' => ($html !== false ? $html : ''),
+        'post_content' => $html,
         'comment_status' => 'closed',
       ));
     }
@@ -262,6 +391,9 @@ function olsi_seo_map() {
   return %SEO%;
 }
 function olsi_seo_current() {
+  // English (/en/) pages: defer to Yoast (which holds the English title/desc), so the
+  // HE seo_map is never matched by an EN page's shared slug.
+  if (function_exists('olsi_is_en') && olsi_is_en()) return null;
   $map = olsi_seo_map();
   if (is_front_page()) return isset($map['home']) ? $map['home'] : null;
   if (is_singular()) {
@@ -300,9 +432,11 @@ add_action('template_redirect', function () {
     }
   }
 }, 1);
+%HELPERS%
 """
 FUNCTIONS_PHP = (FUNCTIONS_PHP.replace("%MANIFEST%", MANIFEST_PHP)
-                 .replace("%SEO%", SEO_PHP).replace("%REDIR%", REDIR_PHP))
+                 .replace("%SEO%", SEO_PHP).replace("%REDIR%", REDIR_PHP)
+                 .replace("%HELPERS%", HELPERS_PHP))
 
 FRONT_PHP = """<?php get_header(); ?>
 <?php while (have_posts()) : the_post(); the_content(); endwhile; ?>
@@ -322,7 +456,10 @@ INDEX_PHP = """<?php get_header(); ?>
 """
 
 write(os.path.join(THEME, "style.css"), STYLE_CSS)
-write(os.path.join(THEME, "functions.php"), FUNCTIONS_PHP)
+write(os.path.join(THEME, "functions.php"), FUNCTIONS_PHP
+      .replace("__OLSI_TURNSTILE_SECRET__", TURNSTILE_SECRET)
+      .replace("__OLSI_LEAD_TO__", LEAD_TO)
+      .replace("__OLSI_LEAD_CC__", LEAD_CC))
 write(os.path.join(THEME, "header.php"), header_php)
 write(os.path.join(THEME, "footer.php"), footer_php)
 write(os.path.join(THEME, "front-page.php"), FRONT_PHP)

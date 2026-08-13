@@ -10,7 +10,7 @@
 <meta property="og:locale" content="he_IL">
 <meta property="og:title" content="אולסי מערכות | פיתוח תוכנה בהתאמה אישית מאז 1995">
 <meta property="og:description" content="בית תוכנה בוטיק בהובלת אורן לסמן: מערכות עסקיות, אינטגרציות, אפליקציות ופתרונות נתונים מותאמים אישית לעסק שלכם, מאז 1995. הכירו אותנו.">
-<link rel="icon" type="image/png" href="assets/logo-olsi.png">
+<link rel="icon" type="image/png" href="assets/logo-olsi-2026.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -23,7 +23,7 @@
 <header class="site-header" id="site-header">
   <div class="site-header__inner">
     <a href="#hero" class="site-header__brand" aria-label="אולסי מערכות · דף הבית">
-      <img src="assets/logo-olsi.png" alt="אולסי מערכות" height="38" width="auto" loading="eager" decoding="async">
+      <img src="assets/logo-olsi-2026.png" alt="אולסי מערכות" height="38" width="auto" loading="eager" decoding="async">
       <span class="site-header__subtag" dir="ltr">OLSI · est. 1995</span>
     </a>
     <nav class="site-header__nav" id="site-nav" aria-label="ניווט ראשי">
@@ -190,6 +190,320 @@
       </button>
     </div>
   </div>
+</section>
+
+<!-- ── TESTIMONIALS (המלצות לקוחות) ── -->
+<section class="tstm section" id="testimonials">
+<style>
+/* ── TESTIMONIALS · scoped, self-contained (uses olsi.css design tokens) ── */
+.tstm{position:relative;overflow:hidden}
+.tstm__bg{position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(52% 46% at 88% 4%, rgba(219,39,119,.10), transparent 70%),
+    radial-gradient(48% 44% at 4% 96%, rgba(147,51,234,.10), transparent 70%),
+    /* starts on the logos band's #FAF6FD and lands on the process band's #FCFAFF
+       so both seams disappear; the white middle makes the quote card pop. */
+    linear-gradient(180deg,#FAF6FD 0%,#FFFFFF 42%,#FCFAFF 100%)}
+.tstm__inner{position:relative;z-index:1}
+.tstm__slider{max-width:1000px;margin-inline:auto;margin-top:var(--s10)}
+/* The viewport bleeds outward (negative margin + equal padding) so the card's soft
+   shadow has room instead of being hard-clipped by overflow:hidden; the slide gap
+   keeps the neighbouring card out of that bleed area.
+   Height is set by JS to the ACTIVE slide so a short quote never leaves a void;
+   without JS it falls back to auto = the tallest slide. */
+.tstm__viewport{overflow:hidden;
+  margin-inline:-30px;padding-inline:30px;
+  padding-block:6px 44px;margin-block-end:-38px;
+  transition:height .5s cubic-bezier(.4,0,.2,1)}
+.tstm__track{display:flex;align-items:flex-start;gap:60px;
+  will-change:transform;transition:transform .62s cubic-bezier(.4,0,.2,1)}
+.tstm__track.is-instant{transition:none}
+.tstm__slide{flex:0 0 100%;max-width:100%;display:flex}
+
+/* ── the quote card ── */
+.tstm-card{position:relative;overflow:hidden;flex:1;
+  display:flex;flex-direction:column;
+  background:rgba(255,255,255,.86);
+  backdrop-filter:blur(10px) saturate(1.08);
+  -webkit-backdrop-filter:blur(10px) saturate(1.08);
+  border:1px solid rgba(147,51,234,.14);border-radius:var(--r-xl);
+  padding:clamp(1.75rem,3.4vw,3rem) clamp(1.5rem,3.4vw,3.25rem) clamp(1.5rem,2.6vw,2.25rem);
+  box-shadow:0 1px 0 rgba(147,51,234,.04),0 16px 40px rgba(124,58,237,.09)}
+.tstm-card::before{content:"";position:absolute;top:0;inset-inline:0;height:3px;
+  background:var(--clr-brand-grad)}
+/* corner watermark - RTL: inline-start is the RIGHT edge, where a quote opens */
+.tstm-card__mark{position:absolute;top:clamp(1.4rem,2.6vw,2.2rem);
+  inset-inline-start:clamp(1.2rem,2.8vw,2.6rem);
+  width:clamp(44px,5.6vw,64px);height:auto;opacity:.11;pointer-events:none}
+.tstm-card__quote{position:relative;z-index:1;margin:0;border:0;padding:0}
+.tstm-card__quote p{max-width:64ch;margin:0;
+  font-size:clamp(1.02rem,1.35vw,1.24rem);line-height:1.85;font-weight:400;
+  color:var(--clr-text);letter-spacing:-.003em}
+.tstm-card__rule{width:56px;height:3px;border-radius:var(--r-full);
+  background:var(--clr-brand-grad);margin-block:var(--s8) var(--s6);flex-shrink:0}
+.tstm-card__who{position:relative;z-index:1;display:flex;align-items:center;
+  gap:var(--s4);margin-top:auto}
+.tstm-card__avatar{display:inline-flex;align-items:center;justify-content:center;
+  width:52px;height:52px;flex-shrink:0;border-radius:50%;
+  background:linear-gradient(135deg,#9333EA 0%,#DB2777 100%);color:#fff;
+  font-family:var(--font-sans);font-weight:700;font-size:1.05rem;line-height:1;
+  box-shadow:0 8px 20px rgba(147,51,234,.28)}
+.tstm-card__id{display:flex;flex-direction:column;gap:2px;min-width:0}
+.tstm-card__name{font-weight:700;font-size:1.0625rem;line-height:1.3;color:var(--clr-text)}
+.tstm-card__role{font-size:.875rem;line-height:1.4;color:var(--clr-muted)}
+
+/* ── controls: prev · dots · next ── */
+.tstm__controls{display:flex;align-items:center;justify-content:center;
+  gap:var(--s5);margin-top:var(--s8)}
+.tstm__nav{width:44px;height:44px;flex-shrink:0;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.96);border:1px solid var(--clr-line);color:var(--clr-text);
+  cursor:pointer;box-shadow:var(--sh-md);-webkit-tap-highlight-color:transparent;
+  transition:background var(--t-base),color var(--t-base),transform var(--t-base),
+             box-shadow var(--t-base),border-color var(--t-base)}
+.tstm__nav:hover{background:#fff;color:var(--clr-accent);
+  border-color:rgba(219,39,119,.34);box-shadow:var(--sh-lg)}
+.tstm__nav:active{transform:scale(.9)}
+.tstm__nav:focus-visible{outline:2px solid var(--clr-accent-2);outline-offset:2px}
+.tstm__nav svg{width:22px;height:22px}
+.tstm__dots{display:flex;align-items:center;gap:var(--s2)}
+.tstm__dot{width:9px;height:9px;padding:0;border-radius:var(--r-full);
+  background:rgba(147,51,234,.22);cursor:pointer;
+  transition:width var(--t-base),background var(--t-base)}
+.tstm__dot:hover{background:rgba(147,51,234,.42)}
+.tstm__dot[aria-selected="true"]{width:28px;background:var(--clr-brand-grad)}
+.tstm__dot:focus-visible{outline:2px solid var(--clr-accent-2);outline-offset:3px}
+
+@media(max-width:767px){
+  .tstm__slider{margin-top:var(--s8)}
+  .tstm__viewport{margin-inline:-16px;padding-inline:16px;
+    padding-block:6px 34px;margin-block-end:-28px}
+  .tstm__track{gap:40px}
+  .tstm-card__quote p{font-size:1rem;line-height:1.8}
+  .tstm-card__mark{opacity:.1}
+  .tstm__controls{gap:var(--s4)}
+}
+@media(prefers-reduced-motion:reduce){
+  .tstm__track{transition:none}
+}
+</style>
+
+  <div class="tstm__bg" aria-hidden="true"></div>
+  <div class="container--wide tstm__inner">
+    <div class="section-header section-header--center" data-anim>
+      <p class="eyebrow"><span class="code-comment">what clients say</span></p>
+      <h2 class="section-title">מה הלקוחות מספרים</h2>
+      <p class="section-sub">שלושים שנה של פרויקטים, ומה שנשאר בסוף זה האנשים שממשיכים לעבוד איתנו. הנה כמה מהם, במילים שלהם.</p>
+    </div>
+
+    <div class="tstm__slider" data-anim>
+      <div class="tstm__viewport" id="tstm-viewport">
+        <div class="tstm__track" id="tstm-track">
+
+          <div class="tstm__slide" role="group" aria-roledescription="המלצה" aria-label="1 מתוך 4">
+            <article class="tstm-card">
+              <svg class="tstm-card__mark" viewBox="0 0 48 36" aria-hidden="true">
+                <defs><linearGradient id="tstmQuoteGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#9333EA"></stop><stop offset="100%" stop-color="#DB2777"></stop>
+                </linearGradient></defs>
+                <path fill="url(#tstmQuoteGrad)" d="M20 36V20.6C20 9.4 27.2 1.9 38 0l2 6.1c-6 1.7-9 5.1-9 10.2h7V36H20zm-20 0V20.6C0 9.4 7.2 1.9 18 0l2 6.1c-6 1.7-9 5.1-9 10.2h7V36H0z"></path>
+              </svg>
+              <blockquote class="tstm-card__quote">
+                <p>אורן מאולסי מערכות ביצע עבורנו שדרוג גדול ומורכב של מערכת הייעוץ הפיננסית שלנו (ACCESS), המבוססת על פלטפורמת הפיתוח אקסס. השירות שקיבלנו מאורן היה מקצועי, אמין וזריז. זמן הפיתוח והשדרוג נערך בדיוק לפי התכנון המקורי וכך גם העלות, וזאת למרות שלאורך הפיתוח הוספנו בקשות חדשות ושינויים. שדרוג המערכת שלנו בוצע בהצלחה ולשביעות רצוננו. אנחנו ממשיכים לעבוד עם אורן על פיתוח מערכות נוספות לחברה.</p>
+              </blockquote>
+              <span class="tstm-card__rule" aria-hidden="true"></span>
+              <div class="tstm-card__who">
+                <span class="tstm-card__avatar" aria-hidden="true">חט</span>
+                <span class="tstm-card__id">
+                  <span class="tstm-card__name">חגי טל</span>
+                  <span class="tstm-card__role">מנכ"ל טלביט יועצים פיננסיים</span>
+                </span>
+              </div>
+            </article>
+          </div>
+
+          <div class="tstm__slide" role="group" aria-roledescription="המלצה" aria-label="2 מתוך 4">
+            <article class="tstm-card">
+              <svg class="tstm-card__mark" viewBox="0 0 48 36" aria-hidden="true">
+                <path fill="url(#tstmQuoteGrad)" d="M20 36V20.6C20 9.4 27.2 1.9 38 0l2 6.1c-6 1.7-9 5.1-9 10.2h7V36H20zm-20 0V20.6C0 9.4 7.2 1.9 18 0l2 6.1c-6 1.7-9 5.1-9 10.2h7V36H0z"></path>
+              </svg>
+              <blockquote class="tstm-card__quote">
+                <p>אורן לסמן העניק לעמותת סלע שירות מיחשוב בתחום התמחותו באקסס, באקסל ובמציאת פתרונות מתקדמים של שליחת דואר אלקטרוני. במהלך עבודתו, שנעשתה תוך הקפדה על הצרכים הספציפיים שלנו, זכינו מצד אורן בשירות מקצועי, יעיל, מושקע ומדויק, תוך מציאת פתרונות יצירתיים ההולמים את צרכינו. גם לאחר סיום ביצוע העבודה עבורנו, סייע אורן במציאת מענים הולמים לבעיות שהתעוררו במערכת שלנו. אנו יכולים להעיד מניסיוננו כי אורן הינו בעל ידע ויכולת מרשימה בתחומי התמחותו, בצד יחסי אנוש טובים.</p>
+              </blockquote>
+              <span class="tstm-card__rule" aria-hidden="true"></span>
+              <div class="tstm-card__who">
+                <span class="tstm-card__avatar" aria-hidden="true">רב</span>
+                <span class="tstm-card__id">
+                  <span class="tstm-card__name">רות בר-און</span>
+                  <span class="tstm-card__role">מנכ"ל עמותת סלע - סיוע לעולה</span>
+                </span>
+              </div>
+            </article>
+          </div>
+
+          <div class="tstm__slide" role="group" aria-roledescription="המלצה" aria-label="3 מתוך 4">
+            <article class="tstm-card">
+              <svg class="tstm-card__mark" viewBox="0 0 48 36" aria-hidden="true">
+                <path fill="url(#tstmQuoteGrad)" d="M20 36V20.6C20 9.4 27.2 1.9 38 0l2 6.1c-6 1.7-9 5.1-9 10.2h7V36H20zm-20 0V20.6C0 9.4 7.2 1.9 18 0l2 6.1c-6 1.7-9 5.1-9 10.2h7V36H0z"></path>
+              </svg>
+              <blockquote class="tstm-card__quote">
+                <p>מאז שעברתי להפיק ולהפיץ מצב חשבון באינטרנט לכל חבר אני חוסך בכל חודש הרבה שעות עבודה. חברי הכפר מאוד מרוצים מהחופש לקבל מצב חשבון בכל זמן שנוח להם. השירות שקיבלתי היה מצוין והדוח המוצג מאוד נוח להבנה, כולל גם תנועות עתידיות. הפקת הדוחות והפקדתם באתר האינטרנט מאוד פשוטה, יעילה וקלילה.</p>
+              </blockquote>
+              <span class="tstm-card__rule" aria-hidden="true"></span>
+              <div class="tstm-card__who">
+                <span class="tstm-card__avatar" aria-hidden="true">ר</span>
+                <span class="tstm-card__id">
+                  <span class="tstm-card__name">ראובן</span>
+                  <span class="tstm-card__role">תושב כפר ויתקין</span>
+                </span>
+              </div>
+            </article>
+          </div>
+
+          <div class="tstm__slide" role="group" aria-roledescription="המלצה" aria-label="4 מתוך 4">
+            <article class="tstm-card">
+              <svg class="tstm-card__mark" viewBox="0 0 48 36" aria-hidden="true">
+                <path fill="url(#tstmQuoteGrad)" d="M20 36V20.6C20 9.4 27.2 1.9 38 0l2 6.1c-6 1.7-9 5.1-9 10.2h7V36H20zm-20 0V20.6C0 9.4 7.2 1.9 18 0l2 6.1c-6 1.7-9 5.1-9 10.2h7V36H0z"></path>
+              </svg>
+              <blockquote class="tstm-card__quote">
+                <p>אורן הוא מתכנת בחסד, איש שירות נעים והוגן! מחירים סבירים, וגם אם צריך פתרונות מעבר להתחייבות שלו בשירות הוא לא מתקטנן אלא עוזר בחפץ לב. מקצוען אמיתי.</p>
+              </blockquote>
+              <span class="tstm-card__rule" aria-hidden="true"></span>
+              <div class="tstm-card__who">
+                <span class="tstm-card__avatar" aria-hidden="true">א</span>
+                <span class="tstm-card__id">
+                  <span class="tstm-card__name">אמיל</span>
+                  <span class="tstm-card__role">מנהל גן האירועים "white"</span>
+                </span>
+              </div>
+            </article>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="tstm__controls">
+        <button type="button" class="tstm__nav tstm__nav--prev" id="tstm-prev" aria-label="ההמלצה הקודמת">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+        </button>
+        <div class="tstm__dots" id="tstm-dots" role="tablist" aria-label="בחירת המלצה"></div>
+        <button type="button" class="tstm__nav tstm__nav--next" id="tstm-next" aria-label="ההמלצה הבאה">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 6 9 12 15 18"></polyline></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+<script>
+/* Testimonials slider - self-contained (no dependency on olsi.js).
+   RTL-native: the track lays out right-to-left, so advancing translates it
+   to the RIGHT and the next quote arrives from the left. Steps are measured
+   in pixels (not %) so responsive breakpoints and font-loading reflow safely.
+   Autoplay pauses on hover/focus, off-screen, hidden tab and reduced-motion. */
+(function () {
+  var track = document.getElementById('tstm-track');
+  var viewport = document.getElementById('tstm-viewport');
+  var dotsWrap = document.getElementById('tstm-dots');
+  var prev = document.getElementById('tstm-prev');
+  var next = document.getElementById('tstm-next');
+  var section = document.getElementById('testimonials');
+  if (!track || !viewport) return;
+
+  var slides = Array.prototype.slice.call(track.children);
+  var count = slides.length;
+  if (count < 2) return;
+
+  var reducedMq = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var index = 0, step = 0, timer = null, paused = false, inView = false;
+  var DELAY = 2000;
+
+  var dots = slides.map(function (_, i) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'tstm__dot';
+    b.setAttribute('role', 'tab');
+    b.setAttribute('aria-label', 'המלצה ' + (i + 1));
+    b.addEventListener('click', function () { go(i, true); restart(); });
+    dotsWrap.appendChild(b);
+    return b;
+  });
+
+  /* step = distance between adjacent slides (slide width + gap), measured live */
+  function measure() {
+    step = Math.abs(slides[1].offsetLeft - slides[0].offsetLeft) || slides[0].offsetWidth;
+  }
+  function fitHeight() {
+    var h = slides[index].offsetHeight;
+    if (h) viewport.style.height = (h + 50) + 'px';  /* + the viewport's padding-block */
+  }
+  function place(animate) {
+    track.classList.toggle('is-instant', !animate);
+    track.style.transform = 'translateX(' + (index * step) + 'px)';
+    fitHeight();
+    dots.forEach(function (d, i) { d.setAttribute('aria-selected', i === index ? 'true' : 'false'); });
+    slides.forEach(function (s, i) { s.setAttribute('aria-hidden', i === index ? 'false' : 'true'); });
+  }
+  function go(i, animate) { index = (i + count) % count; place(animate !== false); }
+  function nextSlide() { go(index + 1, true); }
+  function prevSlide() { go(index - 1, true); }
+
+  function start() {
+    stop();
+    if (paused || !inView || reducedMq.matches) return;
+    timer = setInterval(nextSlide, DELAY);
+  }
+  function stop() { if (timer) { clearInterval(timer); timer = null; } }
+  function restart() { stop(); start(); }
+
+  if (prev) prev.addEventListener('click', function () { prevSlide(); restart(); });
+  if (next) next.addEventListener('click', function () { nextSlide(); restart(); });
+
+  viewport.addEventListener('mouseenter', function () { paused = true; stop(); });
+  viewport.addEventListener('mouseleave', function () { paused = false; start(); });
+  viewport.addEventListener('focusin', function () { paused = true; stop(); });
+  viewport.addEventListener('focusout', function () { paused = false; start(); });
+
+  /* keyboard: arrows act in reading order (right = previous, left = next) */
+  viewport.setAttribute('tabindex', '0');
+  viewport.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight') { prevSlide(); restart(); e.preventDefault(); }
+    else if (e.key === 'ArrowLeft') { nextSlide(); restart(); e.preventDefault(); }
+  });
+
+  /* touch swipe */
+  var x0 = null, y0 = null;
+  viewport.addEventListener('touchstart', function (e) {
+    x0 = e.touches[0].clientX; y0 = e.touches[0].clientY;
+  }, { passive: true });
+  viewport.addEventListener('touchend', function (e) {
+    if (x0 === null) return;
+    var dx = e.changedTouches[0].clientX - x0;
+    var dy = e.changedTouches[0].clientY - y0;
+    if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) {
+      if (dx < 0) prevSlide(); else nextSlide();
+      restart();
+    }
+    x0 = null; y0 = null;
+  }, { passive: true });
+
+  document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
+  window.addEventListener('resize', function () { measure(); place(false); });
+
+  if (section && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      inView = entries[0].isIntersecting;
+      if (inView) start(); else stop();
+    }, { threshold: 0.25 }).observe(section);
+  } else { inView = true; }
+
+  measure(); place(false);
+  window.addEventListener('load', function () { measure(); place(false); });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { measure(); place(false); });
+  }
+  start();
+})();
+</script>
 </section>
 
 <!-- ── PROCESS (9 steps, light glass timeline) ── -->
@@ -548,6 +862,57 @@
       <article class="work-card" data-anim>
         <div class="work-card__art">
           <svg viewBox="0 0 400 200" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <!-- equipment inventory list with status -->
+            <rect x="24" y="34" width="160" height="132" rx="4"/>
+            <line x1="24" y1="56" x2="184" y2="56"/>
+            <circle cx="35" cy="45" r="2.5"/><circle cx="44" cy="45" r="2.5"/>
+            <rect x="34" y="70" width="12" height="12" rx="2"/>
+            <line x1="54" y1="76" x2="150" y2="76"/>
+            <circle cx="168" cy="76" r="4" fill="currentColor"/>
+            <rect x="34" y="94" width="12" height="12" rx="2"/>
+            <line x1="54" y1="100" x2="150" y2="100"/>
+            <circle cx="168" cy="100" r="4"/>
+            <rect x="34" y="118" width="12" height="12" rx="2"/>
+            <line x1="54" y1="124" x2="150" y2="124"/>
+            <circle cx="168" cy="124" r="4" fill="currentColor"/>
+            <rect x="34" y="142" width="12" height="12" rx="2"/>
+            <line x1="54" y1="148" x2="150" y2="148"/>
+            <circle cx="168" cy="148" r="4"/>
+            <!-- arrow -->
+            <path d="M196 100 L232 100 M232 100 L222 93 M232 100 L222 107"/>
+            <!-- dashboard: status donut + bars -->
+            <rect x="244" y="34" width="132" height="132" rx="4"/>
+            <line x1="244" y1="56" x2="376" y2="56"/>
+            <circle cx="255" cy="45" r="2.5"/><circle cx="264" cy="45" r="2.5"/>
+            <circle cx="284" cy="102" r="22"/>
+            <path d="M284 80 a22 22 0 0 1 0 44" stroke-width="4.5"/>
+            <line x1="322" y1="122" x2="322" y2="94"/>
+            <line x1="338" y1="122" x2="338" y2="80"/>
+            <line x1="354" y1="122" x2="354" y2="102"/>
+            <line x1="316" y1="138" x2="362" y2="138"/>
+          </svg>
+        </div>
+        <div>
+          <div class="work-card__meta">
+            <span class="tag tag--year">2026</span>
+            <span class="tag">רשת מרפאות</span>
+            <span class="tag">ניהול ציוד</span>
+            <span class="tag">Web App</span>
+          </div>
+          <h3>מערכת לניהול ציוד ותחזוקה לרשת מרפאות, במקום אקסל לכל סניף</h3>
+          <p>רשת מרפאות ניהלה עשרות פריטי ציוד קריטי בכל סניף בקובץ אקסל נפרד ובוואטסאפ עם הטכנאי. בנינו מערכת בעברית שמרכזת מלאי ציוד, תקלות ותחזוקה של כל הסניפים במקום אחד: סטטוס חי לכל פריט, תזכורות כיול ובדיקה שלא מתפספסות, והרשאות לפי תפקיד. ההנהלה רואה תמונת מצב אחת, וכל סניף יודע בדיוק מה תקין ומה חסר.</p>
+          <div class="work-card__foot">
+            <a class="work-card__cta" href="case-study-clinictrack.html">
+              צפו בפרטים על הפרויקט
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="work-card" data-anim>
+        <div class="work-card__art">
+          <svg viewBox="0 0 400 200" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <!-- production dashboard -->
             <rect x="22" y="46" width="168" height="114" rx="4"/>
             <line x1="22" y1="68" x2="190" y2="68"/>
@@ -816,7 +1181,7 @@
   </section>
   <div class="footer-grid">
     <div class="footer-brand">
-      <img src="assets/logo-olsi.png" alt="אולסי מערכות" height="32" width="auto">
+      <img src="assets/logo-olsi-2026.png" alt="אולסי מערכות" height="32" width="auto">
       <p>בית תוכנה בוטיק מאז 1995. מערכות שמדברות זו עם זו.</p>
       <span class="footer-sub" dir="ltr">OLSI · est. 1995</span>
     </div>

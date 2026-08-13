@@ -36,9 +36,14 @@ onScroll();
 
 // 3. IntersectionObserver scroll reveal, with reduced-motion guard
 if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  // threshold:0 reveals as soon as any part of the element enters the viewport.
+  // A larger threshold (e.g. 0.15) never fires for elements taller than the
+  // viewport - 15% of a long article body exceeds the screen height - leaving
+  // the whole post-body stuck at opacity:0. threshold:0 keeps the scroll-in
+  // effect (via the -40px bottom margin) while guaranteeing tall blocks reveal.
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
-  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+  }, { threshold: 0, rootMargin: '0px 0px -40px 0px' });
   document.querySelectorAll('[data-anim]').forEach(el => io.observe(el));
 } else {
   document.querySelectorAll('[data-anim]').forEach(el => el.classList.add('visible'));
@@ -297,66 +302,90 @@ initMobileCardSlider({ track: '.work__list', slider: '.work__slider',
   }
 })();
 
-// 7. CTA contact form -> FormSubmit (AJAX). Stamps which page the lead came from,
-//    sends it to info@olsi.co.il (CC bzik23@gmail.com + oren@olsi.co.il via the
-//    form's hidden _cc field), then redirects to the thank-you page. If the request
-//    fails (offline / blocked) it falls back to a prefilled mailto to all three.
+// 7. CTA contact form -> WordPress endpoint (/wp-json/olsi/v1/contact), which
+//    validates the Cloudflare Turnstile token SERVER-SIDE and only then relays the
+//    lead to FormSubmit (with a wp_mail backup). No recipient emails or FormSubmit
+//    endpoint live in the page source, and a lead is delivered only when Cloudflare
+//    confirms a real visitor. Stamps which page the lead came from, then redirects
+//    to the thank-you page. On any failure it surfaces an inline error (call/WhatsApp
+//    remain available above) instead of exposing a mailto with the addresses.
 (function() {
   const form = document.querySelector('.cta-form');
   if (!form) return;
-  const ENDPOINT = 'https://formsubmit.co/ajax/info@olsi.co.il';
-  const THANKS   = 'thank-you.html';
+  const EN       = location.pathname.indexOf('/en/') === 0;
+  const ENDPOINT = window.OLSI_CONTACT_ENDPOINT || 'https://www.olsi.co.il/wp-json/olsi/v1/contact';
+  const THANKS   = EN ? '/en/thank-you/' : '/thank-you/';
   const pageField = document.getElementById('cf-page');
+  const errBox   = form.querySelector('.cta-form__err');
+
+  const showErr = () => { if (errBox) errBox.style.display = ''; };
+  const hideErr = () => { if (errBox) errBox.style.display = 'none'; };
+  const resetTurnstile = () => { try { if (window.turnstile) window.turnstile.reset(); } catch (e) {} };
+
+  // Consent checkbox is required, but its <input> is visually hidden (opacity:0), so the
+  // browser's native "please check this box" bubble can't anchor to it - we validate it
+  // ourselves and show a message right next to the checkbox instead.
+  const consent    = form.querySelector('.cta-consent input[type="checkbox"]');
+  const consentErr = form.querySelector('.cta-consent__err');
+  if (consent) consent.addEventListener('change', function() {
+    if (this.checked && consentErr) consentErr.style.display = 'none';
+  });
 
   form.addEventListener('submit', function(e) {
     e.preventDefault();                     // fires only after HTML5 validation passes
+    hideErr();
+
+    // Consent gate: the privacy checkbox must be ticked before anything is sent.
+    if (consent && !consent.checked) {
+      if (consentErr) consentErr.style.display = '';
+      try { consent.focus(); } catch (err) {}
+      (consentErr || consent).scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    if (consentErr) consentErr.style.display = 'none';
+
     if (pageField) pageField.value = document.title + ' - ' + location.href;
+
+    // Require a Turnstile token. If the widget loaded but hasn't resolved yet, ask the
+    // visitor to try again in a moment rather than firing a request bound to be rejected.
+    const tokenField = form.elements['cf-turnstile-response'];
+    const token = (tokenField && tokenField.value) || '';
+    if (typeof window.turnstile !== 'undefined' && !token) {
+      showErr();
+      return;
+    }
 
     const btn = form.querySelector('.cta-form__submit');
     const label = btn ? btn.innerHTML : '';
-    if (btn) { btn.disabled = true; btn.textContent = 'שולח...'; }
+    if (btn) { btn.disabled = true; btn.textContent = EN ? 'Sending...' : 'שולח...'; }
 
     fetch(ENDPOINT, {
       method: 'POST',
+      credentials: 'omit',   // send NO WordPress auth cookies -> the request is treated as anonymous,
+                             // which avoids WP REST's cookie-nonce rejection for logged-in admins.
+                             // Turnstile (verified server-side) is the security here, not a session.
       headers: { 'Accept': 'application/json' },
       body: new FormData(form)
     })
       .then(r => r.json().catch(() => null))
       .then(data => {
-        // FormSubmit returns {"success":"true"} ONLY when the mail was actually sent.
-        // Any other response (most commonly the one-time "activate your form" state, or
-        // a spam/validation rejection) means nothing reached the inbox - so we must NOT
-        // send the visitor to the thank-you page as if the lead went through. Surface it
-        // via the mailto fallback instead of silently swallowing the failure.
+        // The endpoint returns {"success":"true"} ONLY after Turnstile passed AND the
+        // lead was delivered. Anything else means nothing reached the inbox - so we must
+        // NOT send the visitor to the thank-you page. Reset the widget and show the error.
         if (data && String(data.success) === 'true') {
           window.location.href = THANKS;
         } else {
           if (btn) { btn.disabled = false; btn.innerHTML = label; }
-          mailtoFallback();
+          resetTurnstile();
+          showErr();
         }
       })
       .catch(() => {
         if (btn) { btn.disabled = false; btn.innerHTML = label; }
-        mailtoFallback();
+        resetTurnstile();
+        showErr();
       });
   });
-
-  function mailtoFallback() {
-    const val = n => ((form.elements[n] && form.elements[n].value) || '').trim();
-    const body = [
-      'פנייה חדשה מהאתר',
-      '--------------------',
-      'שם מלא: ' + val('שם מלא'),
-      'טלפון: ' + val('טלפון'),
-      val('אימייל') ? 'אימייל: ' + val('אימייל') : null,
-      val('מהות הפנייה') ? 'מהות הפנייה: ' + val('מהות הפנייה') : null,
-      '',
-      'נשלח מהעמוד: ' + document.title
-    ].filter(v => v !== null).join('\r\n');
-    window.location.href = 'mailto:info@olsi.co.il,bzik23@gmail.com,oren@olsi.co.il'
-      + '?subject=' + encodeURIComponent('פנייה חדשה מהאתר - ' + val('שם מלא'))
-      + '&body=' + encodeURIComponent(body);
-  }
 })();
 
 // 8. Open links in a new tab - every link on the site EXCEPT the top menu (the

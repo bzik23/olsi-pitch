@@ -109,7 +109,7 @@ def head(title, desc, og_extra=""):
 <meta property="og:locale" content="he_IL">
 <meta property="og:title" content="{html.escape(title)}">
 <meta property="og:description" content="{desc}">{og_extra}
-<link rel="icon" type="image/png" href="assets/logo-olsi.png">
+<link rel="icon" type="image/png" href="assets/logo-olsi-2026.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">

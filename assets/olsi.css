@@ -1367,3 +1367,36 @@ html.a11y-no-motion *,html.a11y-no-motion *::before,html.a11y-no-motion *::after
 /* Homepage: the services + why sections are both white, so their stacked top/bottom
    padding reads as one oversized white void. Trim the why section's top padding. */
 #why{padding-top:var(--s10)}
+
+/* ── LANGUAGE SWITCHER (he ⇄ en) ─────────────────────────────────────────────
+   Desktop: last item in the header CTA cluster -> sits at the far (leftmost, in RTL)
+   edge, right after the WhatsApp button. Mobile: pulled next to the hamburger. */
+.lang-switch{display:inline-flex;align-items:center;gap:.4em;flex-shrink:0;
+  height:40px;padding:0 .85em;border-radius:var(--r-full);
+  border:1px solid var(--clr-line);background:#fff;color:var(--clr-text);
+  font-weight:700;font-size:.82rem;line-height:1;letter-spacing:.02em;
+  transition:border-color var(--t-base),color var(--t-base),background var(--t-base),box-shadow var(--t-base)}
+.lang-switch:hover{border-color:var(--clr-accent);color:var(--clr-accent);
+  background:var(--clr-accent-50);box-shadow:var(--sh-sm)}
+.lang-switch svg{width:16px;height:16px;display:block}
+.lang-switch__code{display:inline-block;min-width:1.6em;text-align:center}
+@media(max-width:1024px){
+  /* header CTA uses display:contents on mobile, so .lang-switch is a direct flex
+     child of the header row. Move the auto-margin from the hamburger onto the
+     switcher so the order is: [hamburger][lang-switch] …gap… [wa][call][brand]. */
+  .lang-switch{order:2;margin-inline-end:auto}
+  .hamburger{order:1;margin-inline-end:0}
+  .site-header__wa{order:3}
+  .site-header__call{order:4}
+  .site-header__brand{order:5}
+}
+
+/* ── ENGLISH (LTR) tree ───────────────────────────────────────────────────────
+   The base html rule hard-codes direction:rtl; the English pages carry dir="ltr".
+   The whole layout is built with logical properties (margin/padding-inline,
+   text-align:start, inset-inline …), so flipping the document direction mirrors it
+   correctly. Only the carousel cards force direction:rtl for the Hebrew scroller,
+   so restore them to ltr in the English tree. */
+html[dir="ltr"]{direction:ltr}
+html[dir="ltr"] .proc-card,
+html[dir="ltr"] .work-card{direction:ltr}

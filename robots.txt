@@ -1,0 +1,126 @@
+# robots.txt - https://www.olsi.co.il/
+# ============================================================
+# מדיניות: האתר פתוח לזחילה ולאינדוקס ע"י מנועי חיפוש וכלי AI.
+# כל הזחלנים החשובים מאושרים במפורש (גוגל, ChatGPT, Gemini ועוד).
+# ============================================================
+
+# --- ברירת מחדל לכל שאר הבוטים ---
+User-agent: *
+Allow: /
+Disallow: /wp-admin/
+Allow: /wp-admin/admin-ajax.php
+
+# ============================================================
+# מנועי חיפוש (Search Engines)
+# ============================================================
+
+# Google Search
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Googlebot-News
+Allow: /
+
+User-agent: Googlebot-Video
+Allow: /
+
+User-agent: Storebot-Google
+Allow: /
+
+User-agent: Google-InspectionTool
+Allow: /
+
+# Microsoft Bing (גם Copilot)
+User-agent: Bingbot
+Allow: /
+
+User-agent: msnbot
+Allow: /
+
+# DuckDuckGo
+User-agent: DuckDuckBot
+Allow: /
+
+# Yandex
+User-agent: YandexBot
+Allow: /
+
+# Apple
+User-agent: Applebot
+Allow: /
+
+# ============================================================
+# כלי בינה מלאכותית (AI Crawlers / LLMs)
+# ============================================================
+
+# OpenAI - ChatGPT
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# Google - Gemini / Vertex AI
+User-agent: Google-Extended
+Allow: /
+
+# Anthropic - Claude
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+# Perplexity AI
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# Microsoft Copilot / Bing AI משתמש ב-Bingbot שכבר אושר במנועי החיפוש למעלה
+
+# Apple Intelligence
+User-agent: Applebot-Extended
+Allow: /
+
+# Common Crawl (מאגר אימון נפוץ ל-LLMs)
+User-agent: CCBot
+Allow: /
+
+# Amazon
+User-agent: Amazonbot
+Allow: /
+
+# Meta AI
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+# Cohere
+User-agent: cohere-ai
+Allow: /
+
+# ByteDance
+User-agent: Bytespider
+Allow: /
+
+# Mistral AI
+User-agent: MistralAI-User
+Allow: /
+
+# ============================================================
+# מפת אתר (Sitemap)
+# ============================================================
+Sitemap: https://www.olsi.co.il/sitemap_index.xml

@@ -239,6 +239,7 @@
 .tstm-card__quote p{max-width:64ch;margin:0;
   font-size:clamp(1.02rem,1.35vw,1.24rem);line-height:1.85;font-weight:400;
   color:var(--clr-text);letter-spacing:-.003em}
+.tstm-card__quote p + p{margin-top:.85em}
 .tstm-card__rule{width:56px;height:3px;border-radius:var(--r-full);
   background:var(--clr-brand-grad);margin-block:var(--s8) var(--s6);flex-shrink:0}
 .tstm-card__who{position:relative;z-index:1;display:flex;align-items:center;
@@ -300,7 +301,7 @@
       <div class="tstm__viewport" id="tstm-viewport">
         <div class="tstm__track" id="tstm-track">
 
-          <div class="tstm__slide" role="group" aria-roledescription="המלצה" aria-label="1 מתוך 4">
+          <div class="tstm__slide" role="group" aria-roledescription="המלצה" aria-label="1 מתוך 5">
             <article class="tstm-card">
               <svg class="tstm-card__mark" viewBox="0 0 48 36" aria-hidden="true">
                 <defs><linearGradient id="tstmQuoteGrad" x1="0" y1="0" x2="1" y2="1">
@@ -322,7 +323,7 @@
             </article>
           </div>
 
-          <div class="tstm__slide" role="group" aria-roledescription="המלצה" aria-label="2 מתוך 4">
+          <div class="tstm__slide" role="group" aria-roledescription="המלצה" aria-label="2 מתוך 5">
             <article class="tstm-card">
               <svg class="tstm-card__mark" viewBox="0 0 48 36" aria-hidden="true">
                 <path fill="url(#tstmQuoteGrad)" d="M20 36V20.6C20 9.4 27.2 1.9 38 0l2 6.1c-6 1.7-9 5.1-9 10.2h7V36H20zm-20 0V20.6C0 9.4 7.2 1.9 18 0l2 6.1c-6 1.7-9 5.1-9 10.2h7V36H0z"></path>
@@ -341,7 +342,7 @@
             </article>
           </div>
 
-          <div class="tstm__slide" role="group" aria-roledescription="המלצה" aria-label="3 מתוך 4">
+          <div class="tstm__slide" role="group" aria-roledescription="המלצה" aria-label="3 מתוך 5">
             <article class="tstm-card">
               <svg class="tstm-card__mark" viewBox="0 0 48 36" aria-hidden="true">
                 <path fill="url(#tstmQuoteGrad)" d="M20 36V20.6C20 9.4 27.2 1.9 38 0l2 6.1c-6 1.7-9 5.1-9 10.2h7V36H20zm-20 0V20.6C0 9.4 7.2 1.9 18 0l2 6.1c-6 1.7-9 5.1-9 10.2h7V36H0z"></path>
@@ -360,7 +361,7 @@
             </article>
           </div>
 
-          <div class="tstm__slide" role="group" aria-roledescription="המלצה" aria-label="4 מתוך 4">
+          <div class="tstm__slide" role="group" aria-roledescription="המלצה" aria-label="4 מתוך 5">
             <article class="tstm-card">
               <svg class="tstm-card__mark" viewBox="0 0 48 36" aria-hidden="true">
                 <path fill="url(#tstmQuoteGrad)" d="M20 36V20.6C20 9.4 27.2 1.9 38 0l2 6.1c-6 1.7-9 5.1-9 10.2h7V36H20zm-20 0V20.6C0 9.4 7.2 1.9 18 0l2 6.1c-6 1.7-9 5.1-9 10.2h7V36H0z"></path>
@@ -374,6 +375,27 @@
                 <span class="tstm-card__id">
                   <span class="tstm-card__name">אמיל</span>
                   <span class="tstm-card__role">מנהל גן האירועים "white"</span>
+                </span>
+              </div>
+            </article>
+          </div>
+
+          <div class="tstm__slide" role="group" aria-roledescription="המלצה" aria-label="5 מתוך 5">
+            <article class="tstm-card">
+              <svg class="tstm-card__mark" viewBox="0 0 48 36" aria-hidden="true">
+                <path fill="url(#tstmQuoteGrad)" d="M20 36V20.6C20 9.4 27.2 1.9 38 0l2 6.1c-6 1.7-9 5.1-9 10.2h7V36H20zm-20 0V20.6C0 9.4 7.2 1.9 18 0l2 6.1c-6 1.7-9 5.1-9 10.2h7V36H0z"></path>
+              </svg>
+              <blockquote class="tstm-card__quote">
+                <p>חברתנו עובדת עם חברת אולסי מערכות שנים רבות וארוכות לשביעות רצוננו המלאה. חברת אולסי מערכות מצטיינת במתן מענה מקצועי ושירותי יוצא דופן!</p>
+                <p>הפתרונות הטכנולוגיים שניתנים עבור חברתנו תמיד מצטיינים בחשיבה מקורית ומחוץ לקופסה, יחד עם ביצוע מוקפד עם ירידה לפרטים.</p>
+                <p>אורן תמיד זמין ונגיש למתן מענה גם בשעות וזמנים לא קונבנציונליים, מה שמאוד מסייע כשצצות לעיתים בעיות. חברתנו רואה בזמינות זו חשיבות לא מבוטלת לעבודה השוטפת אצלנו. ממליצים בחום!</p>
+              </blockquote>
+              <span class="tstm-card__rule" aria-hidden="true"></span>
+              <div class="tstm-card__who">
+                <span class="tstm-card__avatar" aria-hidden="true">א</span>
+                <span class="tstm-card__id">
+                  <span class="tstm-card__name">אורית</span>
+                  <span class="tstm-card__role">אנטילופ</span>
                 </span>
               </div>
             </article>
@@ -721,6 +743,53 @@
     <div class="work__slider">
       <div class="work__viewport">
         <div class="work__list">
+
+      <article class="work-card" data-anim>
+        <div class="work-card__art">
+          <svg viewBox="0 0 400 200" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <!-- building site -->
+            <path d="M24 162 H152"/>
+            <path d="M44 162 V94 h62 V162"/>
+            <path d="M44 128 H106 M44 111 H106"/>
+            <path d="M64 94 V162 M86 94 V162"/>
+            <!-- tower crane -->
+            <path d="M132 162 V44"/>
+            <path d="M124 44 H150"/>
+            <path d="M132 44 H70"/>
+            <path d="M80 44 V62"/>
+            <rect x="72" y="62" width="16" height="12" rx="1.5"/>
+            <!-- arrow -->
+            <path d="M162 100 L198 100 M198 100 L188 93 M198 100 L188 107"/>
+            <!-- profitability report -->
+            <rect x="210" y="36" width="180" height="128" rx="4"/>
+            <line x1="210" y1="56" x2="390" y2="56"/>
+            <circle cx="220" cy="46" r="2.5"/>
+            <circle cx="229" cy="46" r="2.5"/>
+            <rect x="222" y="68" width="48" height="24" rx="3"/>
+            <rect x="278" y="68" width="48" height="24" rx="3"/>
+            <rect x="334" y="68" width="44" height="24" rx="3"/>
+            <path d="M224 104 V150 H378"/>
+            <path d="M232 142 L262 126 L288 132 L316 110 L344 116 L370 100"/>
+            <circle cx="370" cy="100" r="3" fill="currentColor"/>
+          </svg>
+        </div>
+        <div>
+          <div class="work-card__meta">
+            <span class="tag tag--year">2026</span>
+            <span class="tag">בנייה ושיפוצים</span>
+            <span class="tag">CRM</span>
+            <span class="tag">Web App</span>
+          </div>
+          <h3>מערכת CRM לחברת בנייה ושיפוצים, שמראה רווחיות אמיתית לכל פרויקט</h3>
+          <p>בנינו לאילנות גבוהים בנייה ושיפוצים מערכת אחת שמרכזת פרויקטים, לקוחות, עובדים וספקים, קולטת את קבצי הנהלת החשבונות ומשייכת כל שורת הוצאה לפרויקט שלה - כולל פיצול באחוזים בין כמה פרויקטים. במקום סיכום כללי בסוף השנה, יש מחיר חוזה מול הוצאות והכנסות ורווח צפוי לכל פרויקט בנפרד.</p>
+          <div class="work-card__foot">
+            <a class="work-card__cta" href="case-study-ilanot-gvohim.html">
+              צפו בפרטים על הפרויקט
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
 
       <article class="work-card" data-anim>
         <div class="work-card__art">

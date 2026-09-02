@@ -45,6 +45,7 @@
 .tstm-card__quote p{max-width:64ch;margin:0;
   font-size:clamp(1.02rem,1.35vw,1.24rem);line-height:1.85;font-weight:400;
   color:var(--clr-text);letter-spacing:-.003em}
+.tstm-card__quote p + p{margin-top:.85em}
 .tstm-card__rule{width:56px;height:3px;border-radius:var(--r-full);
   background:var(--clr-brand-grad);margin-block:var(--s8) var(--s6);flex-shrink:0}
 .tstm-card__who{position:relative;z-index:1;display:flex;align-items:center;
@@ -106,7 +107,7 @@
       <div class="tstm__viewport" id="tstm-viewport">
         <div class="tstm__track" id="tstm-track">
 
-          <div class="tstm__slide" role="group" aria-roledescription="המלצה" aria-label="1 מתוך 4">
+          <div class="tstm__slide" role="group" aria-roledescription="המלצה" aria-label="1 מתוך 5">
             <article class="tstm-card">
               <svg class="tstm-card__mark" viewBox="0 0 48 36" aria-hidden="true">
                 <defs><linearGradient id="tstmQuoteGrad" x1="0" y1="0" x2="1" y2="1">
@@ -128,7 +129,7 @@
             </article>
           </div>
 
-          <div class="tstm__slide" role="group" aria-roledescription="המלצה" aria-label="2 מתוך 4">
+          <div class="tstm__slide" role="group" aria-roledescription="המלצה" aria-label="2 מתוך 5">
             <article class="tstm-card">
               <svg class="tstm-card__mark" viewBox="0 0 48 36" aria-hidden="true">
                 <path fill="url(#tstmQuoteGrad)" d="M20 36V20.6C20 9.4 27.2 1.9 38 0l2 6.1c-6 1.7-9 5.1-9 10.2h7V36H20zm-20 0V20.6C0 9.4 7.2 1.9 18 0l2 6.1c-6 1.7-9 5.1-9 10.2h7V36H0z"></path>
@@ -147,7 +148,7 @@
             </article>
           </div>
 
-          <div class="tstm__slide" role="group" aria-roledescription="המלצה" aria-label="3 מתוך 4">
+          <div class="tstm__slide" role="group" aria-roledescription="המלצה" aria-label="3 מתוך 5">
             <article class="tstm-card">
               <svg class="tstm-card__mark" viewBox="0 0 48 36" aria-hidden="true">
                 <path fill="url(#tstmQuoteGrad)" d="M20 36V20.6C20 9.4 27.2 1.9 38 0l2 6.1c-6 1.7-9 5.1-9 10.2h7V36H20zm-20 0V20.6C0 9.4 7.2 1.9 18 0l2 6.1c-6 1.7-9 5.1-9 10.2h7V36H0z"></path>
@@ -166,7 +167,7 @@
             </article>
           </div>
 
-          <div class="tstm__slide" role="group" aria-roledescription="המלצה" aria-label="4 מתוך 4">
+          <div class="tstm__slide" role="group" aria-roledescription="המלצה" aria-label="4 מתוך 5">
             <article class="tstm-card">
               <svg class="tstm-card__mark" viewBox="0 0 48 36" aria-hidden="true">
                 <path fill="url(#tstmQuoteGrad)" d="M20 36V20.6C20 9.4 27.2 1.9 38 0l2 6.1c-6 1.7-9 5.1-9 10.2h7V36H20zm-20 0V20.6C0 9.4 7.2 1.9 18 0l2 6.1c-6 1.7-9 5.1-9 10.2h7V36H0z"></path>
@@ -180,6 +181,27 @@
                 <span class="tstm-card__id">
                   <span class="tstm-card__name">אמיל</span>
                   <span class="tstm-card__role">מנהל גן האירועים "white"</span>
+                </span>
+              </div>
+            </article>
+          </div>
+
+          <div class="tstm__slide" role="group" aria-roledescription="המלצה" aria-label="5 מתוך 5">
+            <article class="tstm-card">
+              <svg class="tstm-card__mark" viewBox="0 0 48 36" aria-hidden="true">
+                <path fill="url(#tstmQuoteGrad)" d="M20 36V20.6C20 9.4 27.2 1.9 38 0l2 6.1c-6 1.7-9 5.1-9 10.2h7V36H20zm-20 0V20.6C0 9.4 7.2 1.9 18 0l2 6.1c-6 1.7-9 5.1-9 10.2h7V36H0z"></path>
+              </svg>
+              <blockquote class="tstm-card__quote">
+                <p>חברתנו עובדת עם חברת אולסי מערכות שנים רבות וארוכות לשביעות רצוננו המלאה. חברת אולסי מערכות מצטיינת במתן מענה מקצועי ושירותי יוצא דופן!</p>
+                <p>הפתרונות הטכנולוגיים שניתנים עבור חברתנו תמיד מצטיינים בחשיבה מקורית ומחוץ לקופסה, יחד עם ביצוע מוקפד עם ירידה לפרטים.</p>
+                <p>אורן תמיד זמין ונגיש למתן מענה גם בשעות וזמנים לא קונבנציונליים, מה שמאוד מסייע כשצצות לעיתים בעיות. חברתנו רואה בזמינות זו חשיבות לא מבוטלת לעבודה השוטפת אצלנו. ממליצים בחום!</p>
+              </blockquote>
+              <span class="tstm-card__rule" aria-hidden="true"></span>
+              <div class="tstm-card__who">
+                <span class="tstm-card__avatar" aria-hidden="true">א</span>
+                <span class="tstm-card__id">
+                  <span class="tstm-card__name">אורית</span>
+                  <span class="tstm-card__role">אנטילופ</span>
                 </span>
               </div>
             </article>

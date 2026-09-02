@@ -33,17 +33,33 @@ def en_ltr_cleanup(html):
     return html
 
 # ---- internal link rewrite: /x/ -> /en/x/ , /#a -> /en/#a , / -> /en/ ------------
+# Handles ROOT-RELATIVE ("/x/") *and* ABSOLUTE ("https://www.olsi.co.il/x/") internal
+# links. The migrated blog bodies use the absolute form, and an earlier version of this
+# function only matched the relative one, which silently left English pages linking to
+# their Hebrew counterparts. src= stays untouched (images live under /wp-content).
+SITE_HOSTS = ("https://www.olsi.co.il", "https://olsi.co.il",
+              "http://www.olsi.co.il", "http://olsi.co.il")
+_KEEP_PATHS = ("/wp-content/", "/wp-admin/", "/wp-json/", "/wp-includes/")
+
+
 def rewrite_links_en(html):
     def repl(m):
         attr, url = m.group(1), m.group(2)
-        # leave: assets, uploads, already-en, protocol/anchor/tel/mailto (those don't start with a single '/')
-        if url.startswith("/wp-content/") or url.startswith("/wp-admin/") \
-           or url.startswith("/en/") or url == "/en":
+        path = None
+        for host in SITE_HOSTS:
+            if url == host or url.startswith(host + "/") or url.startswith(host + "#"):
+                path = url[len(host):] or "/"
+                break
+        if path is None:
+            # not one of our absolute URLs: only act on single-slash root-relative hrefs
+            # (leaves //cdn, https://external, #anchor, tel:, mailto: alone)
+            if url.startswith("//") or not url.startswith("/"):
+                return m.group(0)
+            path = url
+        if path.startswith(_KEEP_PATHS) or path == "/en" or path.startswith("/en/"):
             return m.group(0)
-        # url starts with a single '/': a page path or /#anchor -> prefix /en
-        return '%s="/en%s"' % (attr, url)
-    # only single-slash root-relative hrefs (not // ) ; src stays (images live in /wp-content)
-    return re.sub(r'(href)="(/(?!/)[^"]*)"', repl, html)
+        return '%s="/en%s"' % (attr, path)
+    return re.sub(r'(href)="([^"]+)"', repl, html)
 
 # ---- live REST helpers -----------------------------------------------------------
 def _req(method, path, data=None):
@@ -88,6 +104,20 @@ if __name__ == "__main__":
         ('<a href="/en/x/">x</a>', '<a href="/en/x/">x</a>'),
         ('<a href="mailto:a@b.c">x</a>', '<a href="mailto:a@b.c">x</a>'),
         ('<a href="tel:098820511">x</a>', '<a href="tel:098820511">x</a>'),
+        # absolute internal links (the form the migrated blog bodies use)
+        ('<a href="https://www.olsi.co.il/software-development/">x</a>',
+         '<a href="/en/software-development/">x</a>'),
+        ('<a href="https://www.olsi.co.il/#contact">x</a>', '<a href="/en/#contact">x</a>'),
+        ('<a href="https://www.olsi.co.il/">x</a>', '<a href="/en/">x</a>'),
+        ('<a href="https://www.olsi.co.il">x</a>', '<a href="/en/">x</a>'),
+        ('<a href="https://olsi.co.il/replace-excel/">x</a>', '<a href="/en/replace-excel/">x</a>'),
+        ('<a href="https://www.olsi.co.il/en/x/">x</a>', '<a href="https://www.olsi.co.il/en/x/">x</a>'),
+        ('<a href="https://www.olsi.co.il/wp-content/x.pdf">x</a>',
+         '<a href="https://www.olsi.co.il/wp-content/x.pdf">x</a>'),
+        # must NOT touch anything off-site
+        ('<a href="https://wa.me/972505534398?text=Hi">x</a>', '<a href="https://wa.me/972505534398?text=Hi">x</a>'),
+        ('<a href="https://olsi.co.il.evil.com/x/">x</a>', '<a href="https://olsi.co.il.evil.com/x/">x</a>'),
+        ('<a href="//cdn.example.com/a.js">x</a>', '<a href="//cdn.example.com/a.js">x</a>'),
     ]
     ok = True
     for src, want in tests:

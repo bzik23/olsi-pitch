@@ -13,13 +13,17 @@
 
 if (!defined('ABSPATH')) exit;
 
-define('OLSI_CLICKS_VER', '1.2.0');
+define('OLSI_CLICKS_VER', '1.3.0');
 define('OLSI_CLICKS_OPT', 'olsi_clicks');            // the log (autoload=false)
 define('OLSI_CLICKS_RCPT', 'olsi_clicks_recipients'); // manual "send now" recipients
 define('OLSI_CLICKS_WRCPT', 'olsi_clicks_weekly_recipients'); // weekly-report recipients
 define('OLSI_CLICKS_MAX', 4000);                      // hard row cap
 define('OLSI_CLICKS_DAYS', 120);                      // retention
 define('OLSI_CLICKS_TZ', 'Asia/Jerusalem');
+// Clicks by the SAME visitor inside this window are one person trying to reach us,
+// not N separate enquiries (the 2026-08 audit found visitors tapping call AND
+// WhatsApp in the same second, which the old report counted twice).
+define('OLSI_CLICKS_INTENT_WINDOW', 900);   // 15 minutes
 
 /* =========================================================================
    0) SMTP RELAY
@@ -554,7 +558,8 @@ function olsi_clicks_button_label($b) {
         'float_whatsapp'    => 'וואטסאפ צף',
         'form'              => 'טופס יצירת קשר',
     );
-    if ($b === '') return 'קישור טלפון';
+    // olsi_clicks_tally() substitutes '-' for an empty value, so accept both.
+    if ($b === '' || $b === '-') return 'קישור טלפון בגוף העמוד';
     return isset($labels[$b]) ? $labels[$b] : $b;
 }
 
@@ -562,6 +567,152 @@ function olsi_clicks_kind_label($k) {
     if ($k === 'whatsapp') return 'וואטסאפ';
     if ($k === 'form') return 'טופס';
     return 'חיוג';
+}
+
+/* =========================================================================
+   3.5) TRAFFIC QUALITY + INTENT GROUPING            (added 2026-08-17, v1.3.0)
+
+   Why: the client got a report saying "26 פניות" for a week in which exactly one
+   real enquiry arrived. Every number in it was arithmetically correct - the report
+   was counting BUTTON CLICKS and calling them enquiries, and 81% of those clicks
+   came from Google Display / YouTube placements on made-for-advertising sites
+   (googleads.g.doubleclick.net, dreametrip.com, autovaza.com, leafnpaw.com,
+   eatopiablog.com, speedoras.com, ulridpage.com). Four "visitors" tapped both the
+   call icon and the WhatsApp icon inside the same second.
+
+   So the report now separates three different things instead of adding them up:
+     1. verified enquiries  - a contact form that was validated AND delivered
+     2. contact attempts    - distinct visitors who tapped call/WhatsApp
+     3. raw clicks          - the old number, kept visible so nothing is hidden
+   and flags how much of it looks like paid-display traffic rather than people.
+   ========================================================================= */
+
+/** Hosts that only ever appear when the click came from an ad slot, not a person searching. */
+function olsi_clicks_adserver_hosts() {
+    return array('doubleclick.net', 'googlesyndication.com', 'googleadservices.com',
+                 'adservice.google', 'googleads.', '2mdn.net', 'adnxs.com');
+}
+
+/** Referrers that are legitimate entry points for a paid click (search + real social). */
+function olsi_clicks_known_hosts() {
+    return array('google.', 'bing.', 'duckduckgo', 'yahoo.', 'yandex.', 'facebook.', 'fb.',
+                 'instagram.', 'linkedin.', 'lnkd.in', 'olsi.co.il', 't.co', 'twitter.', 'x.com');
+}
+
+/**
+ * Classify one row's traffic quality.
+ * @return array{code:string,host:string}  code: '' (fine) | display | video | placement
+ */
+function olsi_clicks_flag($r) {
+    $ref  = isset($r['ref']) ? strtolower((string) $r['ref']) : '';
+    $plat = isset($r['plat']) ? (string) $r['plat'] : '';
+    $paid = ($plat === 'google_ads' || $plat === 'bing_ads' || strpos($plat, 'campaign:') === 0);
+
+    foreach (olsi_clicks_adserver_hosts() as $needle) {
+        if ($ref !== '' && strpos($ref, $needle) !== false) {
+            return array('code' => 'display', 'host' => $ref);
+        }
+    }
+    if (!$paid || $ref === '') return array('code' => '', 'host' => $ref);
+
+    if (strpos($ref, 'youtube.') !== false || strpos($ref, 'youtu.be') !== false) {
+        return array('code' => 'video', 'host' => $ref);
+    }
+    foreach (olsi_clicks_known_hosts() as $needle) {
+        if (strpos($ref, $needle) !== false) return array('code' => '', 'host' => $ref);
+    }
+    // A paid click whose referrer is some unrelated third-party site = a display placement.
+    return array('code' => 'placement', 'host' => $ref);
+}
+
+function olsi_clicks_flag_label($code) {
+    $labels = array(
+        'display'   => 'רשת המדיה של גוגל',
+        'video'     => 'מודעת YouTube',
+        'placement' => 'אתר צד-שלישי לא מוכר',
+    );
+    if ($code === '') return 'תנועה רגילה';
+    return isset($labels[$code]) ? $labels[$code] : $code;
+}
+
+/**
+ * Split a window into verified leads and de-duplicated contact attempts.
+ *
+ * Form submissions are NEVER merged - a validated, delivered form is the one signal
+ * we know is a real person. Call/WhatsApp taps by the same visitor within
+ * OLSI_CLICKS_INTENT_WINDOW collapse into a single attempt that remembers every
+ * channel and click it covered.
+ *
+ * @return array{leads:array,attempts:array,clicks:int}
+ */
+function olsi_clicks_group_intents($rows) {
+    $leads = array();
+    $clicks = array();
+    foreach ($rows as $r) {
+        if (isset($r['k']) && $r['k'] === 'form') $leads[] = $r;
+        else $clicks[] = $r;
+    }
+    usort($clicks, 'olsi_clicks_sort_by_t');
+
+    $attempts = array();
+    $open = array();                                  // visitor hash -> index in $attempts
+    foreach ($clicks as $r) {
+        $v = isset($r['v']) ? $r['v'] : '';
+        $t = (int) $r['t'];
+        if ($v !== '' && isset($open[$v]) && ($t - $attempts[$open[$v]]['last']) <= OLSI_CLICKS_INTENT_WINDOW) {
+            $i = $open[$v];
+            $attempts[$i]['last']    = $t;
+            $attempts[$i]['clicks'] += 1;
+            if (!in_array($r['k'], $attempts[$i]['kinds'], true)) $attempts[$i]['kinds'][] = $r['k'];
+            continue;
+        }
+        $flag = olsi_clicks_flag($r);
+        $attempts[] = array(
+            'row'    => $r,                            // representative: the FIRST tap
+            't'      => $t,
+            'last'   => $t,
+            'clicks' => 1,
+            'kinds'  => array($r['k']),
+            'flag'   => $flag['code'],
+            'host'   => $flag['host'],
+        );
+        if ($v !== '') $open[$v] = count($attempts) - 1;
+    }
+    return array('leads' => $leads, 'attempts' => $attempts, 'clicks' => count($clicks));
+}
+
+/** Count attempts per flag code, most common first. */
+function olsi_clicks_flag_tally($attempts) {
+    $t = array();
+    foreach ($attempts as $a) {
+        $k = $a['flag'];
+        if (!isset($t[$k])) $t[$k] = 0;
+        $t[$k]++;
+    }
+    arsort($t);
+    return $t;
+}
+
+/** Keep the detail table readable - form rows store a full page title + URL in 'u'. */
+function olsi_clicks_short($s, $max = 44) {
+    $s = (string) $s;
+    if (function_exists('mb_strlen')) {
+        if (mb_strlen($s) <= $max) return $s;
+        return mb_substr($s, 0, $max - 1) . '…';
+    }
+    return (strlen($s) <= $max) ? $s : substr($s, 0, $max - 1) . '…';
+}
+
+/** Count flagged attempts per referring host, most common first. */
+function olsi_clicks_flag_hosts($attempts) {
+    $t = array();
+    foreach ($attempts as $a) {
+        if ($a['flag'] === '' || $a['host'] === '') continue;
+        if (!isset($t[$a['host']])) $t[$a['host']] = 0;
+        $t[$a['host']]++;
+    }
+    arsort($t);
+    return $t;
 }
 
 /* =========================================================================
@@ -648,7 +799,7 @@ function olsi_clicks_email_html($rows, $hours, DateTime $now) {
              . '<div style="font-size:12px;color:#5C5470;margin-top:6px;">' . $label . '</div></td>';
     };
     $h .= '<table dir="rtl" role="presentation" width="100%" cellpadding="0" cellspacing="6" style="direction:rtl;border-collapse:separate;"><tr>';
-    $h .= $card('סה&quot;כ פניות', $total, '#9333EA');
+    $h .= $card('סה&quot;כ לחיצות', $total, '#9333EA');
     $h .= $card('וואטסאפ', $wa, '#1FA855');
     $h .= $card('חיוג', $ph, '#C2185B');
     $h .= $card('טפסים', $fm, '#8a6d3b');
@@ -915,14 +1066,23 @@ function olsi_clicks_send_weekly() {
     $prev_start = clone $start;
     $prev_start->modify('-7 days');
 
-    $rows = olsi_clicks_window_range($start->getTimestamp(), $end->getTimestamp());
-    $prev = count(olsi_clicks_window_range($prev_start->getTimestamp(), $start->getTimestamp()));
+    $rows     = olsi_clicks_window_range($start->getTimestamp(), $end->getTimestamp());
+    $prevrows = olsi_clicks_window_range($prev_start->getTimestamp(), $start->getTimestamp());
+
+    // Compare like with like: last week's numbers go through the exact same grouping.
+    $prev_g = olsi_clicks_group_intents($prevrows);
+    $prev   = array(
+        'leads'    => count($prev_g['leads']),
+        'attempts' => count($prev_g['attempts']),
+    );
 
     $last = clone $end;
     $last->modify('-1 day');
     $range = $start->format('d/m/Y') . ' עד ' . $last->format('d/m/Y');
 
-    $subject = 'אולסי מערכות | סיכום שבועי - פניות מהאתר (' . count($rows) . ')';
+    $g = olsi_clicks_group_intents($rows);
+    $subject = 'אולסי מערכות | סיכום שבועי - ' . count($g['leads']) . ' פניות מאומתות, '
+             . count($g['attempts']) . ' ניסיונות יצירת קשר';
     $html    = olsi_clicks_weekly_email_html($rows, $range, $prev);
     return wp_mail($to, $subject, $html, olsi_clicks_mail_headers());
 }
@@ -939,20 +1099,46 @@ function olsi_clicks_window_range($from, $to) {
     return $out;
 }
 
-function olsi_clicks_weekly_email_html($rows, $range, $prev_total) {
-    $total = count($rows);
-    $wa = 0; $ph = 0; $fm = 0; $mob = 0;
+/**
+ * @param array $rows  raw log rows for the week
+ * @param string $range
+ * @param array $prev  array('leads'=>int|null,'attempts'=>int) from the previous week
+ */
+function olsi_clicks_weekly_email_html($rows, $range, $prev = array()) {
+    if (!is_array($prev)) $prev = array('leads' => null, 'attempts' => (int) $prev);
+    $prev_leads    = array_key_exists('leads', $prev) ? $prev['leads'] : null;
+    $prev_attempts = isset($prev['attempts']) ? (int) $prev['attempts'] : 0;
+
+    $g         = olsi_clicks_group_intents($rows);
+    $leads     = count($g['leads']);
+    $attempts  = count($g['attempts']);
+    $rawclicks = $g['clicks'];
+    $total     = count($rows);
+
+    // Representative row of each attempt - used for every breakdown, so one visitor
+    // who tapped four buttons no longer counts four times in "top pages" either.
+    $arows = array();
+    $wa = 0; $ph = 0; $mob = 0; $flagged = 0;
+    foreach ($g['attempts'] as $a) {
+        $arows[] = $a['row'];
+        if (in_array('whatsapp', $a['kinds'], true)) $wa++;
+        if (in_array('phone', $a['kinds'], true)) $ph++;
+        if ($a['flag'] !== '') $flagged++;
+        if (isset($a['row']['d']) && $a['row']['d'] === 'mobile') $mob++;
+    }
+    $desk  = $attempts - $mob;
+    $clean = $attempts - $flagged;
+
     $by_day = array();
     $tz = new DateTimeZone(OLSI_CLICKS_TZ);
-    foreach ($rows as $r) {
-        if ($r['k'] === 'whatsapp') $wa++; elseif ($r['k'] === 'form') $fm++; else $ph++;
-        if ($r['d'] === 'mobile') $mob++;
-        $d = new DateTime('@' . $r['t']);
+    $stamp = function ($ts) use ($tz, &$by_day) {
+        $d = new DateTime('@' . (int) $ts);
         $d->setTimezone($tz);
         $dk = $d->format('Y-m-d');
         $by_day[$dk] = isset($by_day[$dk]) ? $by_day[$dk] + 1 : 1;
-    }
-    $desk = $total - $mob;
+    };
+    foreach ($g['attempts'] as $a) $stamp($a['t']);
+    foreach ($g['leads'] as $r) $stamp($r['t']);
     ksort($by_day);
 
     $R = ' dir="rtl"';
@@ -960,7 +1146,7 @@ function olsi_clicks_weekly_email_html($rows, $range, $prev_total) {
     $h .= '<div' . $R . ' style="direction:rtl;text-align:right;max-width:680px;margin:0 auto;background:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #EFE6F7;">';
 
     $h .= '<div' . $R . ' style="direction:rtl;text-align:right;background:linear-gradient(120deg,#9333EA,#DB2777,#E0457B);padding:22px 24px;color:#fff;">';
-    $h .= '<div style="font-size:19px;font-weight:700;">סיכום שבועי - פניות מהאתר</div>';
+    $h .= '<div style="font-size:19px;font-weight:700;">סיכום שבועי - פניות ולחיצות מהאתר</div>';
     $h .= '<div style="font-size:13px;opacity:.92;margin-top:4px;">אולסי מערכות &#183; וואטסאפ, חיוג וטפסים &#183; ' . esc_html($range) . '</div>';
     $h .= '</div>';
 
@@ -972,25 +1158,40 @@ function olsi_clicks_weekly_email_html($rows, $range, $prev_total) {
              . '<div style="font-size:12px;color:#5C5470;margin-top:6px;">' . $label . '</div></td>';
     };
     $h .= '<table dir="rtl" role="presentation" width="100%" cellpadding="0" cellspacing="6" style="direction:rtl;border-collapse:separate;"><tr>';
-    $h .= $card('סה&quot;כ פניות', $total, '#9333EA');
-    $h .= $card('וואטסאפ', $wa, '#1FA855');
-    $h .= $card('חיוג', $ph, '#C2185B');
-    $h .= $card('טפסים', $fm, '#8a6d3b');
+    $h .= $card('פניות מאומתות', $leads, '#1a8917');
+    $h .= $card('ניסיונות יצירת קשר', $attempts, '#9333EA');
+    $h .= $card('מזוהה כתנועת מודעות', $flagged, ($flagged > 0 ? '#b32d2e' : '#8A8299'));
+    $h .= $card('לחיצות גולמיות', $rawclicks, '#5C5470');
     $h .= '</tr></table>';
 
-    if ($prev_total > 0) {
-        $diff  = $total - $prev_total;
-        $pct   = round(abs($diff) * 100 / $prev_total);
-        $color = ($diff >= 0) ? '#1a8917' : '#b32d2e';
-        $arrow = ($diff >= 0) ? '&#9650;' : '&#9660;';
-        $word  = ($diff >= 0) ? 'עלייה' : 'ירידה';
-        $cmp   = (0 === $diff)
-            ? 'ללא שינוי לעומת השבוע הקודם (' . (int) $prev_total . ')'
-            : $arrow . ' ' . $word . ' של ' . $pct . '% לעומת השבוע הקודם (' . (int) $prev_total . ')';
-        $h .= '<div' . $R . ' style="direction:rtl;text-align:right;font-size:13px;font-weight:700;color:' . $color . ';margin-top:10px;">' . $cmp . '</div>';
-    } else {
-        $h .= '<div' . $R . ' style="direction:rtl;text-align:right;font-size:13px;color:#8A8299;margin-top:10px;">אין נתוני השוואה לשבוע הקודם</div>';
-    }
+    $h .= '<div' . $R . ' style="direction:rtl;text-align:right;font-size:12px;color:#5C5470;margin-top:8px;line-height:1.7;">'
+        . '<b>פנייה מאומתת</b> = טופס שנשלח, עבר אימות ונמסר. '
+        . '<b>ניסיון יצירת קשר</b> = מבקר יחיד שלחץ חיוג או וואטסאפ (כל הלחיצות שלו ברבע שעה נספרות פעם אחת).'
+        . '</div>';
+
+    /* Percentages off a 1-2 enquiry base are noise, not a trend ("+1200%" from a base
+       of 2 is what made the previous report unreadable). Below 5 we state the numbers. */
+    $cmp = function ($label, $now, $was) use ($R) {
+        if ($was === null) return '';
+        $was = (int) $was; $now = (int) $now;
+        if ($was < 5) {
+            $txt = $label . ': <b>' . $now . '</b> (שבוע קודם: ' . $was . ')';
+            if ($was > 0 || $now > 0) $txt .= ' - הבסיס קטן מדי לחישוב אחוזים';
+            return '<div' . $R . ' style="direction:rtl;text-align:right;font-size:13px;color:#5C5470;margin-top:6px;">' . $txt . '</div>';
+        }
+        $diff  = $now - $was;
+        $pct   = round(abs($diff) * 100 / $was);
+        $color = (0 === $diff) ? '#5C5470' : (($diff > 0) ? '#1a8917' : '#b32d2e');
+        $txt   = (0 === $diff)
+            ? $label . ': <b>' . $now . '</b> - ללא שינוי לעומת השבוע הקודם'
+            : $label . ': <b>' . $now . '</b> ' . (($diff > 0) ? '&#9650;' : '&#9660;') . ' '
+              . (($diff > 0) ? 'עלייה' : 'ירידה') . ' של ' . $pct . '% לעומת השבוע הקודם (' . $was . ')';
+        return '<div' . $R . ' style="direction:rtl;text-align:right;font-size:13px;font-weight:700;color:' . $color . ';margin-top:6px;">' . $txt . '</div>';
+    };
+    $h .= '<div' . $R . ' style="direction:rtl;text-align:right;margin-top:12px;">';
+    $h .= $cmp('פניות מאומתות', $leads, $prev_leads);
+    $h .= $cmp('ניסיונות יצירת קשר', $attempts, $prev_attempts);
+    $h .= '</div>';
 
     $sec = function ($t) use ($R) {
         return '<div' . $R . ' style="direction:rtl;text-align:right;font-size:15px;font-weight:700;margin:22px 0 8px;color:#1A1226;">' . $t . '</div>';
@@ -1021,52 +1222,108 @@ function olsi_clicks_weekly_email_html($rows, $range, $prev_total) {
         $h .= $sec('פילוח יומי');
         $h .= $bars($days, max($by_day));
 
+        // ---- traffic quality: the section that explains away an inflated headline ----
+        $h .= $sec('איכות התנועה');
+        $qt = array();
+        if ($clean > 0) $qt['תנועה רגילה'] = $clean;
+        foreach (olsi_clicks_flag_tally($g['attempts']) as $code => $n) {
+            if ($code === '') continue;
+            $qt[olsi_clicks_flag_label($code)] = $n;
+        }
+        $h .= $bars($qt, max(1, $attempts));
+        $hosts = olsi_clicks_flag_hosts($g['attempts']);
+        if (!empty($hosts)) {
+            $bits = array();
+            foreach (array_slice($hosts, 0, 10, true) as $host => $n) {
+                $bits[] = '<span style="background:#FDEEF0;border-radius:4px;padding:1px 6px;color:#b32d2e;white-space:nowrap;">'
+                        . esc_html($host) . ' (' . (int) $n . ')</span>';
+            }
+            $h .= '<div' . $R . ' style="direction:rtl;text-align:right;font-size:12px;color:#5C5470;margin-top:10px;line-height:2;">'
+                . 'האתרים שמהם הגיעו הלחיצות המסומנות: ' . implode(' ', $bits)
+                . '<br>אלה מיקומי מודעות ברשת המדיה של גוגל / YouTube, לא תוצאות חיפוש. '
+                . 'לחיצה משם מגיעה לרוב בטעות ולא מסתיימת בשיחה - שווה לבדוק מול מנהל הקמפיין.'
+                . '</div>';
+        }
+
+        $h .= $sec('באיזה ערוץ בחרו');
+        $h .= $bars(array('וואטסאפ' => $wa, 'חיוג' => $ph, 'טופס יצירת קשר' => $leads), max(1, $attempts + $leads));
+        $h .= '<div' . $R . ' style="direction:rtl;text-align:right;font-size:11px;color:#8A8299;margin-top:4px;">'
+            . 'מבקר שלחץ גם חיוג וגם וואטסאפ מופיע בשתי השורות, ולכן הסכום עשוי לעבור 100%.</div>';
+
         $h .= $sec('פילוח לפי מכשיר');
-        $h .= $bars(array('נייד' => $mob, 'דסקטופ' => $desk), $total);
+        $h .= $bars(array('נייד' => $mob, 'דסקטופ' => $desk), max(1, $attempts));
 
         $h .= $sec('מאיזו פלטפורמה הגיעו');
-        $h .= $bars(olsi_clicks_merge_direct_organic(olsi_clicks_tally($rows, 'plat')), $total, 'olsi_clicks_platform_label');
+        $h .= $bars(olsi_clicks_merge_direct_organic(olsi_clicks_tally($arows, 'plat')), max(1, $attempts), 'olsi_clicks_platform_label');
 
-        $h .= $sec('לפי כפתור');
+        $h .= $sec('לפי כפתור (לחיצות גולמיות)');
         $h .= $bars(olsi_clicks_tally($rows, 'lb'), $total, 'olsi_clicks_button_label');
 
-        $pages = olsi_clicks_tally($rows, 'u');
+        $pages = olsi_clicks_tally($arows, 'u');
         $pages = array_slice($pages, 0, 8, true);
         $h .= $sec('העמודים המובילים');
-        $h .= $bars($pages, $total);
+        $h .= $bars($pages, max(1, $attempts));
 
-        // detail table
-        $h .= $sec('פירוט הפניות האחרונות (' . min(60, $total) . ')');
-        $recent = array_slice($rows, -60);
-        $recent = array_reverse($recent);
+        // detail table - one line per verified enquiry / per contact attempt (not per tap)
+        $items = array();
+        foreach ($g['leads'] as $r) {
+            $items[] = array('t' => (int) $r['t'], 'row' => $r, 'kinds' => array('form'),
+                             'clicks' => 1, 'flag' => '');
+        }
+        foreach ($g['attempts'] as $a) {
+            $items[] = array('t' => $a['t'], 'row' => $a['row'], 'kinds' => $a['kinds'],
+                             'clicks' => $a['clicks'], 'flag' => $a['flag']);
+        }
+        usort($items, 'olsi_clicks_sort_by_t');
+        $items = array_reverse($items);
+        $shown = array_slice($items, 0, 60);
+
+        $h .= $sec('פירוט (' . count($shown) . ' מתוך ' . count($items) . ')');
+        $th = function ($t) {
+            return '<th dir="rtl" style="direction:rtl;text-align:right;padding:7px 6px;color:#5C5470;">' . $t . '</th>';
+        };
         $h .= '<table dir="rtl" role="presentation" width="100%" cellpadding="0" cellspacing="0" style="direction:rtl;border-collapse:collapse;font-size:12px;">';
         $h .= '<tr dir="rtl" style="direction:rtl;background:#FAF5FF;">'
-            . '<th dir="rtl" style="direction:rtl;text-align:right;padding:7px 6px;color:#5C5470;">מתי</th>'
-            . '<th dir="rtl" style="direction:rtl;text-align:right;padding:7px 6px;color:#5C5470;">ערוץ</th>'
-            . '<th dir="rtl" style="direction:rtl;text-align:right;padding:7px 6px;color:#5C5470;">מכשיר</th>'
-            . '<th dir="rtl" style="direction:rtl;text-align:right;padding:7px 6px;color:#5C5470;">פלטפורמה</th>'
-            . '<th dir="rtl" style="direction:rtl;text-align:right;padding:7px 6px;color:#5C5470;">עמוד</th></tr>';
-        foreach ($recent as $r) {
-            $d = new DateTime('@' . $r['t']);
+            . $th('מתי') . $th('ערוץ') . $th('לחיצות') . $th('מכשיר')
+            . $th('פלטפורמה') . $th('איכות') . $th('עמוד') . '</tr>';
+        foreach ($shown as $it) {
+            $r = $it['row'];
+            $d = new DateTime('@' . (int) $it['t']);
             $d->setTimezone($tz);
-            $dot = ($r['k'] === 'whatsapp') ? '#1FA855' : (($r['k'] === 'form') ? '#8a6d3b' : '#C2185B');
+            $first = $it['kinds'][0];
+            $dot   = ($first === 'whatsapp') ? '#1FA855' : (($first === 'form') ? '#1a8917' : '#C2185B');
+            $names = array();
+            foreach ($it['kinds'] as $k) $names[] = olsi_clicks_kind_label($k);
+            $q = ($it['flag'] === '')
+                ? '<span style="color:#1a8917;">תקין</span>'
+                : '<span style="background:#FDEEF0;border-radius:4px;padding:1px 5px;color:#b32d2e;">'
+                  . esc_html(olsi_clicks_flag_label($it['flag'])) . '</span>';
+            $td  = 'dir="rtl" style="direction:rtl;text-align:right;padding:7px 6px;color:#5C5470;"';
+            $tdn = 'dir="rtl" style="direction:rtl;text-align:right;padding:7px 6px;color:#5C5470;white-space:nowrap;"';
             $h .= '<tr dir="rtl" style="direction:rtl;border-top:1px solid #F0EAF7;">'
-                . '<td dir="rtl" style="direction:rtl;text-align:right;padding:7px 6px;color:#5C5470;white-space:nowrap;">' . esc_html($d->format('d/m H:i')) . '</td>'
+                . '<td ' . $tdn . '>' . esc_html($d->format('d/m H:i')) . '</td>'
                 . '<td dir="rtl" style="direction:rtl;text-align:right;padding:7px 6px;">'
                 . '<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:' . $dot . ';margin-left:6px;"></span>'
-                . esc_html(olsi_clicks_kind_label($r['k'])) . '</td>'
-                . '<td dir="rtl" style="direction:rtl;text-align:right;padding:7px 6px;color:#5C5470;">' . ($r['d'] === 'mobile' ? 'נייד' : 'דסקטופ') . '</td>'
-                . '<td dir="rtl" style="direction:rtl;text-align:right;padding:7px 6px;color:#5C5470;">' . esc_html(olsi_clicks_platform_row_label(isset($r['plat']) ? $r['plat'] : '-')) . '</td>'
-                . '<td dir="rtl" style="direction:rtl;text-align:right;padding:7px 6px;color:#5C5470;">' . esc_html($r['u']) . '</td></tr>';
+                . esc_html(implode(' + ', $names)) . '</td>'
+                . '<td ' . $td . '>' . (int) $it['clicks'] . '</td>'
+                . '<td ' . $td . '>' . (isset($r['d']) && $r['d'] === 'mobile' ? 'נייד' : 'דסקטופ') . '</td>'
+                . '<td ' . $td . '>' . esc_html(olsi_clicks_platform_row_label(isset($r['plat']) ? $r['plat'] : '-')) . '</td>'
+                . '<td dir="rtl" style="direction:rtl;text-align:right;padding:7px 6px;">' . $q . '</td>'
+                . '<td ' . $td . '>' . esc_html(olsi_clicks_short(isset($r['u']) ? $r['u'] : '')) . '</td></tr>';
         }
         $h .= '</table>';
     } else {
-        $h .= '<div' . $R . ' style="direction:rtl;text-align:right;color:#8A8299;font-size:13px;margin-top:16px;">לא נרשמו פניות בשבוע הזה.</div>';
+        $h .= '<div' . $R . ' style="direction:rtl;text-align:right;color:#8A8299;font-size:13px;margin-top:16px;">לא נרשמה שום פנייה או לחיצה בשבוע הזה.</div>';
     }
 
     $h .= '<div' . $R . ' style="direction:rtl;text-align:right;margin-top:20px;padding-top:14px;border-top:1px solid #F0EAF7;font-size:11px;color:#8A8299;line-height:1.7;">';
-    $h .= 'לחיצה על כפתור וואטסאפ או חיוג מעידה על כוונת פנייה - היא אינה ליד מאושר. "טופס" = שליחת טופס יצירת קשר שאומתה ונמסרה. פניות של מנהלי האתר אינן נכללות.<br>';
-    $h .= 'הדוח נשלח אוטומטית בכל יום ראשון בשעה 07:30 ומסכם את השבוע שהסתיים (ראשון עד שבת).';
+    $h .= '<b>איך נספר כאן כל דבר:</b><br>';
+    $h .= '&#8226; <b>פנייה מאומתת</b> = טופס יצירת קשר שנשלח, עבר אימות ונמסר בפועל. זה המספר היחיד שאפשר להתייחס אליו כליד.<br>';
+    $h .= '&#8226; <b>ניסיון יצירת קשר</b> = מבקר יחיד שלחץ על חיוג או על וואטסאפ. כל הלחיצות של אותו מבקר בתוך רבע שעה נספרות פעם אחת, גם אם לחץ גם חיוג וגם וואטסאפ. לחיצה כזו מעידה על כוונה בלבד - היא לא אומרת שהשיחה או ההודעה אכן נשלחו.<br>';
+    $h .= '&#8226; <b>לחיצות גולמיות</b> = סך כל הלחיצות לפני האיחוד, לשקיפות מלאה.<br>';
+    $h .= '&#8226; <b>מזוהה כתנועת מודעות</b> = הלחיצה הגיעה ממיקום מודעה ברשת המדיה של גוגל או ב-YouTube (ולא מחיפוש). תנועה כזו מייצרת הרבה לחיצות בטעות וכמעט אף שיחה. הפירוט בסעיף "איכות התנועה".<br>';
+    $h .= '&#8226; פניות של מנהלי האתר אינן נכללות. אחוזי שינוי מוצגים רק כשלשבוע הקודם היו 5 פניות ומעלה - אחרת מוצגים המספרים עצמם.<br>';
+    $h .= 'הדוח נשלח אוטומטית בכל יום ראשון בשעה 07:30 ומסכם את השבוע שהסתיים (ראשון עד שבת, שעון ישראל).';
     $h .= '</div>';
 
     $h .= '</div></div></div>';

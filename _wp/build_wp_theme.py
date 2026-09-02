@@ -38,7 +38,8 @@ SERVICES = ["software-development","app-development","crm-development","excel-up
 LEGAL    = ["privacy-policy","accessibility-statement"]
 SPECIAL  = ["thank-you"]
 BLOG_LISTING = "professional-info"
-EXCLUDE  = {"index","preview-dark-v1"}   # index = GH-pages redirect; dark = backup
+EXCLUDE  = {"index","preview-dark-v1",
+            "custom-business-software-preview"}   # index = GH-pages redirect; dark/preview = local-only drafts
 
 def read(p):
     with io.open(p, encoding="utf-8") as f:

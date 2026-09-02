@@ -15,3 +15,11 @@ _wp/_*
 report.txt
 build_report.txt
 build_err.txt
+
+# One-off publish scripts that embed the REST app-password (repo is public)
+publish_*.py
+publish_*.sent
+*.log
+
+# Local snapshots of live WP content
+_backups/

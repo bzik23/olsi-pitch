@@ -23,3 +23,8 @@ publish_*.sent
 
 # Local snapshots of live WP content
 _backups/
+
+# Campaign tooling - separate PRIVATE repos (bzik23/olsi-lp, bzik23/olsi-ads).
+# They carry lead recipients and the Ads account id; this repo is public.
+_lp/
+_ads/

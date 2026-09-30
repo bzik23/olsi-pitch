@@ -28,3 +28,7 @@ _backups/
 # They carry lead recipients and the Ads account id; this repo is public.
 _lp/
 _ads/
+
+# YouTube channel art and video subtitle tooling - separate PRIVATE repos (bzik23/olsi-youtube, bzik23/olsi-video)
+_youtube/
+_video_2026-09-24/

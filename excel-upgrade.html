@@ -191,7 +191,26 @@
 </section>
 
 <!-- ── FEATURES ── -->
-<section class="services section section--alt">
+<section class="services services--three section section--alt">
+<style>
+/* services--three: 6 service cards -> 2 rows x 3 (theme default is 5 columns for the 10-service home grid),
+   styled like the process cards: brand-tinted frame, gradient top bar, gradient icon badge */
+.services--three{background:
+  radial-gradient(58% 50% at 82% -5%, rgba(147,51,234,.12), transparent 70%),
+  radial-gradient(55% 48% at 6% 105%, rgba(219,39,119,.12), transparent 70%),
+  var(--clr-paper-alt)}
+.services--three .services__grid{grid-template-columns:repeat(3,1fr);max-width:1180px}
+.services--three .service-card{position:relative;overflow:hidden;background:rgba(255,255,255,.82);
+  border:1px solid rgba(147,51,234,.22);border-radius:var(--r-xl);
+  box-shadow:0 1px 0 rgba(147,51,234,.05),0 14px 34px rgba(124,58,237,.09)}
+.services--three .service-card::before{content:"";position:absolute;top:0;inset-inline:0;height:3px;background:var(--clr-brand-grad)}
+.services--three .service-card:hover{border-color:rgba(219,39,119,.34);box-shadow:0 1px 0 rgba(147,51,234,.05),0 26px 54px rgba(124,58,237,.18)}
+.services--three .service-card__icon{box-sizing:border-box;width:54px;height:54px;padding:13px;border-radius:50%;
+  background:linear-gradient(135deg,#9333EA 0%,#DB2777 100%);color:#fff;box-shadow:0 8px 20px rgba(147,51,234,.30)}
+@media(max-width:767px){.services--three .services__grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.services--three .services__grid{grid-template-columns:1fr}}
+</style>
+
   <div class="container--wide">
     <div class="section-header section-header--center" data-anim>
       <p class="eyebrow"><span class="code-comment">what's included</span></p>

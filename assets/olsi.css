@@ -16,6 +16,11 @@ ul,ol{list-style:none}
 h1,h2,h3,h4,h5,h6{font-family:var(--font-sans);font-weight:800;line-height:1.18;color:var(--clr-text);letter-spacing:-.01em}
 p{max-width:68ch}
 
+/* JetBrains Mono's dotted zero reads as an 8 at small sizes (dates, "100+").
+   Digits only are served from Heebo (same file the page already loads). */
+@font-face{font-family:'Olsi Digits';font-style:normal;font-weight:100 900;font-display:swap;
+  src:url(https://fonts.gstatic.com/s/heebo/v28/NGS6v5_NC0k9P9H2TbE.woff2) format('woff2');
+  unicode-range:U+0030-0039}
 :root{
   /* Ground / surface - LIGHT & soft (udilease-inspired). Dark tokens kept for the code panel only. */
   --clr-ink:        #1A1226;     /* deep plum ink (kept for code panel / dark accents) */
@@ -48,7 +53,7 @@ p{max-width:68ch}
 
   /* Fonts */
   --font-sans: 'Heebo',system-ui,sans-serif;
-  --font-mono: 'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --font-mono: 'Olsi Digits','JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
 
   /* Type scale */
   --text-hero:    clamp(2.5rem, 6.4vw, 4.75rem);

@@ -915,7 +915,7 @@ html.a11y-no-motion *,html.a11y-no-motion *::before,html.a11y-no-motion *::after
     background:var(--clr-tint-lav);backdrop-filter:none;-webkit-backdrop-filter:none;
     border:none;border-radius:0;box-shadow:none;padding:0;
     max-height:0;overflow:hidden;transition:max-height .42s var(--ease-cinematic)}
-  .site-header__nav .nav-has-dropdown.open .nav-dropdown__panel{max-height:760px}
+  .site-header__nav .nav-has-dropdown.open .nav-dropdown__panel{max-height:1000px}
   .site-header__nav .nav-dropdown__panel::before{display:none}
   .site-header__nav .nav-dropdown__grid{grid-template-columns:1fr;gap:0;padding:var(--s2) var(--s3)}
   .site-header__nav .nav-dd-item{padding:var(--s3);border-radius:var(--r-sm)}

@@ -62,6 +62,16 @@ _SVC = [
      '<circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.1 5.1l2.1 2.1M16.8 16.8l2.1 2.1M18.9 5.1l-2.1 2.1M7.2 16.8l-2.1 2.1"/>',
      "ליווי טכני שוטף", "שירות, תחזוקה ושיפורים אחרי ההשקה",
      "Ongoing Technical Support", "Service, maintenance and post-launch improvements"),
+    # added 2026-10-08: two new service pages (he 4335/4340, en 3957/3963).
+    # Row-major 2-col grid: #11 lands bottom-start (right in RTL), #12 bottom-end.
+    ("gantt-chart",
+     '<rect x="3" y="4.5" width="9" height="3.5" rx="1.2"/><rect x="7" y="10.25" width="11" height="3.5" rx="1.2"/><rect x="12" y="16" width="9" height="3.5" rx="1.2"/>',
+     "פיתוח תרשים גאנט", "תכנון פרויקטים, משימות ואבני דרך במערכת אחת",
+     "Gantt Chart Development", "Project planning, tasks and milestones in one system"),
+    ("python-developer",
+     '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="m7 9 3 3-3 3"/><path d="M12 15h5"/>',
+     "פיתוח תוכנה ב-Python", "אוטומציה, עיבוד נתונים ובינה מלאכותית",
+     "Python Development", "Automation, data processing and AI"),
 ]
 
 def _php_svc_rows():
@@ -179,7 +189,7 @@ if (!function_exists('olsi_i18n')) {
       'call_sr'       => 'חיוג',
       'wa_aria'       => 'שלחו לנו הודעת ווטסאפ',
       'wa_sr'         => 'ווטסאפ',
-      'wa_href'       => 'https://wa.me/972505534398?text=%d7%94%d7%99%d7%99%2c%20%d7%94%d7%92%d7%a2%d7%aa%d7%99%20%d7%90%d7%9c%d7%99%d7%9b%d7%9d%20%d7%93%d7%a8%d7%9a%20%d7%94%d7%90%d7%aa%d7%a8...',
+      'wa_text'       => 'היי, הגעתי אליכם דרך האתר...',
       'menu_aria'     => 'תפריט',
       'switch_code'   => 'EN',
       'switch_aria'   => 'Switch to English',
@@ -235,7 +245,7 @@ if (!function_exists('olsi_i18n')) {
       'call_sr'       => 'Call',
       'wa_aria'       => 'Send us a WhatsApp message',
       'wa_sr'         => 'WhatsApp',
-      'wa_href'       => 'https://wa.me/972505534398?text=Hi%2C%20I%20found%20you%20through%20your%20website...',
+      'wa_text'       => 'Hi, I found you through your website...',
       'menu_aria'     => 'Menu',
       'switch_code'   => 'עב',
       'switch_aria'   => 'עבור לעברית',
@@ -275,6 +285,16 @@ if (!function_exists('olsi_i18n')) {
       'credit' => 'Site by Bzik Digital Marketing',
     );
     return $lang === 'en' ? $en : $he;
+  }
+}
+
+/* WhatsApp buttons: the number is never printed in the page source (it was being
+   harvested from the wa.me links). It is kept reversed + base64, and olsi.js
+   (section 0b) builds the real link only on a genuine interaction with the button.
+   Without JS the button falls back to the contact band. */
+if (!function_exists('olsi_wa_attrs')) {
+  function olsi_wa_attrs($text) {
+    return 'href="#lets-talk" data-wa="ODkzNDM1NTA1Mjc5" data-wa-text="' . esc_attr($text) . '"';
   }
 }
 
@@ -365,7 +385,7 @@ list($sw_url, $sw_exact) = function_exists('olsi_switch_target') ? olsi_switch_t
         <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.15 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.24.2 2.45.57 3.57.11.35.03.74-.24 1.02l-2.2 2.2z"/></svg>
         <span class="sr-only"><?= $L['call_sr'] ?></span>
       </a>
-      <a href="<?= esc_url($L['wa_href']) ?>" class="site-header__wa" target="_blank" rel="noopener" aria-label="<?= esc_attr($L['wa_aria']) ?>">
+      <a <?= olsi_wa_attrs($L['wa_text']) ?> class="site-header__wa" aria-label="<?= esc_attr($L['wa_aria']) ?>">
         <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
         <span class="sr-only"><?= $L['wa_sr'] ?></span>
       </a>
@@ -404,7 +424,7 @@ $u  = function ($slug) use ($en) { return ($en ? '/en/' : '/') . $slug . '/'; };
         <p><?= $L['fc_p'] ?></p>
         <div class="cta-band__actions">
           <a href="tel:098820511" class="btn btn--primary btn--lg"><?= $L['fc_call'] ?></a>
-          <a href="<?= esc_url($L['wa_href']) ?>" target="_blank" rel="noopener" class="btn btn--whatsapp btn--lg">
+          <a <?= olsi_wa_attrs($L['wa_text']) ?> class="btn btn--whatsapp btn--lg">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
             <?= $L['fc_wa'] ?>
           </a>

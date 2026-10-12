@@ -2,6 +2,27 @@
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 window.addEventListener('pageshow', () => { if (!location.hash) window.scrollTo(0, 0); });
 
+// 0b. WhatsApp buttons. The number is kept out of the page source (scrapers were
+//     harvesting it from the wa.me links) - the markup carries it reversed + base64
+//     and the real link is built only on a genuine interaction with the button.
+(function() {
+  const arm = a => {
+    let num = '';
+    try { num = atob(a.getAttribute('data-wa')).split('').reverse().join(''); } catch (e) { return; }
+    a.href = 'https://wa.me/' + num + '?text=' + encodeURIComponent(a.getAttribute('data-wa-text') || '');
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.removeAttribute('data-wa');
+  };
+  ['pointerdown', 'touchstart', 'mouseover', 'focusin', 'click'].forEach(type => {
+    document.addEventListener(type, e => {
+      if (!e.isTrusted || !e.target.closest) return;
+      const a = e.target.closest('a[data-wa]');
+      if (a) arm(a);
+    }, { capture: true, passive: true });
+  });
+})();
+
 // 1. Header transparency on scroll
 const siteHeader = document.querySelector('.site-header');
 const onScroll = () => siteHeader.classList.toggle('scrolled', window.scrollY > 10);

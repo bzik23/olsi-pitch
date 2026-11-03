@@ -139,6 +139,29 @@ def write_theme(rels):
         _delete_snippet(sid)
     return {"log": log, "snippet_id": sid, "trigger": trig, "token": TOKEN}
 
+def reset_opcache(rels):
+    """🔴 write_theme does NOT invalidate opcache, so live keeps running the OLD PHP
+    (reads exactly like a failed deploy). Call this right after write_theme for any
+    .php file: opcache_invalidate() each pushed file, then a full opcache_reset().
+    Never self-verify inside this request - functions.php was compiled before the
+    reset, so re-fetch pages afterwards."""
+    files_php = "array(" + ",".join("'%s'" % r for r in rels if r.endswith(".php")) + ")"
+    code = ("add_action('init', function(){\n"
+            "  if ((isset($_GET['olsi_op'])?$_GET['olsi_op']:'') !== '%s') return;\n"
+            "  $dir = get_template_directory(); $rels = %s; $log=array();\n"
+            "  if (function_exists('opcache_invalidate')) { foreach($rels as $rel){ $log[$rel]=opcache_invalidate($dir.'/'.$rel, true)?'inv':'noop'; } }\n"
+            "  $log['reset'] = function_exists('opcache_reset') ? (opcache_reset()?'ok':'fail') : 'no-opcache';\n"
+            "  file_put_contents(WP_CONTENT_DIR.'/uploads/_olsi_opcache_%s.json', json_encode($log));\n"
+            "  header('Content-Type: text/plain'); echo 'OLSI_OPCACHE_OK'; exit;\n"
+            "});") % (TOKEN, files_php, TOKEN)
+    sn = _create_snippet(code, "olsi-opcache")
+    sid = sn.get("id")
+    _trigger()
+    log = _req("GET", "/wp-content/uploads/_olsi_opcache_%s.json" % TOKEN)
+    if sid:
+        _delete_snippet(sid)
+    return log
+
 def restore_theme(rels):
     """rollback: copy each <rel>.olsibak back over <rel>."""
     files_php = "array(" + ",".join("'%s'" % r for r in rels) + ")"

@@ -333,9 +333,11 @@ initMobileCardSlider({ track: '.work__list', slider: '.work__slider',
 (function() {
   const form = document.querySelector('.cta-form');
   if (!form) return;
-  const EN       = location.pathname.indexOf('/en/') === 0;
+  const seg      = location.pathname.split('/')[1];
+  const LANG     = (seg === 'en' || seg === 'ru') ? seg : 'he';
+  const LP       = LANG === 'he' ? '' : '/' + LANG;   // language path prefix
   const ENDPOINT = window.OLSI_CONTACT_ENDPOINT || 'https://www.olsi.co.il/wp-json/olsi/v1/contact';
-  const THANKS   = EN ? '/en/thank-you/' : '/thank-you/';
+  const THANKS   = LP + '/thank-you/';
   const pageField = document.getElementById('cf-page');
   const errBox   = form.querySelector('.cta-form__err');
 
@@ -378,7 +380,7 @@ initMobileCardSlider({ track: '.work__list', slider: '.work__slider',
 
     const btn = form.querySelector('.cta-form__submit');
     const label = btn ? btn.innerHTML : '';
-    if (btn) { btn.disabled = true; btn.textContent = EN ? 'Sending...' : 'שולח...'; }
+    if (btn) { btn.disabled = true; btn.textContent = LANG === 'en' ? 'Sending...' : (LANG === 'ru' ? 'Отправка...' : 'שולח...'); }
 
     fetch(ENDPOINT, {
       method: 'POST',

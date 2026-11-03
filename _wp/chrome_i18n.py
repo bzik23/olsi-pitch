@@ -1,169 +1,226 @@
 # -*- coding: utf-8 -*-
 """
-Bilingual (he / en) chrome for the Olsi Systems WordPress theme.
+Trilingual (he / en / ru) chrome for the Olsi Systems WordPress theme.
 
 Exports three PHP fragments consumed by build_wp_theme.py:
   HELPERS_PHP -> injected into functions.php.  Language detection, the mechanical
-                 bidirectional "counterpart URL" resolver (toggle the /en/ prefix),
-                 the shared services list, the he/en UI string table, and hreflang.
+                 "counterpart URL" resolver (toggle the /en/ or /ru/ prefix for any
+                 target language), the shared services list, the he/en/ru UI string
+                 tables, and hreflang.
   HEADER_PHP  -> header.php  (language-aware <html lang/dir>, nav, CTA cluster + the
-                 language-switcher button, hreflang alternates).
+                 segmented he|en|ru language switcher, hreflang alternates).
   FOOTER_PHP  -> footer.php  (language-aware contact band, nav/services/contact
                  columns, legal links).
 
 Language model (matches the site's existing architecture: custom theme, raw HTML in
 post_content, all slugs already English):
-  Hebrew  page  ->  /<slug>/            (or /  for home)         post_type page|post
-  English page  ->  /en/<slug>/         (or /en/ for home)       post_type page, child of the "en" page
-The switch is purely mechanical: add or strip the leading "en/" path segment, so a
-visitor on any page lands on the exact same page in the other language, both ways.
+  Hebrew  page  ->  /<slug>/            (or /     for home)   post_type page|post
+  English page  ->  /en/<slug>/         (or /en/  for home)   post_type page, child of the "en" page
+  Russian page  ->  /ru/<slug>/         (or /ru/  for home)   post_type page, child of the "ru" page
+The switch is purely mechanical: add/strip the leading language prefix, so a visitor
+on any page lands on the exact same page in any other language. When an exact
+counterpart does not exist yet the switch soft-falls-back (blog listing / home) and
+drops its hreflang, so it is never hidden and never points at a 404.
 """
 
-# ---- the 10 services (single source of truth: header dropdown + footer column) ----
-# each row: slug, inner-svg (24-viewbox line icon), he_title, he_sub, en_title, en_sub
+# ---- the 12 services (single source of truth: header dropdown + footer column) ----
+# each row: slug, inner-svg (24-viewbox line icon), he_title, he_sub, en_title, en_sub,
+#           ru_title, ru_sub
 _SVC = [
     ("software-development",
      '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 8.5h18"/><path d="m9 13-2 2 2 2"/><path d="m13 13 2 2-2 2"/>',
      "פיתוח תוכנה", "מערכות עסקיות מותאמות לעסק שלכם",
-     "Software Development", "Custom business systems, built around how you work"),
+     "Software Development", "Custom business systems, built around how you work",
+     "Разработка ПО", "Бизнес-системы под то, как работает ваш бизнес"),
     ("app-development",
      '<rect x="6.5" y="3" width="11" height="18" rx="2.5"/><path d="M11 18h2"/>',
      "פיתוח אפליקציה", "אפליקציות מובייל לאנדרואיד ול-iOS",
-     "App Development", "Mobile apps for Android and iOS"),
+     "App Development", "Mobile apps for Android and iOS",
+     "Разработка приложений", "Мобильные приложения для Android и iOS"),
     ("crm-development",
      '<path d="M16 19v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1"/><circle cx="9.5" cy="7.5" r="3"/><path d="M21 19v-1a4 4 0 0 0-3-3.87"/><path d="M15.5 4.6a3 3 0 0 1 0 5.8"/>',
      "פיתוח מערכת CRM", "ניהול לקוחות, לידים ותהליכי מכירה",
-     "CRM Development", "Manage customers, leads and sales processes"),
+     "CRM Development", "Manage customers, leads and sales processes",
+     "Разработка CRM", "Управление клиентами, лидами и продажами"),
     ("excel-upgrade",
      '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M3 14.5h18M9 4v16M15 4v16"/>',
      "שדרוג מאקסל למערכת חכמה", "מגיליונות Excel לפלטפורמה יציבה",
-     "Excel Upgrade", "From spreadsheets to a stable platform"),
+     "Excel Upgrade", "From spreadsheets to a stable platform",
+     "Переход с Excel", "От таблиц Excel к стабильной платформе"),
     ("access-upgrade",
      '<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.66 3.13 3 7 3s7-1.34 7-3V6"/><path d="M5 12v6c0 1.66 3.13 3 7 3s7-1.34 7-3v-6"/>',
      "שדרוג מאקסס לתוכנה חכמה", "ממסד Access ישן למערכת מודרנית",
-     "Access Upgrade", "From legacy Access to a modern system"),
+     "Access Upgrade", "From legacy Access to a modern system",
+     "Переход с Access", "От устаревшего Access к современной системе"),
     ("inventory-system",
      '<path d="M3.5 8.5 12 4l8.5 4.5v7L12 20l-8.5-4.5z"/><path d="M3.5 8.5 12 13l8.5-4.5M12 13v7"/>',
      "מערכת לניהול מלאים", "מעקב מלאי, ספקים והזמנות",
-     "Inventory Management", "Track stock, suppliers and orders"),
+     "Inventory Management", "Track stock, suppliers and orders",
+     "Управление складом", "Учёт запасов, поставщиков и заказов"),
     ("custom-systems",
      '<rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/>',
      "מערכות מותאמות אישית", "פתרון שנבנה סביב התהליך שלכם",
-     "Custom Systems", "A solution built around your process"),
+     "Custom Systems", "A solution built around your process",
+     "Индивидуальные системы", "Решение, построенное вокруг вашего процесса"),
     ("integrations-api",
      '<circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 10.8 15.8 7.2M8.2 13.2l7.6 3.6"/>',
      "אינטגרציות ו-API", "חיבור בין מערכות כך שמידע זורם אוטומטית",
-     "Integrations & API", "Connect systems so data flows automatically"),
+     "Integrations & API", "Connect systems so data flows automatically",
+     "Интеграции и API", "Соединяем системы, чтобы данные шли автоматически"),
     ("data-processing",
      '<path d="M3 5h18l-7 8.5V20l-4-2v-4.5z"/>',
      "איסוף ועיבוד נתונים", "סקרייפינג, פייפליינים ודוחות אוטומטיים",
-     "Data Collection & Processing", "Scraping, pipelines and automated reports"),
+     "Data Collection & Processing", "Scraping, pipelines and automated reports",
+     "Сбор и обработка данных", "Парсинг, пайплайны и автоматические отчёты"),
     ("tech-support",
      '<circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.1 5.1l2.1 2.1M16.8 16.8l2.1 2.1M18.9 5.1l-2.1 2.1M7.2 16.8l-2.1 2.1"/>',
      "ליווי טכני שוטף", "שירות, תחזוקה ושיפורים אחרי ההשקה",
-     "Ongoing Technical Support", "Service, maintenance and post-launch improvements"),
+     "Ongoing Technical Support", "Service, maintenance and post-launch improvements",
+     "Постоянная техподдержка", "Сервис, обслуживание и улучшения после запуска"),
     # added 2026-10-08: two new service pages (he 4335/4340, en 3957/3963).
     # Row-major 2-col grid: #11 lands bottom-start (right in RTL), #12 bottom-end.
     ("gantt-chart",
      '<rect x="3" y="4.5" width="9" height="3.5" rx="1.2"/><rect x="7" y="10.25" width="11" height="3.5" rx="1.2"/><rect x="12" y="16" width="9" height="3.5" rx="1.2"/>',
      "פיתוח תרשים גאנט", "תכנון פרויקטים, משימות ואבני דרך במערכת אחת",
-     "Gantt Chart Development", "Project planning, tasks and milestones in one system"),
+     "Gantt Chart Development", "Project planning, tasks and milestones in one system",
+     "Разработка диаграммы Ганта", "Планирование проектов, задач и этапов в одной системе"),
     ("python-developer",
      '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="m7 9 3 3-3 3"/><path d="M12 15h5"/>',
      "פיתוח תוכנה ב-Python", "אוטומציה, עיבוד נתונים ובינה מלאכותית",
-     "Python Development", "Automation, data processing and AI"),
+     "Python Development", "Automation, data processing and AI",
+     "Разработка на Python", "Автоматизация, обработка данных и ИИ"),
 ]
 
 def _php_svc_rows():
     def q(s):  # single-quote a php string literal (utf-8 kept raw)
         return "'" + s.replace("\\", "\\\\").replace("'", "\\'") + "'"
     rows = []
-    for slug, icon, ht, hs, et, es in _SVC:
-        rows.append("    array(%s,%s,%s,%s,%s,%s)," % (q(slug), q(icon), q(ht), q(hs), q(et), q(es)))
+    for slug, icon, ht, hs, et, es, rt, rs in _SVC:
+        rows.append("    array(%s,%s,%s,%s,%s,%s,%s,%s)," % (
+            q(slug), q(icon), q(ht), q(hs), q(et), q(es), q(rt), q(rs)))
     return "\n".join(rows)
 
 # ---------------------------------------------------------------------------
 # HELPERS_PHP  (injected into functions.php)
 # ---------------------------------------------------------------------------
 HELPERS_PHP = r"""
-/* ===== Bilingual (he/en) chrome helpers ===================================== */
+/* ===== Trilingual (he/en/ru) chrome helpers ================================= */
 
-/* current request in the English tree? ( /en  or  /en/... ) */
-if (!function_exists('olsi_is_en')) {
-  function olsi_is_en() {
-    static $e = null;
-    if ($e !== null) return $e;
+/* current request language, from the first path segment: 'he' (default), 'en', 'ru' */
+if (!function_exists('olsi_lang')) {
+  function olsi_lang() {
+    static $l = null;
+    if ($l !== null) return $l;
     $p = trim((string) parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH), '/');
-    $e = ($p === 'en' || strpos($p, 'en/') === 0);
-    return $e;
+    if ($p === 'en' || strpos($p, 'en/') === 0)      $l = 'en';
+    elseif ($p === 'ru' || strpos($p, 'ru/') === 0)  $l = 'ru';
+    else                                             $l = 'he';
+    return $l;
+  }
+}
+/* back-compat shim (older call sites) */
+if (!function_exists('olsi_is_en')) {
+  function olsi_is_en() { return olsi_lang() === 'en'; }
+}
+
+/* the ordered language roster for the switcher + <html> dir. */
+if (!function_exists('olsi_langs')) {
+  function olsi_langs() {
+    return array(
+      'he' => array('label' => 'עב', 'dir' => 'rtl',
+                    'aria' => 'עבור לעברית',
+                    'aria_fb' => 'עבור לעברית (העמוד הזה עדיין לא מתורגם)'),
+      'en' => array('label' => 'EN', 'dir' => 'ltr',
+                    'aria' => 'Switch to English',
+                    'aria_fb' => 'Switch to English (this page is not translated yet)'),
+      'ru' => array('label' => 'RU', 'dir' => 'ltr',
+                    'aria' => 'Переключить на русский',
+                    'aria_fb' => 'Переключить на русский (эта страница ещё не переведена)'),
+    );
   }
 }
 
-/* the exact same page in the OTHER language (empty string if it does not exist yet,
-   so we never render a switcher/hreflang that points at a 404). Purely path-based
-   so the /en/ prefix toggles cleanly and identical slugs never collide. */
-if (!function_exists('olsi_counterpart_url')) {
-  function olsi_counterpart_url() {
-    static $c = null;
-    if ($c !== null) return $c;
-    $c = '';
-    $p = (string) parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
-    $t = trim($p, '/');
-    if ($t === '') {                                   // he home -> en home
-      $c = get_page_by_path('en', OBJECT, 'page') ? home_url('/en/') : '';
-    } elseif ($t === 'en') {                           // en home -> he home
-      $c = home_url('/');
-    } elseif (strpos($t, 'en/') === 0) {               // en page -> he counterpart
-      $slug = substr($t, 3);
-      $obj  = get_page_by_path($slug, OBJECT, 'page'); // services / case studies / legal are pages
-      if (!$obj) {                                     // blog: he side is a top-level post
-        $q = get_posts(array('name' => $slug, 'post_type' => 'post', 'post_parent' => 0,
-                             'post_status' => 'publish', 'posts_per_page' => 1));
-        $obj = $q ? $q[0] : null;
-      }
-      $c = $obj ? home_url('/' . $slug . '/') : '';
-    } else {                                           // he page -> en counterpart (child of "en")
-      $c = get_page_by_path('en/' . $t, OBJECT, 'page') ? home_url('/en/' . $t . '/') : '';
-    }
-    return $c;
-  }
-}
-
-/* the URL the header language switch points at. Prefers the exact counterpart;
-   when it does not exist yet (e.g. a fresh HE article with no translation) we fall
-   back to the closest page in the other language - the blog listing for articles,
-   the home page otherwise - so the switch is NEVER hidden. Returns
-   array(url, exact) where exact=false marks a fallback (no hreflang on it). */
-if (!function_exists('olsi_switch_target')) {
-  function olsi_switch_target() {
+/* the language-neutral slug of the current page ('' = home), with any /en or /ru
+   prefix stripped. The slug is identical across languages (same slug, different tree). */
+if (!function_exists('olsi_neutral_slug')) {
+  function olsi_neutral_slug() {
     static $s = null;
     if ($s !== null) return $s;
-    $alt = olsi_counterpart_url();
-    if ($alt) { $s = array($alt, true); return $s; }
-    $en   = olsi_is_en();
-    $base = $en ? '' : 'en/';                       // prefix of the OTHER language
-    $home = $en ? home_url('/') : (get_page_by_path('en', OBJECT, 'page') ? home_url('/en/') : home_url('/'));
-    $url  = $home;
-    if (is_singular('post')) {
-      $listing = get_page_by_path($base . 'professional-info', OBJECT, 'page');
-      if ($listing) $url = home_url('/' . $base . 'professional-info/');
-    }
-    $s = array($url, false);
+    $p    = trim((string) parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH), '/');
+    $lang = olsi_lang();
+    if ($lang === 'he')      $s = $p;
+    elseif ($p === $lang)    $s = '';                      // bare /en or /ru (home)
+    else                     $s = substr($p, strlen($lang) + 1);
     return $s;
   }
 }
 
-/* the 10 services, localized (header mega-menu + footer column) */
+/* resolve the URL of a given neutral slug in a given language, or '' if that exact
+   page does not exist. Purely path-based so prefixes toggle cleanly. */
+if (!function_exists('olsi_url_for')) {
+  function olsi_url_for($slug, $lang) {
+    if ($lang === 'he') {
+      if ($slug === '') return home_url('/');
+      if (get_page_by_path($slug, OBJECT, 'page')) return home_url('/' . $slug . '/');
+      // blog: the Hebrew side is a top-level post
+      $q = get_posts(array('name' => $slug, 'post_type' => 'post', 'post_parent' => 0,
+                           'post_status' => 'publish', 'posts_per_page' => 1));
+      return $q ? home_url('/' . $slug . '/') : '';
+    }
+    // en / ru: pages that are children of the "en" / "ru" parent, same slug
+    $pfx = $lang . '/';
+    if ($slug === '') {
+      return get_page_by_path($lang, OBJECT, 'page') ? home_url('/' . $pfx) : '';
+    }
+    return get_page_by_path($pfx . $slug, OBJECT, 'page') ? home_url('/' . $pfx . $slug . '/') : '';
+  }
+}
+
+/* the exact same page in another language (empty string if it does not exist yet). */
+if (!function_exists('olsi_counterpart_url')) {
+  function olsi_counterpart_url($lang) {
+    static $c = array();
+    if (array_key_exists($lang, $c)) return $c[$lang];
+    $c[$lang] = olsi_url_for(olsi_neutral_slug(), $lang);
+    return $c[$lang];
+  }
+}
+
+/* the URL the switcher points at for a target language. Prefers the exact
+   counterpart; otherwise a soft fallback (the blog listing for an article, the
+   language home otherwise) so the switch is NEVER hidden. Returns array(url, exact)
+   where exact=false marks a fallback (no hreflang on it). */
+if (!function_exists('olsi_switch_target')) {
+  function olsi_switch_target($lang) {
+    static $s = array();
+    if (array_key_exists($lang, $s)) return $s[$lang];
+    $alt = olsi_counterpart_url($lang);
+    if ($alt) { $s[$lang] = array($alt, true); return $s[$lang]; }
+    $home = olsi_url_for('', $lang);
+    if (!$home) $home = home_url('/');                 // target home not built yet -> HE home
+    $url  = $home;
+    if (is_singular('post')) {
+      $pfx = ($lang === 'he') ? '' : $lang . '/';
+      if (get_page_by_path($pfx . 'professional-info', OBJECT, 'page')) {
+        $url = home_url('/' . $pfx . 'professional-info/');
+      }
+    }
+    $s[$lang] = array($url, false);
+    return $s[$lang];
+  }
+}
+
+/* the 12 services, localized (header mega-menu + footer column) */
 if (!function_exists('olsi_services')) {
   function olsi_services($lang) {
     $rows = array(
 %SVC_ROWS%
     );
+    $i = ($lang === 'en') ? array(4, 5) : (($lang === 'ru') ? array(6, 7) : array(2, 3));
     $out = array();
     foreach ($rows as $r) {
       $out[] = array('slug' => $r[0], 'icon' => $r[1],
-                     'title' => ($lang === 'en' ? $r[4] : $r[2]),
-                     'sub'   => ($lang === 'en' ? $r[5] : $r[3]));
+                     'title' => $r[$i[0]], 'sub' => $r[$i[1]]);
     }
     return $out;
   }
@@ -191,9 +248,7 @@ if (!function_exists('olsi_i18n')) {
       'wa_sr'         => 'ווטסאפ',
       'wa_text'       => 'היי, הגעתי אליכם דרך האתר...',
       'menu_aria'     => 'תפריט',
-      'switch_code'   => 'EN',
-      'switch_aria'   => 'Switch to English',
-      'switch_aria_fb'=> 'Switch to English (this page is not translated yet)',
+      'lang_group_aria' => 'בחירת שפה',
       'nav_aria'      => 'ניווט ראשי',
       'fc_h2'   => 'מוכנים לבנות את המערכת שתעבוד בשבילכם?',
       'fc_p'    => 'שיחת ייעוץ של 30 דקות, בלי התחייבות. נשמע על העסק שלכם, ונראה לכם איך המערכת יכולה להיראות בפועל.',
@@ -216,10 +271,13 @@ if (!function_exists('olsi_i18n')) {
       'form_consent_post' => ' ומסכים/ה לשימוש כמפורט בה ',
       'form_submit' => 'שליחה',
       'form_ok'     => 'תודה! פנייתכם התקבלה ונחזור אליכם בהקדם.',
+      'err_consent' => 'יש לסמן תיבה זו כדי לשלוח את הטופס.',
+      'err_send'    => 'השליחה נכשלה. אנא נסו שוב או התקשרו 09-8820511.',
       'brand_p'     => 'בית תוכנה בוטיק מאז 1995. מערכות שמדברות זו עם זו.',
       'col_nav'     => 'ניווט',
       'col_services'=> 'שירותים',
       'col_contact' => 'צרו קשר',
+      'legal_aria'  => 'קישורים משפטיים',
       'addr'  => 'משרדי חברת אולסי מערכות בחדרה ממוקמים במתחם המסחרי והעסקים "מול החוף וילג\'" (במגדלי Unitowers), בסמוך למחלף אולגה על כביש 2 (כביש החוף).',
       'map_title' => 'מפת המשרדים - מול החוף וילג\', חדרה',
       'waze'  => 'ניווט עם Waze',
@@ -247,9 +305,7 @@ if (!function_exists('olsi_i18n')) {
       'wa_sr'         => 'WhatsApp',
       'wa_text'       => 'Hi, I found you through your website...',
       'menu_aria'     => 'Menu',
-      'switch_code'   => 'עב',
-      'switch_aria'   => 'עבור לעברית',
-      'switch_aria_fb'=> 'עבור לעברית (העמוד הזה עדיין לא מתורגם)',
+      'lang_group_aria' => 'Choose language',
       'nav_aria'      => 'Main navigation',
       'fc_h2'   => 'Ready to build the system that works for you?',
       'fc_p'    => 'A 30-minute consultation, no obligation. We\'ll get to know your business and show you what the system could actually look like.',
@@ -272,10 +328,13 @@ if (!function_exists('olsi_i18n')) {
       'form_consent_post' => ' and consent to the use described in it ',
       'form_submit' => 'Send',
       'form_ok'     => 'Thank you! Your message has been received and we will get back to you shortly.',
+      'err_consent' => 'Please check this box to submit the form.',
+      'err_send'    => 'Sending failed. Please try again or call 09-8820511.',
       'brand_p'     => 'A boutique software house since 1995. Systems that talk to each other.',
       'col_nav'     => 'Navigation',
       'col_services'=> 'Services',
       'col_contact' => 'Contact',
+      'legal_aria'  => 'Legal links',
       'addr'  => 'The OLSI Systems offices in Hadera are located in the "Mul HaHof Village" commercial and business complex (Unitowers), next to the Olga interchange on Route 2 (the Coastal Highway).',
       'map_title' => 'Office location - Mul HaHof Village, Hadera',
       'waze'  => 'Navigate with Waze',
@@ -284,7 +343,66 @@ if (!function_exists('olsi_i18n')) {
       'legal_a11y'    => 'Accessibility Statement',
       'credit' => 'Site by Bzik Digital Marketing',
     );
-    return $lang === 'en' ? $en : $he;
+    $ru = array(
+      'brand_aria'   => 'OLSI Systems · Главная',
+      'nav_home'     => 'Главная',
+      'nav_about'    => 'О нас',
+      'nav_services' => 'Услуги',
+      'nav_projects' => 'Проекты',
+      'nav_how'      => 'Как мы работаем',
+      'nav_insights' => 'Статьи',
+      'nav_contact'  => 'Контакты',
+      'dd_services_aria' => 'Услуги',
+      'dd_cta_strong' => 'Не знаете, что нужно?',
+      'dd_cta_rest'   => ' Мы с радостью проконсультируем и подскажем.',
+      'dd_cta_go'     => 'Напишите нам ›',
+      'phone_aria'    => 'Быстрый звонок - 09-8820511',
+      'call_sr'       => 'Звонок',
+      'wa_aria'       => 'Напишите нам в WhatsApp',
+      'wa_sr'         => 'WhatsApp',
+      'wa_text'       => 'Здравствуйте, я нашёл вас через ваш сайт...',
+      'menu_aria'     => 'Меню',
+      'lang_group_aria' => 'Выбор языка',
+      'nav_aria'      => 'Основная навигация',
+      'fc_h2'   => 'Готовы построить систему, которая работает на вас?',
+      'fc_p'    => 'Консультация 30 минут, без обязательств. Мы познакомимся с вашим бизнесом и покажем, как система может выглядеть на практике.',
+      'fc_call' => 'Позвонить &#183; 09-8820511',
+      'fc_wa'   => 'WhatsApp',
+      'fc_or'   => 'Или оставьте свои данные, и мы перезвоним',
+      'fc_form_aria' => 'Форма обратной связи',
+      'form_subject' => 'Новый лид с сайта OLSI Systems (RU)',
+      'form_name'    => 'Имя и фамилия',
+      'form_phone'   => 'Телефон',
+      'form_email'   => 'Эл. почта',
+      'form_optional'=> '(необязательно)',
+      'form_msg'     => 'Чем мы можем помочь?',
+      'form_name_ph' => 'Ваше имя',
+      'form_phone_ph'=> '050-0000000',
+      'form_email_ph'=> 'name@email.com',
+      'form_msg_ph'  => 'Коротко расскажите о вашем бизнесе и о том, что вы ищете...',
+      'form_consent_pre'  => 'Я принимаю ',
+      'form_consent_link' => 'политику конфиденциальности',
+      'form_consent_post' => ' и согласен на использование данных, как в ней описано ',
+      'form_submit' => 'Отправить',
+      'form_ok'     => 'Спасибо! Ваше сообщение получено, мы скоро свяжемся с вами.',
+      'err_consent' => 'Пожалуйста, отметьте это поле, чтобы отправить форму.',
+      'err_send'    => 'Не удалось отправить. Попробуйте ещё раз или позвоните 09-8820511.',
+      'brand_p'     => 'Бутиковая софтверная студия с 1995 года. Системы, которые говорят друг с другом.',
+      'col_nav'     => 'Навигация',
+      'col_services'=> 'Услуги',
+      'col_contact' => 'Контакты',
+      'legal_aria'  => 'Юридические ссылки',
+      'addr'  => 'Офисы OLSI Systems в Хадере расположены в торгово-деловом комплексе "Mul HaHof Village" (башни Unitowers), рядом с развязкой Ольга на шоссе 2 (Приморское шоссе).',
+      'map_title' => 'Расположение офиса - Mul HaHof Village, Хадера',
+      'waze'  => 'Навигация через Waze',
+      'copy'  => '© 2026 OLSI Systems · Все права защищены',
+      'legal_privacy' => 'Политика конфиденциальности',
+      'legal_a11y'    => 'Заявление о доступности',
+      'credit' => 'Сайт разработан Bzik Digital Marketing',
+    );
+    if ($lang === 'en') return $en;
+    if ($lang === 'ru') return $ru;
+    return $he;
   }
 }
 
@@ -298,19 +416,24 @@ if (!function_exists('olsi_wa_attrs')) {
   }
 }
 
-/* hreflang alternates (only when the counterpart page actually exists) */
+/* hreflang alternates: self + every OTHER language whose exact counterpart exists. */
 if (!function_exists('olsi_hreflang')) {
   function olsi_hreflang() {
-    $alt = olsi_counterpart_url();
-    if (!$alt) return;
-    $en = olsi_is_en();
-    $t  = trim((string) parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH), '/');
-    $self = home_url('/' . ($t === '' ? '' : $t . '/'));
-    $he_url = $en ? $alt : $self;
-    $en_url = $en ? $self : $alt;
-    echo "\n<link rel=\"alternate\" hreflang=\"he\" href=\"" . esc_url($he_url) . "\">";
-    echo "\n<link rel=\"alternate\" hreflang=\"en\" href=\"" . esc_url($en_url) . "\">";
-    echo "\n<link rel=\"alternate\" hreflang=\"x-default\" href=\"" . esc_url($he_url) . "\">\n";
+    $self = olsi_lang();
+    $out  = array();
+    $t    = trim((string) parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH), '/');
+    $out[$self] = home_url('/' . ($t === '' ? '' : $t . '/'));   // self
+    foreach (array('he', 'en', 'ru') as $lg) {
+      if ($lg === $self) continue;
+      $u = olsi_counterpart_url($lg);
+      if ($u) $out[$lg] = $u;
+    }
+    if (count($out) < 2) return;                                  // only self: nothing to alternate
+    foreach ($out as $lg => $u) {
+      echo "\n<link rel=\"alternate\" hreflang=\"" . $lg . "\" href=\"" . esc_url($u) . "\">";
+    }
+    $xd = isset($out['he']) ? $out['he'] : reset($out);
+    echo "\n<link rel=\"alternate\" hreflang=\"x-default\" href=\"" . esc_url($xd) . "\">\n";
   }
 }
 """.replace("%SVC_ROWS%", _php_svc_rows())
@@ -319,17 +442,17 @@ if (!function_exists('olsi_hreflang')) {
 # ---------------------------------------------------------------------------
 # HEADER_PHP  ->  header.php
 # ---------------------------------------------------------------------------
-HEADER_PHP = r"""<?php /* Olsi Systems - header (auto-generated, bilingual he/en) */ ?>
+HEADER_PHP = r"""<?php /* Olsi Systems - header (auto-generated, trilingual he/en/ru) */ ?>
 <?php
-$en  = function_exists('olsi_is_en') ? olsi_is_en() : false;
-$L   = olsi_i18n($en ? 'en' : 'he');
-$HP  = $en ? '/en/' : '/';                 // home base (for #anchor links)
-$u   = function ($slug) use ($en) { return ($en ? '/en/' : '/') . $slug . '/'; };
-$alt = olsi_counterpart_url();
-list($sw_url, $sw_exact) = function_exists('olsi_switch_target') ? olsi_switch_target() : array($alt, true);
+$lang = function_exists('olsi_lang') ? olsi_lang() : 'he';
+$dir  = ($lang === 'he') ? 'rtl' : 'ltr';
+$L    = olsi_i18n($lang);
+$pfx  = ($lang === 'he') ? '/' : '/' . $lang . '/';
+$HP   = $pfx;                               // home base (for #anchor links)
+$u    = function ($slug) use ($pfx) { return $pfx . $slug . '/'; };
 ?>
 <!DOCTYPE html>
-<html lang="<?= $en ? 'en' : 'he' ?>" dir="<?= $en ? 'ltr' : 'rtl' ?>">
+<html lang="<?= esc_attr($lang) ?>" dir="<?= $dir ?>">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -361,7 +484,7 @@ list($sw_url, $sw_exact) = function_exists('olsi_switch_target') ? olsi_switch_t
         </a>
         <div class="nav-dropdown__panel" role="menu" aria-label="<?= esc_attr($L['dd_services_aria']) ?>">
           <div class="nav-dropdown__grid">
-<?php foreach (olsi_services($en ? 'en' : 'he') as $s): ?>
+<?php foreach (olsi_services($lang) as $s): ?>
             <a class="nav-dd-item" href="<?= $u($s['slug']) ?>" role="menuitem">
               <span class="nav-dd-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><?= $s['icon'] ?></svg></span>
               <span class="nav-dd-item__text"><span class="nav-dd-item__title"><?= $s['title'] ?></span><span class="nav-dd-item__sub"><?= $s['sub'] ?></span></span>
@@ -389,10 +512,16 @@ list($sw_url, $sw_exact) = function_exists('olsi_switch_target') ? olsi_switch_t
         <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
         <span class="sr-only"><?= $L['wa_sr'] ?></span>
       </a>
-      <a href="<?= esc_url($sw_url) ?>" class="lang-switch<?= $sw_exact ? '' : ' lang-switch--fallback' ?>"<?= $sw_exact ? ' hreflang="' . ($en ? 'he' : 'en') . '"' : ' rel="nofollow"' ?> aria-label="<?= esc_attr($sw_exact ? $L['switch_aria'] : $L['switch_aria_fb']) ?>">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.5 3.8 5.7 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.7-3.8-9S9.5 5.5 12 3z"/></svg>
-        <span class="lang-switch__code"><?= $L['switch_code'] ?></span>
-      </a>
+      <div class="lang-switch" role="group" aria-label="<?= esc_attr($L['lang_group_aria']) ?>">
+        <svg class="lang-switch__globe" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.5 3.8 5.7 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.7-3.8-9S9.5 5.5 12 3z"/></svg>
+<?php foreach (olsi_langs() as $code => $meta): ?>
+<?php if ($code === $lang): ?>
+        <span class="lang-switch__item is-active" aria-current="true"><?= $meta['label'] ?></span>
+<?php else: list($sw_url, $sw_exact) = olsi_switch_target($code); ?>
+        <a href="<?= esc_url($sw_url) ?>" class="lang-switch__item<?= $sw_exact ? '' : ' lang-switch__item--fb' ?>"<?= $sw_exact ? ' hreflang="' . $code . '"' : ' rel="nofollow"' ?> aria-label="<?= esc_attr($sw_exact ? $meta['aria'] : $meta['aria_fb']) ?>"><?= $meta['label'] ?></a>
+<?php endif; ?>
+<?php endforeach; ?>
+      </div>
       <button class="hamburger" id="hamburger" aria-expanded="false" aria-controls="site-nav" aria-label="<?= esc_attr($L['menu_aria']) ?>">
         <span class="hamburger__bars"><span></span></span>
       </button>
@@ -407,10 +536,11 @@ list($sw_url, $sw_exact) = function_exists('olsi_switch_target') ? olsi_switch_t
 # FOOTER_PHP  ->  footer.php
 # ---------------------------------------------------------------------------
 FOOTER_PHP = r"""<?php
-$en = function_exists('olsi_is_en') ? olsi_is_en() : false;
-$L  = olsi_i18n($en ? 'en' : 'he');
-$HP = $en ? '/en/' : '/';
-$u  = function ($slug) use ($en) { return ($en ? '/en/' : '/') . $slug . '/'; };
+$lang = function_exists('olsi_lang') ? olsi_lang() : 'he';
+$L  = olsi_i18n($lang);
+$pfx = ($lang === 'he') ? '/' : '/' . $lang . '/';
+$HP = $pfx;
+$u  = function ($slug) use ($pfx) { return $pfx . $slug . '/'; };
 ?>
 <footer class="site-footer">
   <!-- full-width contact band -->
@@ -454,7 +584,7 @@ $u  = function ($slug) use ($en) { return ($en ? '/en/' : '/') . $slug . '/'; };
           <textarea id="cf-msg" name="מהות הפנייה" rows="3" placeholder="<?= esc_attr($L['form_msg_ph']) ?>"></textarea>
         </div>
         <div class="cta-turnstile" style="margin:.25rem 0 .5rem">
-          <div class="cf-turnstile" data-sitekey="0x4AAAAAADv9Jp8Sxjx6NMBi" data-action="contact" data-language="<?= $en ? 'en' : 'he' ?>"></div>
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAADv9Jp8Sxjx6NMBi" data-action="contact" data-language="<?= esc_attr($lang) ?>"></div>
         </div>
         <div class="cta-form__foot">
           <div class="cta-field cta-consent">
@@ -463,12 +593,12 @@ $u  = function ($slug) use ($en) { return ($en ? '/en/' : '/') . $slug . '/'; };
               <span class="cta-check__box" aria-hidden="true"></span>
               <span class="cta-check__txt"><?= $L['form_consent_pre'] ?><a href="<?= $u('privacy-policy') ?>" target="_blank" rel="noopener"><?= $L['form_consent_link'] ?></a><?= $L['form_consent_post'] ?><span class="req" aria-hidden="true">*</span></span>
             </label>
-            <p class="cta-consent__err" role="alert" style="display:none;color:#e05a4d;font-weight:600;margin-top:.4rem;font-size:.85rem"><?= $en ? 'Please check this box to submit the form.' : 'יש לסמן תיבה זו כדי לשלוח את הטופס.' ?></p>
+            <p class="cta-consent__err" role="alert" style="display:none;color:#e05a4d;font-weight:600;margin-top:.4rem;font-size:.85rem"><?= $L['err_consent'] ?></p>
           </div>
           <button type="submit" class="btn btn--primary btn--lg cta-form__submit"><?= $L['form_submit'] ?></button>
         </div>
         <p class="cta-form__ok" role="status"><?= $L['form_ok'] ?></p>
-        <p class="cta-form__err" role="alert" style="display:none;color:#e05a4d;font-weight:600;margin-top:.6rem"><?= $en ? 'Sending failed. Please try again or call 09-8820511.' : 'השליחה נכשלה. אנא נסו שוב או התקשרו 09-8820511.' ?></p>
+        <p class="cta-form__err" role="alert" style="display:none;color:#e05a4d;font-weight:600;margin-top:.6rem"><?= $L['err_send'] ?></p>
       </form>
     </div>
   </section>
@@ -492,7 +622,7 @@ $u  = function ($slug) use ($en) { return ($en ? '/en/' : '/') . $slug . '/'; };
     <div class="footer-col footer-col--wide">
       <h4><?= $L['col_services'] ?></h4>
       <ul>
-<?php foreach (olsi_services($en ? 'en' : 'he') as $s): ?>
+<?php foreach (olsi_services($lang) as $s): ?>
         <li><a class="footer-svc" href="<?= $u($s['slug']) ?>"><svg class="footer-svc__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><?= $s['icon'] ?></svg><span><?= $s['title'] ?></span></a></li>
 <?php endforeach; ?>
       </ul>
@@ -513,7 +643,7 @@ $u  = function ($slug) use ($en) { return ($en ? '/en/' : '/') . $slug . '/'; };
   <div class="footer-bottom">
     <div class="footer-bottom__start">
       <span class="footer-bottom__copy"><?= $L['copy'] ?></span>
-      <nav class="footer-legal" aria-label="<?= $en ? 'Legal links' : 'קישורים משפטיים' ?>">
+      <nav class="footer-legal" aria-label="<?= esc_attr($L['legal_aria']) ?>">
         <a href="<?= $u('privacy-policy') ?>"><?= $L['legal_privacy'] ?></a>
         <span class="footer-legal__sep" aria-hidden="true">|</span>
         <a href="<?= $u('accessibility-statement') ?>"><?= $L['legal_a11y'] ?></a>

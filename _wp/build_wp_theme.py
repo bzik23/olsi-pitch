@@ -392,9 +392,9 @@ function olsi_seo_map() {
   return %SEO%;
 }
 function olsi_seo_current() {
-  // English (/en/) pages: defer to Yoast (which holds the English title/desc), so the
-  // HE seo_map is never matched by an EN page's shared slug.
-  if (function_exists('olsi_is_en') && olsi_is_en()) return null;
+  // Non-Hebrew (/en/, /ru/) pages: defer to Yoast (which holds the translated
+  // title/desc), so the HE seo_map is never matched by a translated page's shared slug.
+  if (function_exists('olsi_lang') && olsi_lang() !== 'he') return null;
   $map = olsi_seo_map();
   if (is_front_page()) return isset($map['home']) ? $map['home'] : null;
   if (is_singular()) {
